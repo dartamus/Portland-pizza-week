@@ -488,6 +488,44 @@
   .route-map-btn { background: transparent; border: 1px solid #444; color: #777; font-family: 'Space Mono', monospace; font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.08em; padding: 0.5rem 0.75rem; cursor: pointer; text-decoration: none; transition: all 0.15s; display: inline-flex; align-items: center; }
   .route-map-btn:hover { border-color: var(--orange); color: var(--orange); }
 
+  .share-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: transparent;
+    border: 1.5px solid var(--gold);
+    color: var(--gold);
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    transition: all 0.15s;
+    margin-top: 1rem;
+  }
+  .share-btn:hover { background: var(--gold); color: var(--black); }
+
+  .share-toast {
+    display: none;
+    position: fixed;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--green);
+    color: white;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.75rem 1.5rem;
+    z-index: 9999;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    white-space: nowrap;
+  }
+  .share-toast.visible { display: block; }
+
   .route-stop-item { cursor: pointer; transition: background 0.12s; }
   .route-stop-item:hover { background: #222; }
   .route-stop-item.is-start { background: #1e1a0e; }
@@ -576,8 +614,12 @@
 <div class="route-panel" id="route-panel">
   <h2>Your Crawl Route</h2>
   <div class="route-stops" id="route-stops"></div>
-  <a class="map-link-btn" id="map-link" href="#" target="_blank">Open Route in Google Maps →</a>
+  <div style="display:flex;gap:0.75rem;flex-wrap:wrap;align-items:center;margin-top:1rem;">
+    <a class="map-link-btn" id="map-link" href="#" target="_blank">Open Route in Google Maps →</a>
+    <button class="share-btn" onclick="shareCrawl()">🔗 Share This Crawl</button>
+  </div>
 </div>
+<div class="share-toast" id="share-toast">✓ Crawl link copied!</div>
 
 <div class="routes-section">
   <div class="routes-top">
@@ -783,6 +825,41 @@ function updateRoutePanel() {
   document.getElementById('map-link').href = `https://www.google.com/maps/dir/${addresses}`;
 }
 
+function shareCrawl() {
+  if (crawl.length === 0) return;
+  const ids = crawl.map(p => p.id).join(',');
+  const url = window.location.origin + window.location.pathname + '?crawl=' + ids;
+  if (navigator.share) {
+    navigator.share({ title: 'Portland Pizza Week Crawl', text: 'Check out my Portland Pizza Week crawl! 🍕', url });
+  } else if (navigator.clipboard) {
+    navigator.clipboard.writeText(url).then(showToast);
+  } else {
+    prompt('Copy this link to share your crawl:', url);
+  }
+}
+
+function showToast() {
+  const t = document.getElementById('share-toast');
+  t.classList.add('visible');
+  setTimeout(() => t.classList.remove('visible'), 3000);
+}
+
+function loadCrawlFromURL() {
+  const params = new URLSearchParams(window.location.search);
+  const ids = params.get('crawl');
+  if (!ids) return;
+  const parsed = ids.split(',').map(Number).filter(Boolean);
+  crawl = parsed.map(id => PIZZAS.find(p => p.id === id)).filter(Boolean);
+  if (crawl.length > 0) {
+    renderCrawlSidebar();
+    renderCards();
+    updateCrawlBar();
+    updateRoutePanel();
+    // Scroll down to show the crawl route panel
+    setTimeout(() => document.getElementById('route-panel').scrollIntoView({ behavior: 'smooth', block: 'start' }), 300);
+  }
+}
+
 const ROUTES = [
   { id: 'pearl-nw', name: 'The Pearl & Nob Hill Loop', neighborhood: 'Northwest / Pearl', distanceMi: 2.1, description: 'Start in the Pearl, wind through NW 21st, and loop back. Flat, beautiful streets — classic Portland stroll.', accentColor: '#E8A838', stops: [{ pizzaId: 3, walkToNext: 2 },{ pizzaId: 8, walkToNext: 3 },{ pizzaId: 2, walkToNext: 2 },{ pizzaId: 5, walkToNext: 1 },{ pizzaId: 1, walkToNext: 8 },{ pizzaId: 7, walkToNext: 0 }] },
   { id: 'downtown-sw', name: 'Downtown Slice Sprint', neighborhood: 'Southwest / Downtown', distanceMi: 1.4, description: 'A tight, punchy loop through the heart of downtown. All within a few blocks — easy to squeeze in on a lunch break.', accentColor: '#D9231B', stops: [{ pizzaId: 16, walkToNext: 3 },{ pizzaId: 14, walkToNext: 2 },{ pizzaId: 10, walkToNext: 2 },{ pizzaId: 15, walkToNext: 3 },{ pizzaId: 13, walkToNext: 4 },{ pizzaId: 11, walkToNext: 0 }] },
@@ -872,6 +949,7 @@ function renderRoutes() {
 updateCounts();
 renderCards();
 renderRoutes();
+loadCrawlFromURL();
 </script>
 
 </body>
