@@ -488,6 +488,135 @@
   .route-map-btn { background: transparent; border: 1px solid #444; color: #777; font-family: 'Space Mono', monospace; font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.08em; padding: 0.5rem 0.75rem; cursor: pointer; text-decoration: none; transition: all 0.15s; display: inline-flex; align-items: center; }
   .route-map-btn:hover { border-color: var(--orange); color: var(--orange); }
 
+  /* TABS */
+  .tab-nav {
+    display: flex;
+    border-bottom: 3px solid var(--red);
+    margin-bottom: 1.5rem;
+  }
+  .tab-btn {
+    background: transparent;
+    border: none;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    padding: 0.6rem 1.2rem;
+    cursor: pointer;
+    border-bottom: 3px solid transparent;
+    margin-bottom: -3px;
+    transition: all 0.15s;
+  }
+  .tab-btn:hover { color: var(--black); }
+  .tab-btn.active { color: var(--red); border-bottom-color: var(--red); font-weight: 700; }
+
+  /* VISITS */
+  .visits-empty { text-align: center; padding: 3rem 1rem; color: var(--muted); font-style: italic; font-size: 0.8rem; }
+  .visits-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1rem; }
+
+  .visit-card {
+    background: white;
+    border: 2px solid transparent;
+    border-bottom: 4px solid var(--black);
+    padding: 1rem;
+    position: relative;
+  }
+  .visit-card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.5rem; }
+  .visit-card-name { font-family: 'Bebas Neue', Impact, 'Arial Narrow', sans-serif; font-size: 1.2rem; color: var(--black); line-height: 1.1; }
+  .visit-card-nbhd { font-size: 0.58rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--red); font-weight: 700; margin-bottom: 0.2rem; }
+  .visit-card-slice { font-family: 'Instrument Serif', serif; font-style: italic; font-size: 0.9rem; color: var(--charcoal); margin-bottom: 0.75rem; }
+
+  .star-row { display: flex; gap: 0.2rem; margin-bottom: 0.75rem; }
+  .star-btn {
+    background: none;
+    border: none;
+    font-size: 1.3rem;
+    cursor: pointer;
+    padding: 0;
+    line-height: 1;
+    transition: transform 0.1s;
+    color: #ddd;
+  }
+  .star-btn:hover, .star-btn.lit { color: #F5A623; }
+  .star-btn:hover { transform: scale(1.2); }
+
+  .visit-note {
+    width: 100%;
+    background: #fafafa;
+    border: 1.5px solid #eee;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem;
+    padding: 0.5rem;
+    resize: vertical;
+    min-height: 56px;
+    outline: none;
+    transition: border-color 0.15s;
+    color: var(--black);
+  }
+  .visit-note:focus { border-color: var(--red); }
+  .visit-note::placeholder { color: #bbb; }
+
+  .visit-badge {
+    position: absolute;
+    top: 0.6rem;
+    right: 0.75rem;
+    background: var(--green);
+    color: white;
+    font-size: 0.55rem;
+    letter-spacing: 0.1em;
+    padding: 0.2rem 0.4rem;
+    font-family: 'Space Mono', monospace;
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+
+  .visits-summary {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-bottom: 1.5rem;
+    padding: 1rem;
+    background: var(--black);
+    color: var(--cream);
+  }
+  .summary-stat { text-align: center; }
+  .summary-num { font-family: 'Bebas Neue', Impact, sans-serif; font-size: 2rem; color: var(--orange); line-height: 1; }
+  .summary-label { font-size: 0.58rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+
+  .visits-share-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: transparent;
+    border: 1.5px solid var(--gold);
+    color: var(--gold);
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    transition: all 0.15s;
+    margin-bottom: 1.5rem;
+  }
+  .visits-share-btn:hover { background: var(--gold); color: var(--black); }
+
+  .pizza-card.visited { border-left: 4px solid #F5A623; }
+  .card-visited-badge {
+    display: inline-block;
+    background: #F5A623;
+    color: white;
+    font-size: 0.55rem;
+    letter-spacing: 0.08em;
+    padding: 0.15rem 0.4rem;
+    font-family: 'Space Mono', monospace;
+    font-weight: 700;
+    text-transform: uppercase;
+    margin-bottom: 0.4rem;
+  }
+
   .share-btn {
     display: inline-flex;
     align-items: center;
@@ -589,25 +718,45 @@
   </aside>
 
   <main class="main-content">
-    <div class="search-bar">
-      <input type="text" class="search-input" id="search-input" placeholder="Search restaurants or toppings..." oninput="renderCards()">
+    <div class="tab-nav">
+      <button class="tab-btn active" id="tab-browse" onclick="switchTab('browse')">🍕 Browse</button>
+      <button class="tab-btn" id="tab-visits" onclick="switchTab('visits')">⭐ My Visits</button>
     </div>
-    <div class="filter-tags">
-      <button class="filter-tag" data-filter="veg" onclick="toggleFilter('veg', this)">🥦 Veggie</button>
-      <button class="filter-tag" data-filter="vegan" onclick="toggleFilter('vegan', this)">🌱 Vegan</button>
-      <button class="filter-tag" data-filter="spicy" onclick="toggleFilter('spicy', this)">🌶 Spicy</button>
-      <button class="filter-tag" data-filter="pork" onclick="toggleFilter('pork', this)">🐷 Pork</button>
-      <button class="filter-tag" data-filter="pie" onclick="toggleFilter('pie', this)">🥧 Whole Pie Available</button>
-    </div>
-    <div class="section-header">
-      <h2 id="section-title">All Portland</h2>
-      <span class="section-count" id="section-count"></span>
-    </div>
-    <div class="pizza-grid" id="pizza-grid"></div>
-    <div id="no-results" class="no-results" style="display:none">
-      <div class="emoji">🍕</div>
-      <p>No slices match your search. Try a different filter or neighborhood.</p>
-    </div>
+
+```
+<div id="panel-browse">
+<div class="search-bar">
+  <input type="text" class="search-input" id="search-input" placeholder="Search restaurants or toppings..." oninput="renderCards()">
+</div>
+<div class="filter-tags">
+  <button class="filter-tag" data-filter="veg" onclick="toggleFilter('veg', this)">🥦 Veggie</button>
+  <button class="filter-tag" data-filter="vegan" onclick="toggleFilter('vegan', this)">🌱 Vegan</button>
+  <button class="filter-tag" data-filter="spicy" onclick="toggleFilter('spicy', this)">🌶 Spicy</button>
+  <button class="filter-tag" data-filter="pork" onclick="toggleFilter('pork', this)">🐷 Pork</button>
+  <button class="filter-tag" data-filter="pie" onclick="toggleFilter('pie', this)">🥧 Whole Pie Available</button>
+</div>
+<div class="section-header">
+  <h2 id="section-title">All Portland</h2>
+  <span class="section-count" id="section-count"></span>
+</div>
+<div class="pizza-grid" id="pizza-grid"></div>
+<div id="no-results" class="no-results" style="display:none">
+  <div class="emoji">🍕</div>
+  <p>No slices match your search. Try a different filter or neighborhood.</p>
+</div>
+</div><!-- end panel-browse -->
+
+<div id="panel-visits" style="display:none">
+  <div id="visits-summary-bar"></div>
+  <button class="visits-share-btn" onclick="shareVisits()">🔗 Share My Ratings</button>
+  <div class="visits-grid" id="visits-grid"></div>
+  <div id="visits-empty" class="visits-empty" style="display:none">
+    <div style="font-size:2.5rem;margin-bottom:0.75rem">⭐</div>
+    <p>No visits yet! Add stops to your crawl, then mark them as visited and rate them here.</p>
+  </div>
+</div>
+```
+
   </main>
 </div>
 
@@ -763,7 +912,8 @@ function renderCards() {
       return `<span class="tag tag-${t}">${labels[t]}</span>`;
     }).join('');
     return `
-      <div class="pizza-card ${added ? 'in-crawl' : ''}" onclick="toggleCrawl(PIZZAS.find(x=>x.id===${p.id}))">
+      <div class="pizza-card ${added ? 'in-crawl' : ''} ${visits[p.id] && visits[p.id].rating > 0 ? 'visited' : ''}" onclick="toggleCrawl(PIZZAS.find(x=>x.id===${p.id}))">
+        ${visits[p.id] && visits[p.id].rating > 0 ? `<div class="card-visited-badge">⭐ ${'★'.repeat(visits[p.id].rating)} Visited</div>` : ''}
         <div class="card-neighborhood">${p.neighborhood} ${p.subArea ? '· ' + p.subArea : ''}</div>
         <div class="card-name">${p.name}</div>
         <div class="card-address">📍 ${p.address}</div>
@@ -773,6 +923,9 @@ function renderCards() {
           <div class="card-price">$${p.price} / slice</div>
           <div class="card-tags">${tagHtml}</div>
           <button class="add-btn ${added ? 'added' : ''}">${added ? '✓ Added' : '+ Add'}</button>
+          ${visits[p.id] && visits[p.id].rating > 0
+            ? `<button class="add-btn" style="background:#b07d00" onclick="event.stopPropagation();switchTab('visits')">⭐ Rated</button>`
+            : `<button class="add-btn" style="background:#555" onclick="event.stopPropagation();rateFromCard(${p.id})">Rate</button>`}
         </div>
       </div>`;
   }).join('');
@@ -860,96 +1013,234 @@ function loadCrawlFromURL() {
   }
 }
 
+// VISITS STATE
+let visits = {}; // { pizzaId: { rating: 1-5, note: '' } }
+
+function switchTab(tab) {
+  document.getElementById('tab-browse').classList.toggle('active', tab === 'browse');
+  document.getElementById('tab-visits').classList.toggle('active', tab === 'visits');
+  document.getElementById('panel-browse').style.display = tab === 'browse' ? '' : 'none';
+  document.getElementById('panel-visits').style.display = tab === 'visits' ? '' : 'none';
+  if (tab === 'visits') renderVisits();
+}
+
+function setRating(pizzaId, rating) {
+  if (!visits[pizzaId]) visits[pizzaId] = { rating: 0, note: '' };
+  visits[pizzaId].rating = rating;
+  saveVisitsToURL();
+  renderVisits();
+  renderCards(); // refresh visited badges on cards
+}
+
+function setNote(pizzaId, note) {
+  if (!visits[pizzaId]) visits[pizzaId] = { rating: 0, note: '' };
+  visits[pizzaId].note = note;
+  saveVisitsToURL();
+}
+
+function saveVisitsToURL() {
+  // Encode as "id:rating:noteBase64" joined by commas
+  const parts = Object.entries(visits)
+    .filter(([,v]) => v.rating > 0 || v.note)
+    .map(([id, v]) => {
+      const noteEnc = v.note ? btoa(unescape(encodeURIComponent(v.note))) : '';
+      return `${id}:${v.rating}:${noteEnc}`;
+    });
+  const url = new URL(window.location.href);
+  if (parts.length > 0) url.searchParams.set('visits', parts.join(','));
+  else url.searchParams.delete('visits');
+  window.history.replaceState({}, '', url);
+}
+
+function loadVisitsFromURL() {
+  const params = new URLSearchParams(window.location.search);
+  const raw = params.get('visits');
+  if (!raw) return;
+  raw.split(',').forEach(part => {
+    const [id, rating, noteEnc] = part.split(':');
+    const note = noteEnc ? decodeURIComponent(escape(atob(noteEnc))) : '';
+    visits[parseInt(id)] = { rating: parseInt(rating) || 0, note };
+  });
+}
+
+function shareVisits() {
+  const url = window.location.href;
+  if (navigator.share) {
+    navigator.share({ title: 'My Portland Pizza Week Ratings', text: 'Check out my Portland Pizza Week ratings! 🍕⭐', url });
+  } else if (navigator.clipboard) {
+    navigator.clipboard.writeText(url).then(() => {
+      const t = document.getElementById('share-toast');
+      t.textContent = '✓ Ratings link copied!';
+      t.classList.add('visible');
+      setTimeout(() => t.classList.remove('visible'), 3000);
+    });
+  } else {
+    prompt('Copy this link to share your ratings:', url);
+  }
+}
+
+function renderVisits() {
+  const grid = document.getElementById('visits-grid');
+  const empty = document.getElementById('visits-empty');
+  const summaryBar = document.getElementById('visits-summary-bar');
+
+  // Only show pizzas that have been visited (have a rating)
+  const visited = PIZZAS.filter(p => visits[p.id] && visits[p.id].rating > 0);
+
+  if (visited.length === 0) {
+    grid.innerHTML = '';
+    empty.style.display = 'block';
+    summaryBar.innerHTML = '';
+    return;
+  }
+  empty.style.display = 'none';
+
+  const totalRating = visited.reduce((s, p) => s + visits[p.id].rating, 0);
+  const avg = (totalRating / visited.length).toFixed(1);
+  const top = [...visited].sort((a,b) => visits[b.id].rating - visits[a.id].rating)[0];
+
+  summaryBar.innerHTML = `
+    <div class="visits-summary">
+      <div class="summary-stat"><div class="summary-num">${visited.length}</div><div class="summary-label">Visited</div></div>
+      <div class="summary-stat"><div class="summary-num">${avg}⭐</div><div class="summary-label">Avg Rating</div></div>
+      <div class="summary-stat"><div class="summary-num" style="font-size:1rem;padding-top:0.5rem">${top.name}</div><div class="summary-label">Top Rated</div></div>
+    </div>`;
+
+  grid.innerHTML = PIZZAS.map(p => {
+    const v = visits[p.id];
+    const hasRating = v && v.rating > 0;
+    const stars = [1,2,3,4,5].map(n =>
+      `<button class="star-btn ${v && n <= v.rating ? 'lit' : ''}" onclick="setRating(${p.id}, ${n})">★</button>`
+    ).join('');
+    const noteVal = (v && v.note) ? v.note : '';
+
+    if (!hasRating) return ''; // only show rated ones, but keep unrated accessible via cards
+
+    return `
+      <div class="visit-card">
+        <div class="visit-badge">✓ Visited</div>
+        <div class="visit-card-nbhd">${p.neighborhood} · ${p.subArea}</div>
+        <div class="visit-card-name">${p.name}</div>
+        <div class="visit-card-slice">"${p.pieName}"</div>
+        <div class="star-row">${stars}</div>
+        <textarea class="visit-note" placeholder="Add a note... (crust, vibe, would return?)"
+          oninput="setNote(${p.id}, this.value)"
+          onchange="setNote(${p.id}, this.value)">${noteVal}</textarea>
+
+```
+  </div>`;
+```
+
+}).filter(Boolean).join(’’);
+}
+
+function rateFromCard(pizzaId) {
+if (!visits[pizzaId]) visits[pizzaId] = { rating: 1, note: ‘’ };
+else visits[pizzaId].rating = visits[pizzaId].rating || 1;
+saveVisitsToURL();
+renderCards();
+switchTab(‘visits’);
+setTimeout(() => {
+const cards = document.getElementById(‘visits-grid’).querySelectorAll(’.visit-card’);
+// scroll visits grid into view
+document.getElementById(‘panel-visits’).scrollIntoView({ behavior: ‘smooth’ });
+}, 100);
+}
+
 const ROUTES = [
-  { id: 'pearl-nw', name: 'The Pearl & Nob Hill Loop', neighborhood: 'Northwest / Pearl', distanceMi: 2.1, description: 'Start in the Pearl, wind through NW 21st, and loop back. Flat, beautiful streets — classic Portland stroll.', accentColor: '#E8A838', stops: [{ pizzaId: 3, walkToNext: 2 },{ pizzaId: 8, walkToNext: 3 },{ pizzaId: 2, walkToNext: 2 },{ pizzaId: 5, walkToNext: 1 },{ pizzaId: 1, walkToNext: 8 },{ pizzaId: 7, walkToNext: 0 }] },
-  { id: 'downtown-sw', name: 'Downtown Slice Sprint', neighborhood: 'Southwest / Downtown', distanceMi: 1.4, description: 'A tight, punchy loop through the heart of downtown. All within a few blocks — easy to squeeze in on a lunch break.', accentColor: '#D9231B', stops: [{ pizzaId: 16, walkToNext: 3 },{ pizzaId: 14, walkToNext: 2 },{ pizzaId: 10, walkToNext: 2 },{ pizzaId: 15, walkToNext: 3 },{ pizzaId: 13, walkToNext: 4 },{ pizzaId: 11, walkToNext: 0 }] },
-  { id: 'alberta-concordia', name: 'Alberta Arts & Concordia', neighborhood: 'Northeast', distanceMi: 2.4, description: "Walk NE Alberta's famous arts corridor then dip into Concordia. Murals, vibes, and great slices every few blocks.", accentColor: '#F26522', stops: [{ pizzaId: 37, walkToNext: 5 },{ pizzaId: 36, walkToNext: 8 },{ pizzaId: 32, walkToNext: 6 },{ pizzaId: 26, walkToNext: 7 },{ pizzaId: 37, walkToNext: 0 }] },
-  { id: 'ne-broadway-glisan', name: 'Broadway to Glisan', neighborhood: 'Northeast', distanceMi: 2.8, description: "From NE Broadway's lively corridor east along Glisan — passes through Irvington, Sullivan's Gulch, and Rose City Park.", accentColor: '#2C6B3F', stops: [{ pizzaId: 27, walkToNext: 6 },{ pizzaId: 31, walkToNext: 8 },{ pizzaId: 30, walkToNext: 5 },{ pizzaId: 29, walkToNext: 7 },{ pizzaId: 27, walkToNext: 0 }] },
-  { id: 'north-mississippi', name: 'Mississippi Ave & Overlook', neighborhood: 'North', distanceMi: 2.2, description: "Two of North Portland's best streets combined. Mississippi's indie scene meets the Overlook neighborhood — great views included.", accentColor: '#7B68C8', stops: [{ pizzaId: 42, walkToNext: 5 },{ pizzaId: 41, walkToNext: 7 },{ pizzaId: 43, walkToNext: 8 },{ pizzaId: 39, walkToNext: 6 },{ pizzaId: 38, walkToNext: 0 }] },
-  { id: 'north-kenton', name: 'Kenton & St. Johns', neighborhood: 'North', distanceMi: 2.6, description: "Head up N Denver Ave through Kenton's quirky strip to St. Johns. Portland's most underrated neighborhoods with a stunning bridge view at the end.", accentColor: '#4A9EC1', stops: [{ pizzaId: 40, walkToNext: 14 },{ pizzaId: 44, walkToNext: 14 },{ pizzaId: 40, walkToNext: 0 }] },
-  { id: 'se-buckman-kerns', name: 'Buckman & Kerns', neighborhood: 'Southeast', distanceMi: 1.6, description: 'East Burnside and Stark form the spine of this crawl. Dense, walkable, and loaded with great spots within a few blocks of each other.', accentColor: '#C87B40', stops: [{ pizzaId: 50, walkToNext: 2 },{ pizzaId: 51, walkToNext: 2 },{ pizzaId: 45, walkToNext: 4 },{ pizzaId: 59, walkToNext: 5 },{ pizzaId: 61, walkToNext: 4 },{ pizzaId: 68, walkToNext: 0 }] },
-  { id: 'se-division', name: 'Division Street Classic', neighborhood: 'Southeast', distanceMi: 2.3, description: "One of Portland's most celebrated food streets. Walk SE Division from the Central Eastside out to Richmond — a true pizza crawl corridor.", accentColor: '#D9231B', stops: [{ pizzaId: 49, walkToNext: 8 },{ pizzaId: 35, walkToNext: 4 },{ pizzaId: 58, walkToNext: 2 },{ pizzaId: 46, walkToNext: 5 },{ pizzaId: 63, walkToNext: 8 },{ pizzaId: 54, walkToNext: 0 }] },
-  { id: 'se-hawthorne-belmont', name: 'Hawthorne & Belmont', neighborhood: 'Southeast', distanceMi: 2.0, description: "Two of SE Portland's iconic corridors make one great crawl. Vintage shops, bookstores, and $4 slices at every turn.", accentColor: '#E8A838', stops: [{ pizzaId: 57, walkToNext: 5 },{ pizzaId: 64, walkToNext: 4 },{ pizzaId: 48, walkToNext: 5 },{ pizzaId: 65, walkToNext: 5 },{ pizzaId: 57, walkToNext: 0 }] },
-  { id: 'se-sellwood-woodstock', name: 'Sellwood & Woodstock', neighborhood: 'Southeast', distanceMi: 2.7, description: "Portland's leafy south side. Sellwood's antique row meets Woodstock's neighborhood charm — a mellower, residential crawl.", accentColor: '#4A9E6A', stops: [{ pizzaId: 52, walkToNext: 10 },{ pizzaId: 56, walkToNext: 8 },{ pizzaId: 53, walkToNext: 8 },{ pizzaId: 60, walkToNext: 0 }] },
+{ id: ‘pearl-nw’, name: ‘The Pearl & Nob Hill Loop’, neighborhood: ‘Northwest / Pearl’, distanceMi: 2.1, description: ‘Start in the Pearl, wind through NW 21st, and loop back. Flat, beautiful streets — classic Portland stroll.’, accentColor: ‘#E8A838’, stops: [{ pizzaId: 3, walkToNext: 2 },{ pizzaId: 8, walkToNext: 3 },{ pizzaId: 2, walkToNext: 2 },{ pizzaId: 5, walkToNext: 1 },{ pizzaId: 1, walkToNext: 8 },{ pizzaId: 7, walkToNext: 0 }] },
+{ id: ‘downtown-sw’, name: ‘Downtown Slice Sprint’, neighborhood: ‘Southwest / Downtown’, distanceMi: 1.4, description: ‘A tight, punchy loop through the heart of downtown. All within a few blocks — easy to squeeze in on a lunch break.’, accentColor: ‘#D9231B’, stops: [{ pizzaId: 16, walkToNext: 3 },{ pizzaId: 14, walkToNext: 2 },{ pizzaId: 10, walkToNext: 2 },{ pizzaId: 15, walkToNext: 3 },{ pizzaId: 13, walkToNext: 4 },{ pizzaId: 11, walkToNext: 0 }] },
+{ id: ‘alberta-concordia’, name: ‘Alberta Arts & Concordia’, neighborhood: ‘Northeast’, distanceMi: 2.4, description: “Walk NE Alberta’s famous arts corridor then dip into Concordia. Murals, vibes, and great slices every few blocks.”, accentColor: ‘#F26522’, stops: [{ pizzaId: 37, walkToNext: 5 },{ pizzaId: 36, walkToNext: 8 },{ pizzaId: 32, walkToNext: 6 },{ pizzaId: 26, walkToNext: 7 },{ pizzaId: 37, walkToNext: 0 }] },
+{ id: ‘ne-broadway-glisan’, name: ‘Broadway to Glisan’, neighborhood: ‘Northeast’, distanceMi: 2.8, description: “From NE Broadway’s lively corridor east along Glisan — passes through Irvington, Sullivan’s Gulch, and Rose City Park.”, accentColor: ‘#2C6B3F’, stops: [{ pizzaId: 27, walkToNext: 6 },{ pizzaId: 31, walkToNext: 8 },{ pizzaId: 30, walkToNext: 5 },{ pizzaId: 29, walkToNext: 7 },{ pizzaId: 27, walkToNext: 0 }] },
+{ id: ‘north-mississippi’, name: ‘Mississippi Ave & Overlook’, neighborhood: ‘North’, distanceMi: 2.2, description: “Two of North Portland’s best streets combined. Mississippi’s indie scene meets the Overlook neighborhood — great views included.”, accentColor: ‘#7B68C8’, stops: [{ pizzaId: 42, walkToNext: 5 },{ pizzaId: 41, walkToNext: 7 },{ pizzaId: 43, walkToNext: 8 },{ pizzaId: 39, walkToNext: 6 },{ pizzaId: 38, walkToNext: 0 }] },
+{ id: ‘north-kenton’, name: ‘Kenton & St. Johns’, neighborhood: ‘North’, distanceMi: 2.6, description: “Head up N Denver Ave through Kenton’s quirky strip to St. Johns. Portland’s most underrated neighborhoods with a stunning bridge view at the end.”, accentColor: ‘#4A9EC1’, stops: [{ pizzaId: 40, walkToNext: 14 },{ pizzaId: 44, walkToNext: 14 },{ pizzaId: 40, walkToNext: 0 }] },
+{ id: ‘se-buckman-kerns’, name: ‘Buckman & Kerns’, neighborhood: ‘Southeast’, distanceMi: 1.6, description: ‘East Burnside and Stark form the spine of this crawl. Dense, walkable, and loaded with great spots within a few blocks of each other.’, accentColor: ‘#C87B40’, stops: [{ pizzaId: 50, walkToNext: 2 },{ pizzaId: 51, walkToNext: 2 },{ pizzaId: 45, walkToNext: 4 },{ pizzaId: 59, walkToNext: 5 },{ pizzaId: 61, walkToNext: 4 },{ pizzaId: 68, walkToNext: 0 }] },
+{ id: ‘se-division’, name: ‘Division Street Classic’, neighborhood: ‘Southeast’, distanceMi: 2.3, description: “One of Portland’s most celebrated food streets. Walk SE Division from the Central Eastside out to Richmond — a true pizza crawl corridor.”, accentColor: ‘#D9231B’, stops: [{ pizzaId: 49, walkToNext: 8 },{ pizzaId: 35, walkToNext: 4 },{ pizzaId: 58, walkToNext: 2 },{ pizzaId: 46, walkToNext: 5 },{ pizzaId: 63, walkToNext: 8 },{ pizzaId: 54, walkToNext: 0 }] },
+{ id: ‘se-hawthorne-belmont’, name: ‘Hawthorne & Belmont’, neighborhood: ‘Southeast’, distanceMi: 2.0, description: “Two of SE Portland’s iconic corridors make one great crawl. Vintage shops, bookstores, and $4 slices at every turn.”, accentColor: ‘#E8A838’, stops: [{ pizzaId: 57, walkToNext: 5 },{ pizzaId: 64, walkToNext: 4 },{ pizzaId: 48, walkToNext: 5 },{ pizzaId: 65, walkToNext: 5 },{ pizzaId: 57, walkToNext: 0 }] },
+{ id: ‘se-sellwood-woodstock’, name: ‘Sellwood & Woodstock’, neighborhood: ‘Southeast’, distanceMi: 2.7, description: “Portland’s leafy south side. Sellwood’s antique row meets Woodstock’s neighborhood charm — a mellower, residential crawl.”, accentColor: ‘#4A9E6A’, stops: [{ pizzaId: 52, walkToNext: 10 },{ pizzaId: 56, walkToNext: 8 },{ pizzaId: 53, walkToNext: 8 },{ pizzaId: 60, walkToNext: 0 }] },
 ];
 
 // Tracks selected start stop index per route (default 0)
 const routeStartIndex = {};
 
 function getRotatedStops(route) {
-  const uniqueIds = [...new Set(route.stops.map(s => s.pizzaId))];
-  const startIdx = routeStartIndex[route.id] || 0;
-  return [...uniqueIds.slice(startIdx), ...uniqueIds.slice(0, startIdx)];
+const uniqueIds = […new Set(route.stops.map(s => s.pizzaId))];
+const startIdx = routeStartIndex[route.id] || 0;
+return […uniqueIds.slice(startIdx), …uniqueIds.slice(0, startIdx)];
 }
 
 function setRouteStart(routeId, idx) {
-  routeStartIndex[routeId] = idx;
-  renderRoutes();
+routeStartIndex[routeId] = idx;
+renderRoutes();
 }
 
 function loadSuggestedRoute(routeId) {
-  const route = ROUTES.find(r => r.id === routeId);
-  if (!route) return;
-  const orderedIds = getRotatedStops(route);
-  crawl = orderedIds.map(id => PIZZAS.find(p => p.id === id)).filter(Boolean);
-  renderCrawlSidebar(); renderCards(); updateCrawlBar(); updateRoutePanel();
-  window.scrollTo({ top: 0, behavior: 'smooth' });
+const route = ROUTES.find(r => r.id === routeId);
+if (!route) return;
+const orderedIds = getRotatedStops(route);
+crawl = orderedIds.map(id => PIZZAS.find(p => p.id === id)).filter(Boolean);
+renderCrawlSidebar(); renderCards(); updateCrawlBar(); updateRoutePanel();
+window.scrollTo({ top: 0, behavior: ‘smooth’ });
 }
 
 function buildMapUrl(route) {
-  const orderedIds = getRotatedStops(route);
-  const pizzas = orderedIds.map(id => PIZZAS.find(p => p.id === id)).filter(Boolean);
-  const addresses = pizzas.map(p => encodeURIComponent(p.address + ' Portland OR'));
-  addresses.push(addresses[0]);
-  return `https://www.google.com/maps/dir/${addresses.join('/')}`;
+const orderedIds = getRotatedStops(route);
+const pizzas = orderedIds.map(id => PIZZAS.find(p => p.id === id)).filter(Boolean);
+const addresses = pizzas.map(p => encodeURIComponent(p.address + ’ Portland OR’));
+addresses.push(addresses[0]);
+return `https://www.google.com/maps/dir/${addresses.join('/')}`;
 }
 
 function renderRoutes() {
-  const grid = document.getElementById('routes-grid');
-  grid.innerHTML = ROUTES.map(route => {
-    const uniqueIds = [...new Set(route.stops.map(s => s.pizzaId))];
-    const pizzas = uniqueIds.map(id => PIZZAS.find(p => p.id === id)).filter(Boolean);
-    const totalCost = pizzas.length * 4;
-    const startIdx = routeStartIndex[route.id] || 0;
+const grid = document.getElementById(‘routes-grid’);
+grid.innerHTML = ROUTES.map(route => {
+const uniqueIds = […new Set(route.stops.map(s => s.pizzaId))];
+const pizzas = uniqueIds.map(id => PIZZAS.find(p => p.id === id)).filter(Boolean);
+const totalCost = pizzas.length * 4;
+const startIdx = routeStartIndex[route.id] || 0;
 
-    const stopsHtml = uniqueIds.map((pid, i) => {
-      const p = PIZZAS.find(x => x.id === pid);
-      if (!p) return '';
-      const isStart = i === startIdx;
-      const displayNum = ((i - startIdx + uniqueIds.length) % uniqueIds.length) + 1;
-      return `<li class="route-stop-item ${isStart ? 'is-start' : ''}" onclick="setRouteStart('${route.id}', ${i})" title="Tap to start here">
-        <div class="stop-num-dot" style="${isStart ? 'background:#E8A838;color:#0F0F0F' : ''}">${isStart ? '★' : displayNum}</div>
-        <div class="stop-info">
-          <div class="stop-info-name">${p.name}</div>
-          <div class="stop-info-slice">"${p.pieName}"</div>
-        </div>
-        <span class="start-hint">${isStart ? '<span style="color:#E8A838;font-size:0.55rem;letter-spacing:0.08em;text-transform:uppercase;font-weight:700">Start</span>' : '<span style="color:#383838;font-size:0.55rem;text-transform:uppercase;letter-spacing:0.06em">start here?</span>'}</span>
-      </li>`;
-    }).join('');
+```
+const stopsHtml = uniqueIds.map((pid, i) => {
+  const p = PIZZAS.find(x => x.id === pid);
+  if (!p) return '';
+  const isStart = i === startIdx;
+  const displayNum = ((i - startIdx + uniqueIds.length) % uniqueIds.length) + 1;
+  return `<li class="route-stop-item ${isStart ? 'is-start' : ''}" onclick="setRouteStart('${route.id}', ${i})" title="Tap to start here">
+    <div class="stop-num-dot" style="${isStart ? 'background:#E8A838;color:#0F0F0F' : ''}">${isStart ? '★' : displayNum}</div>
+    <div class="stop-info">
+      <div class="stop-info-name">${p.name}</div>
+      <div class="stop-info-slice">"${p.pieName}"</div>
+    </div>
+    <span class="start-hint">${isStart ? '<span style="color:#E8A838;font-size:0.55rem;letter-spacing:0.08em;text-transform:uppercase;font-weight:700">Start</span>' : '<span style="color:#383838;font-size:0.55rem;text-transform:uppercase;letter-spacing:0.06em">start here?</span>'}</span>
+  </li>`;
+}).join('');
 
-    return `
-      <div class="route-card" style="border-top-color: ${route.accentColor}">
-        <div class="route-card-nbhd">${route.neighborhood}</div>
-        <div class="route-card-name">${route.name}</div>
-        <div class="route-meta">
-          <span class="route-badge badge-dist">🚶 ${route.distanceMi} mi roundtrip</span>
-          <span class="route-badge badge-cost">💰 $${totalCost} total</span>
-          <span class="route-badge">${uniqueIds.length} stops</span>
-        </div>
-        <div class="route-desc">${route.description}</div>
-        <ul class="route-stops-list">${stopsHtml}</ul>
-        <div class="route-actions">
-          <button class="route-load-btn" onclick="loadSuggestedRoute('${route.id}')">🍕 Load This Crawl</button>
-          <a class="route-map-btn" href="${buildMapUrl(route)}" target="_blank">Map →</a>
-        </div>
-      </div>`;
-  }).join('');
+return `
+  <div class="route-card" style="border-top-color: ${route.accentColor}">
+    <div class="route-card-nbhd">${route.neighborhood}</div>
+    <div class="route-card-name">${route.name}</div>
+    <div class="route-meta">
+      <span class="route-badge badge-dist">🚶 ${route.distanceMi} mi roundtrip</span>
+      <span class="route-badge badge-cost">💰 $${totalCost} total</span>
+      <span class="route-badge">${uniqueIds.length} stops</span>
+    </div>
+    <div class="route-desc">${route.description}</div>
+    <ul class="route-stops-list">${stopsHtml}</ul>
+    <div class="route-actions">
+      <button class="route-load-btn" onclick="loadSuggestedRoute('${route.id}')">🍕 Load This Crawl</button>
+      <a class="route-map-btn" href="${buildMapUrl(route)}" target="_blank">Map →</a>
+    </div>
+  </div>`;
+```
+
+}).join(’’);
 }
 
 updateCounts();
 renderCards();
 renderRoutes();
 loadCrawlFromURL();
+loadVisitsFromURL();
 </script>
 
 </body>
