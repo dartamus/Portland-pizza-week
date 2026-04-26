@@ -725,7 +725,7 @@
 
 ```
 <div id="panel-browse">
-<div class="search-bar">
+  <div class="search-bar">
   <input type="text" class="search-input" id="search-input" placeholder="Search restaurants or toppings..." oninput="renderCards()">
 </div>
 <div class="filter-tags">
@@ -740,10 +740,10 @@
   <span class="section-count" id="section-count"></span>
 </div>
 <div class="pizza-grid" id="pizza-grid"></div>
-<div id="no-results" class="no-results" style="display:none">
-  <div class="emoji">🍕</div>
-  <p>No slices match your search. Try a different filter or neighborhood.</p>
-</div>
+  <div id="no-results" class="no-results" style="display:none">
+    <div class="emoji">🍕</div>
+    <p>No slices match your search. Try a different filter or neighborhood.</p>
+  </div>
 </div><!-- end panel-browse -->
 
 <div id="panel-visits" style="display:none">
@@ -1022,8 +1022,8 @@ function loadCrawlFromURL() {
 function switchTab(tab) {
   document.getElementById('tab-browse').classList.toggle('active', tab === 'browse');
   document.getElementById('tab-visits').classList.toggle('active', tab === 'visits');
-  document.getElementById('panel-browse').style.display = tab === 'browse' ? '' : 'none';
-  document.getElementById('panel-visits').style.display = tab === 'visits' ? '' : 'none';
+  document.getElementById('panel-browse').style.display = tab === 'browse' ? 'block' : 'none';
+  document.getElementById('panel-visits').style.display = tab === 'visits' ? 'block' : 'none';
   if (tab === 'visits') renderVisits();
 }
 
