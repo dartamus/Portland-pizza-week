@@ -80,11 +80,11 @@ display: flex;
 align-items: center;
 justify-content: space-between;
 padding: 0.9rem 2.5rem;
-background: rgba(0,0,0,0.25);
+background: #0a0a0a;
 flex-wrap: wrap;
 gap: 0.5rem;
 }
-.meta-pills { display:flex; gap:1rem; flex-wrap:wrap; }
+.meta-pills { display:flex; gap:1rem; flex-wrap:wrap; overflow:hidden; }
 .meta-pill {
 font-size: 0.58rem;
 letter-spacing: 0.12em;
@@ -94,7 +94,8 @@ display: flex;
 align-items: center;
 gap: 0.4rem;
 }
-.meta-pill::before { content:none; }
+.meta-pill::before, .meta-pill::after { display:none !important; content:none !important; }
+
 .header-event-badge {
 font-size: 0.58rem;
 letter-spacing: 0.1em;
@@ -222,12 +223,12 @@ color: rgba(250,243,232,0.35);
 .visit-edit-btn:hover { border-color:var(–orange); color:var(–orange); }
 .visits-empty { text-align:center; padding:3rem 1rem; color:var(–muted); font-style:italic; font-size:0.8rem; }
 /* SUGGESTED ROUTES */
-.routes-section { background:#1C1C1C; padding:1.5rem 2rem; border-top:4px solid var(–orange); }
+.routes-section { background:#111111 !important; padding:1.5rem 2rem; border-top:4px solid #F26522; }
 .routes-top { display:flex; align-items:baseline; gap:1rem; margin-bottom:1.25rem; flex-wrap:wrap; }
-.routes-top h2 { font-family:‘Bebas Neue’,Impact,sans-serif; font-size:2rem; color:var(–orange); letter-spacing:0.03em; }
+.routes-top h2 { font-family:‘Bebas Neue’,Impact,sans-serif; font-size:2rem; color:#F26522 !important; letter-spacing:0.03em; }
 .routes-top p { font-size:0.65rem; color:#AAA; font-style:italic; }
 .routes-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:1rem; }
-.route-card { background:#2a2a2a; border:1.5px solid #444; border-top:3px solid var(–red); padding:1rem; transition:border-color 0.15s; }
+.route-card { background:#2a2a2a !important; border:1.5px solid #444; border-top:3px solid var(–red); padding:1rem; transition:border-color 0.15s; }
 .route-card:hover { border-color:#555; border-top-color:var(–orange); }
 .route-card-nbhd { font-size:0.58rem; color:var(–orange); text-transform:uppercase; letter-spacing:0.12em; margin-bottom:0.15rem; font-weight:700; }
 .route-card-name { font-family:‘Bebas Neue’,Impact,sans-serif; font-size:1.3rem; color:var(–cream); letter-spacing:0.03em; line-height:1.1; margin-bottom:0.5rem; }
