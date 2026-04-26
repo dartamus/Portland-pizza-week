@@ -7,659 +7,157 @@
 <title>Portland Pizza Week 2026 — Crawl Planner</title>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
 <style>
-  /* Fallback: ensure correct colors and fonts regardless of font loading */
-  header { background: #0F0F0F !important; }
-  h1 { font-family: 'Bebas Neue', Impact, 'Arial Narrow', sans-serif !important; color: #FAF3E8 !important; }
-  h1 span { color: #F26522 !important; }
-  .header-eyebrow { color: #F26522 !important; }
-  .header-sub { color: #7A6F62 !important; }
-  .sidebar-title, .card-name, .route-card-name, .crawl-bar-text, .section-header h2, .route-panel h2, .routes-top h2 {
-    font-family: 'Bebas Neue', Impact, 'Arial Narrow', sans-serif !important;
-  }
-  .crawl-bar { background: #D9231B !important; }
-  .crawl-bar-text { color: #FAF3E8 !important; }
-  .meta-pill { color: #E8A838 !important; }
-
-/* Fix suggested crawls section readability */
-.routes-section { background: #1C1C1C !important; }
-.routes-top h2 { color: #F26522 !important; }
-.routes-top p { color: #AAA !important; }
-.route-card { background: #2a2a2a !important; border-color: #444 !important; }
-.route-card-nbhd { color: #F26522 !important; }
-.route-card-name { color: #FAF3E8 !important; }
-.route-desc { color: #BBB !important; }
-.stop-info-name { color: #FAF3E8 !important; }
-.stop-info-slice { color: #AAA !important; }
-.route-badge { color: #CCC !important; border-color: #555 !important; }
-.route-badge.badge-dist { color: #E8A838 !important; border-color: #E8A838 !important; }
-.route-badge.badge-cost { color: #6dbb8a !important; border-color: #6dbb8a !important; }
-.start-hint span { color: #E8A838 !important; }
-.route-stops-list li { border-color: #444 !important; }
-</style>
-
-<style>
   :root {
-    --red: #D9231B;
-    --orange: #F26522;
-    --cream: #FAF3E8;
-    --black: #0F0F0F;
-    --charcoal: #1C1C1C;
-    --gold: #E8A838;
-    --muted: #7A6F62;
-    --green: #2C6B3F;
+    --red: #D9231B; --orange: #F26522; --cream: #FAF3E8;
+    --black: #0F0F0F; --charcoal: #1C1C1C; --gold: #E8A838;
+    --muted: #7A6F62; --green: #2C6B3F;
   }
-
   * { box-sizing: border-box; margin: 0; padding: 0; }
-
-  body {
-    background: var(--cream);
-    color: var(--black);
-    font-family: 'Space Mono', monospace;
-    min-height: 100vh;
-    overflow-x: hidden;
-  }
-
-  body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
-    pointer-events: none;
-    z-index: 1000;
-    opacity: 0.5;
-  }
-
-  header {
-    background: var(--black);
-    color: var(--cream);
-    padding: 0;
-    position: relative;
-    overflow: hidden;
-  }
-
+  body { background: var(--cream); color: var(--black); font-family: 'Space Mono', monospace; min-height: 100vh; overflow-x: hidden; }
+  body::before { content: ''; position: fixed; inset: 0; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E"); pointer-events: none; z-index: 1000; opacity: 0.5; }
+  header { background: #0F0F0F; color: var(--cream); padding: 0; position: relative; overflow: hidden; }
   .header-stripe { background: var(--red); height: 8px; }
-
-  .header-inner {
-    padding: 2rem 2rem 1.5rem;
-    display: flex;
-    flex-direction: column;
-    gap: 0.25rem;
-  }
-
-  .header-eyebrow {
-    font-family: 'Space Mono', monospace;
-    font-size: 0.65rem;
-    letter-spacing: 0.25em;
-    color: var(--orange);
-    text-transform: uppercase;
-  }
-
-  h1 {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: clamp(3.5rem, 10vw, 7rem);
-    line-height: 0.9;
-    color: var(--cream);
-    letter-spacing: 0.02em;
-  }
-
-  h1 span { color: var(--orange); }
-
-  .header-sub {
-    font-family: 'Instrument Serif', serif;
-    font-style: italic;
-    font-size: 1rem;
-    color: var(--muted);
-    margin-top: 0.5rem;
-  }
-
-  .header-meta {
-    display: flex;
-    gap: 1.5rem;
-    margin-top: 1rem;
-    flex-wrap: wrap;
-  }
-
-  .meta-pill {
-    background: var(--charcoal);
-    border: 1px solid #333;
-    padding: 0.35rem 0.75rem;
-    font-size: 0.65rem;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--gold);
-  }
-
-  .crawl-bar {
-    background: var(--red);
-    padding: 0.75rem 2rem;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-  }
-
-  .crawl-bar-text {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 1.2rem;
-    color: var(--cream);
-    letter-spacing: 0.05em;
-  }
-
-  .crawl-stats { display: flex; gap: 1rem; }
-
-  .stat-chip {
-    background: rgba(0,0,0,0.3);
-    color: var(--cream);
-    font-size: 0.65rem;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    padding: 0.25rem 0.6rem;
-  }
-
+  .header-inner { padding: 2rem 2rem 1.5rem; display: flex; flex-direction: column; gap: 0.25rem; }
+  .header-eyebrow { font-family: 'Space Mono', monospace; font-size: 0.65rem; letter-spacing: 0.25em; color: #F26522; text-transform: uppercase; }
+  h1 { font-family: 'Bebas Neue', Impact, 'Arial Narrow', sans-serif; font-size: clamp(3.5rem, 10vw, 7rem); line-height: 0.9; color: #FAF3E8; letter-spacing: 0.02em; }
+  h1 span { color: #F26522; }
+  .header-sub { font-family: 'Instrument Serif', serif; font-style: italic; font-size: 1rem; color: var(--muted); margin-top: 0.5rem; }
+  .header-meta { display: flex; gap: 1.5rem; margin-top: 1rem; flex-wrap: wrap; }
+  .meta-pill { background: var(--charcoal); border: 1px solid #333; padding: 0.35rem 0.75rem; font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; color: #E8A838; }
+  .crawl-bar { background: var(--red); padding: 0.75rem 2rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; }
+  .crawl-bar-text { font-family: 'Bebas Neue', Impact, sans-serif; font-size: 1.2rem; color: #FAF3E8; letter-spacing: 0.05em; }
+  .stat-chip { background: rgba(0,0,0,0.3); color: var(--cream); font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.25rem 0.6rem; }
   #total-cost { color: var(--gold); font-weight: 700; }
-
-  .app-shell {
-    display: grid;
-    grid-template-columns: 260px 1fr;
-    min-height: calc(100vh - 180px);
-  }
-
-  .sidebar {
-    background: var(--charcoal);
-    color: var(--cream);
-    padding: 1.5rem 1rem;
-    border-right: 3px solid var(--red);
-    position: sticky;
-    top: 0;
-    height: calc(100vh - 130px);
-    overflow-y: auto;
-  }
-
-  .sidebar-title {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 1.4rem;
-    letter-spacing: 0.05em;
-    color: var(--orange);
-    margin-bottom: 1rem;
-    border-bottom: 1px solid #333;
-    padding-bottom: 0.5rem;
-  }
-
-  .neighborhood-btn {
-    display: flex;
-    width: 100%;
-    background: transparent;
-    border: 1px solid #333;
-    color: var(--cream);
-    font-family: 'Space Mono', monospace;
-    font-size: 0.7rem;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    padding: 0.6rem 0.75rem;
-    text-align: left;
-    cursor: pointer;
-    margin-bottom: 0.35rem;
-    transition: all 0.15s ease;
-    justify-content: space-between;
-    align-items: center;
-  }
-
+  .app-shell { display: grid; grid-template-columns: 260px 1fr; min-height: calc(100vh - 180px); }
+  .sidebar { background: var(--charcoal); color: var(--cream); padding: 1.5rem 1rem; border-right: 3px solid var(--red); position: sticky; top: 0; height: calc(100vh - 130px); overflow-y: auto; }
+  .sidebar-title { font-family: 'Bebas Neue', Impact, sans-serif; font-size: 1.4rem; letter-spacing: 0.05em; color: var(--orange); margin-bottom: 1rem; border-bottom: 1px solid #333; padding-bottom: 0.5rem; }
+  .neighborhood-btn { display: flex; width: 100%; background: transparent; border: 1px solid #333; color: var(--cream); font-family: 'Space Mono', monospace; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.08em; padding: 0.6rem 0.75rem; text-align: left; cursor: pointer; margin-bottom: 0.35rem; transition: all 0.15s ease; justify-content: space-between; align-items: center; }
   .neighborhood-btn:hover { background: #2a2a2a; border-color: var(--orange); color: var(--orange); }
   .neighborhood-btn.active { background: var(--red); border-color: var(--red); color: var(--cream); }
-
-  .nbhd-count {
-    background: rgba(255,255,255,0.1);
-    padding: 0.1rem 0.4rem;
-    font-size: 0.6rem;
-    border-radius: 999px;
-  }
-
+  .nbhd-count { background: rgba(255,255,255,0.1); padding: 0.1rem 0.4rem; font-size: 0.6rem; border-radius: 999px; }
   .neighborhood-btn.active .nbhd-count { background: rgba(255,255,255,0.2); }
-
-  .your-crawl {
-    margin-top: 1.5rem;
-    border-top: 1px solid #333;
-    padding-top: 1rem;
-  }
-
+  .your-crawl { margin-top: 1.5rem; border-top: 1px solid #333; padding-top: 1rem; }
   .crawl-list { list-style: none; max-height: 280px; overflow-y: auto; }
-
-  .crawl-list li {
-    background: #252525;
-    border-left: 3px solid var(--orange);
-    padding: 0.5rem 0.6rem;
-    margin-bottom: 0.4rem;
-    font-size: 0.65rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    gap: 0.5rem;
-  }
-
+  .crawl-list li { background: #252525; border-left: 3px solid var(--orange); padding: 0.5rem 0.6rem; margin-bottom: 0.4rem; font-size: 0.65rem; display: flex; justify-content: space-between; align-items: flex-start; gap: 0.5rem; }
   .crawl-item-name { font-weight: 700; color: var(--cream); line-height: 1.3; flex: 1; }
   .crawl-item-nbhd { color: var(--muted); font-size: 0.58rem; letter-spacing: 0.05em; text-transform: uppercase; }
-
-  .remove-btn {
-    background: none;
-    border: none;
-    color: var(--red);
-    cursor: pointer;
-    font-size: 0.9rem;
-    padding: 0;
-    flex-shrink: 0;
-    line-height: 1;
-  }
-
-  .empty-crawl {
-    color: var(--muted);
-    font-size: 0.65rem;
-    font-style: italic;
-    text-align: center;
-    padding: 1rem 0;
-  }
-
-  .clear-crawl-btn {
-    display: block;
-    width: 100%;
-    background: transparent;
-    border: 1px solid #444;
-    color: var(--muted);
-    font-family: 'Space Mono', monospace;
-    font-size: 0.6rem;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    padding: 0.4rem;
-    cursor: pointer;
-    margin-top: 0.5rem;
-    transition: all 0.15s;
-  }
-
+  .remove-btn { background: none; border: none; color: var(--red); cursor: pointer; font-size: 0.9rem; padding: 0; flex-shrink: 0; line-height: 1; }
+  .empty-crawl { color: var(--muted); font-size: 0.65rem; font-style: italic; text-align: center; padding: 1rem 0; }
+  .clear-crawl-btn { display: block; width: 100%; background: transparent; border: 1px solid #444; color: var(--muted); font-family: 'Space Mono', monospace; font-size: 0.6rem; letter-spacing: 0.08em; text-transform: uppercase; padding: 0.4rem; cursor: pointer; margin-top: 0.5rem; transition: all 0.15s; }
   .clear-crawl-btn:hover { border-color: var(--red); color: var(--red); }
-
   .main-content { padding: 1.5rem 2rem; overflow-y: auto; }
-
+  /* TABS */
+  .tab-nav { display: flex; border-bottom: 3px solid var(--red); margin-bottom: 1.5rem; }
+  .tab-btn { background: transparent; border: none; font-family: 'Space Mono', monospace; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); padding: 0.6rem 1.2rem; cursor: pointer; border-bottom: 3px solid transparent; margin-bottom: -3px; transition: all 0.15s; }
+  .tab-btn:hover { color: var(--black); }
+  .tab-btn.active { color: var(--red); border-bottom-color: var(--red); font-weight: 700; }
   .search-bar { display: flex; gap: 0.75rem; margin-bottom: 1.5rem; align-items: center; }
-
-  .search-input {
-    flex: 1;
-    background: white;
-    border: 2px solid var(--black);
-    font-family: 'Space Mono', monospace;
-    font-size: 0.8rem;
-    padding: 0.6rem 0.9rem;
-    outline: none;
-    transition: border-color 0.15s;
-  }
-
+  .search-input { flex: 1; background: white; border: 2px solid var(--black); font-family: 'Space Mono', monospace; font-size: 0.8rem; padding: 0.6rem 0.9rem; outline: none; transition: border-color 0.15s; }
   .search-input:focus { border-color: var(--red); }
   .search-input::placeholder { color: #aaa; }
-
   .filter-tags { display: flex; gap: 0.4rem; flex-wrap: wrap; margin-bottom: 1.5rem; }
-
-  .filter-tag {
-    background: white;
-    border: 1.5px solid #ccc;
-    font-family: 'Space Mono', monospace;
-    font-size: 0.6rem;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    padding: 0.3rem 0.6rem;
-    cursor: pointer;
-    transition: all 0.15s;
-    color: var(--black);
-  }
-
+  .filter-tag { background: white; border: 1.5px solid #ccc; font-family: 'Space Mono', monospace; font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.08em; padding: 0.3rem 0.6rem; cursor: pointer; transition: all 0.15s; color: var(--black); }
   .filter-tag:hover, .filter-tag.active { background: var(--black); border-color: var(--black); color: var(--cream); }
-
   .section-header { display: flex; align-items: baseline; gap: 0.75rem; margin-bottom: 1rem; }
-
-  .section-header h2 {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 2rem;
-    letter-spacing: 0.03em;
-    line-height: 1;
-  }
-
+  .section-header h2 { font-family: 'Bebas Neue', Impact, sans-serif; font-size: 2rem; letter-spacing: 0.03em; line-height: 1; }
   .section-count { font-size: 0.65rem; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; }
-
-  .pizza-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 1rem;
-  }
-
-  .pizza-card {
-    background: white;
-    border: 2px solid transparent;
-    border-bottom: 4px solid var(--black);
-    padding: 1rem;
-    cursor: pointer;
-    transition: all 0.15s ease;
-    position: relative;
-    overflow: hidden;
-  }
-
+  .pizza-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1rem; }
+  .pizza-card { background: white; border: 2px solid transparent; border-bottom: 4px solid var(--black); padding: 1rem; cursor: pointer; transition: all 0.15s ease; position: relative; overflow: hidden; }
   .pizza-card:hover { border-color: var(--red); transform: translateY(-2px); box-shadow: 4px 4px 0 var(--red); }
-
-  .pizza-card.in-crawl {
-    border-color: var(--green);
-    box-shadow: 4px 4px 0 var(--green);
-    background: #f5fdf7;
-  }
-
-  .pizza-card.in-crawl::after {
-    content: '✓ IN CRAWL';
-    position: absolute;
-    top: 0.6rem;
-    right: 0.75rem;
-    background: var(--green);
-    color: white;
-    font-size: 0.55rem;
-    letter-spacing: 0.1em;
-    padding: 0.2rem 0.4rem;
-    font-family: 'Space Mono', monospace;
-    font-weight: 700;
-  }
-
+  .pizza-card.in-crawl { border-color: var(--green); box-shadow: 4px 4px 0 var(--green); background: #f5fdf7; }
+  .pizza-card.in-crawl::after { content: '✓ IN CRAWL'; position: absolute; top: 0.6rem; right: 0.75rem; background: var(--green); color: white; font-size: 0.55rem; letter-spacing: 0.1em; padding: 0.2rem 0.4rem; font-family: 'Space Mono', monospace; font-weight: 700; }
+  .pizza-card.visited { border-left: 4px solid #F5A623; }
+  .card-visited-badge { display: inline-block; background: #F5A623; color: white; font-size: 0.55rem; letter-spacing: 0.08em; padding: 0.15rem 0.4rem; font-family: 'Space Mono', monospace; font-weight: 700; text-transform: uppercase; margin-bottom: 0.4rem; }
   .card-neighborhood { font-size: 0.58rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--red); font-weight: 700; margin-bottom: 0.25rem; }
-  .card-name { font-family: 'Bebas Neue', sans-serif; font-size: 1.3rem; letter-spacing: 0.03em; line-height: 1.1; margin-bottom: 0.2rem; color: var(--black); }
+  .card-name { font-family: 'Bebas Neue', Impact, sans-serif; font-size: 1.3rem; letter-spacing: 0.03em; line-height: 1.1; margin-bottom: 0.2rem; color: var(--black); }
   .card-address { font-size: 0.6rem; color: var(--muted); margin-bottom: 0.65rem; letter-spacing: 0.03em; }
   .card-pie-name { font-family: 'Instrument Serif', serif; font-style: italic; font-size: 0.95rem; color: var(--charcoal); margin-bottom: 0.4rem; line-height: 1.3; }
   .card-toppings { font-size: 0.62rem; color: var(--muted); line-height: 1.5; margin-bottom: 0.75rem; }
-
-  .card-footer {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-top: 1px solid #eee;
-    padding-top: 0.6rem;
-  }
-
-  .card-price { font-family: 'Bebas Neue', sans-serif; font-size: 1.1rem; color: var(--green); letter-spacing: 0.05em; }
+  .card-footer { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid #eee; padding-top: 0.6rem; flex-wrap: wrap; gap: 0.3rem; }
+  .card-price { font-family: 'Bebas Neue', Impact, sans-serif; font-size: 1.1rem; color: var(--green); letter-spacing: 0.05em; }
   .card-tags { display: flex; gap: 0.3rem; flex-wrap: wrap; }
-
   .tag { font-size: 0.55rem; letter-spacing: 0.08em; text-transform: uppercase; padding: 0.15rem 0.4rem; border: 1px solid; }
   .tag-veg { border-color: var(--green); color: var(--green); }
   .tag-vegan { border-color: #6aab6a; color: #6aab6a; background: #f0fff0; }
   .tag-spicy { border-color: var(--red); color: var(--red); }
   .tag-pork { border-color: #b06030; color: #b06030; }
-  .tag-pie { border-color: var(--orange); color: var(--orange); }
-
-  .add-btn {
-    background: var(--black);
-    color: var(--cream);
-    border: none;
-    font-family: 'Space Mono', monospace;
-    font-size: 0.6rem;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    padding: 0.35rem 0.65rem;
-    cursor: pointer;
-    transition: background 0.15s;
-  }
-
+  .add-btn { background: var(--black); color: var(--cream); border: none; font-family: 'Space Mono', monospace; font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.1em; padding: 0.35rem 0.65rem; cursor: pointer; transition: background 0.15s; }
   .add-btn:hover { background: var(--red); }
   .add-btn.added { background: var(--green); }
-
+  .rate-btn { background: #555; color: var(--cream); border: none; font-family: 'Space Mono', monospace; font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.1em; padding: 0.35rem 0.65rem; cursor: pointer; transition: background 0.15s; }
+  .rate-btn:hover { background: #F5A623; }
+  .rate-btn.rated { background: #b07d00; }
   .no-results { text-align: center; padding: 3rem 1rem; color: var(--muted); }
   .no-results .emoji { font-size: 3rem; margin-bottom: 1rem; }
   .no-results p { font-size: 0.8rem; font-style: italic; }
-
+  /* ROUTE PANEL */
   .route-panel { background: var(--black); color: var(--cream); padding: 1.5rem 2rem; display: none; }
   .route-panel.visible { display: block; }
-
-  .route-panel h2 { font-family: 'Bebas Neue', sans-serif; font-size: 2rem; color: var(--orange); margin-bottom: 0.5rem; }
-
+  .route-panel h2 { font-family: 'Bebas Neue', Impact, sans-serif; font-size: 2rem; color: var(--orange); margin-bottom: 0.5rem; }
   .route-stops { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.75rem; }
-
-  .route-stop {
-    background: #252525;
-    border-left: 3px solid var(--orange);
-    padding: 0.5rem 0.75rem;
-    font-size: 0.65rem;
-  }
-
+  .route-stop { background: #252525; border-left: 3px solid var(--orange); padding: 0.5rem 0.75rem; font-size: 0.65rem; }
   .route-stop .stop-num { color: var(--orange); font-weight: 700; margin-bottom: 0.15rem; font-size: 0.55rem; letter-spacing: 0.1em; text-transform: uppercase; }
   .route-stop .stop-name { font-weight: 700; margin-bottom: 0.1rem; }
   .route-stop .stop-slice { color: var(--muted); font-style: italic; }
-
-  .map-link-btn {
-    display: inline-block;
-    background: var(--orange);
-    color: var(--black);
-    font-family: 'Space Mono', monospace;
-    font-size: 0.65rem;
-    font-weight: 700;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    padding: 0.5rem 1rem;
-    text-decoration: none;
-    margin-top: 1rem;
-    border: 2px solid transparent;
-    cursor: pointer;
-    transition: all 0.15s;
-  }
-
+  .route-panel-btns { display: flex; gap: 0.75rem; flex-wrap: wrap; align-items: center; margin-top: 1rem; }
+  .map-link-btn { display: inline-block; background: var(--orange); color: var(--black); font-family: 'Space Mono', monospace; font-size: 0.65rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.5rem 1rem; text-decoration: none; border: 2px solid transparent; cursor: pointer; transition: all 0.15s; }
   .map-link-btn:hover { background: transparent; border-color: var(--orange); color: var(--orange); }
-
-  .pizza-divider { border: none; border-top: 2px dashed #ddd; margin: 1.5rem 0; }
-
-  .routes-section { background: var(--black); padding: 1.5rem 2rem; border-top: 4px solid var(--orange); }
-
+  .share-btn { display: inline-flex; align-items: center; gap: 0.4rem; background: transparent; border: 1.5px solid var(--gold); color: var(--gold); font-family: 'Space Mono', monospace; font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; padding: 0.5rem 1rem; cursor: pointer; transition: all 0.15s; }
+  .share-btn:hover { background: var(--gold); color: var(--black); }
+  /* SUGGESTED ROUTES */
+  .routes-section { background: #1C1C1C; padding: 1.5rem 2rem; border-top: 4px solid var(--orange); }
   .routes-top { display: flex; align-items: baseline; gap: 1rem; margin-bottom: 1.25rem; flex-wrap: wrap; }
-
-  .routes-top h2 { font-family: 'Bebas Neue', sans-serif; font-size: 2rem; color: var(--orange); letter-spacing: 0.03em; }
-  .routes-top p { font-size: 0.65rem; color: var(--muted); font-style: italic; letter-spacing: 0.05em; }
-
+  .routes-top h2 { font-family: 'Bebas Neue', Impact, sans-serif; font-size: 2rem; color: var(--orange); letter-spacing: 0.03em; }
+  .routes-top p { font-size: 0.65rem; color: #AAA; font-style: italic; letter-spacing: 0.05em; }
   .routes-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1rem; }
-
-  .route-card { background: #181818; border: 1.5px solid #2a2a2a; border-top: 3px solid var(--red); padding: 1rem; transition: border-color 0.15s; }
-  .route-card:hover { border-color: #444; border-top-color: var(--orange); }
-
+  .route-card { background: #2a2a2a; border: 1.5px solid #444; border-top: 3px solid var(--red); padding: 1rem; transition: border-color 0.15s; }
+  .route-card:hover { border-color: #555; border-top-color: var(--orange); }
   .route-card-nbhd { font-size: 0.58rem; color: var(--orange); text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 0.15rem; font-weight: 700; }
-  .route-card-name { font-family: 'Bebas Neue', sans-serif; font-size: 1.3rem; color: var(--cream); letter-spacing: 0.03em; line-height: 1.1; margin-bottom: 0.5rem; }
-
+  .route-card-name { font-family: 'Bebas Neue', Impact, sans-serif; font-size: 1.3rem; color: var(--cream); letter-spacing: 0.03em; line-height: 1.1; margin-bottom: 0.5rem; }
   .route-meta { display: flex; gap: 0.4rem; flex-wrap: wrap; margin-bottom: 0.65rem; }
-
-  .route-badge { font-size: 0.58rem; letter-spacing: 0.08em; text-transform: uppercase; padding: 0.2rem 0.45rem; border: 1px solid #444; color: #999; }
+  .route-badge { font-size: 0.58rem; letter-spacing: 0.08em; text-transform: uppercase; padding: 0.2rem 0.45rem; border: 1px solid #555; color: #CCC; }
   .route-badge.badge-dist { border-color: var(--gold); color: var(--gold); }
-  .route-badge.badge-cost { border-color: #4a9e6a; color: #4a9e6a; }
-
-  .route-desc { font-family: 'Instrument Serif', serif; font-style: italic; font-size: 0.85rem; color: #777; margin-bottom: 0.75rem; line-height: 1.5; }
-
+  .route-badge.badge-cost { border-color: #6dbb8a; color: #6dbb8a; }
+  .route-desc { font-family: 'Instrument Serif', serif; font-style: italic; font-size: 0.85rem; color: #BBB; margin-bottom: 0.75rem; line-height: 1.5; }
   .route-stops-list { list-style: none; margin-bottom: 0.75rem; }
-
-  .route-stops-list li { display: flex; gap: 0.5rem; align-items: flex-start; padding: 0.4rem 0; border-bottom: 1px solid #222; font-size: 0.62rem; }
+  .route-stops-list li { display: flex; gap: 0.5rem; align-items: flex-start; padding: 0.4rem 0; border-bottom: 1px solid #333; font-size: 0.62rem; cursor: pointer; transition: background 0.12s; }
   .route-stops-list li:last-child { border-bottom: none; }
-
+  .route-stops-list li:hover { background: #333; }
+  .route-stops-list li.is-start { background: #1e1a0e; }
   .stop-num-dot { background: var(--red); color: white; font-size: 0.55rem; font-weight: 700; min-width: 1.2rem; height: 1.2rem; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 0.1rem; }
-
   .stop-info { flex: 1; }
   .stop-info-name { color: var(--cream); font-weight: 700; line-height: 1.3; }
-  .stop-info-slice { color: #666; font-style: italic; font-size: 0.58rem; }
-  .stop-walk { color: #444; font-size: 0.58rem; flex-shrink: 0; margin-top: 0.1rem; }
-
+  .stop-info-slice { color: #888; font-style: italic; font-size: 0.58rem; }
+  .start-hint { flex-shrink: 0; margin-top: 0.15rem; font-size: 0.55rem; text-transform: uppercase; letter-spacing: 0.06em; }
   .route-actions { display: flex; gap: 0.5rem; margin-top: 0.5rem; }
-
   .route-load-btn { flex: 1; background: var(--red); color: var(--cream); border: none; font-family: 'Space Mono', monospace; font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.1em; padding: 0.5rem; cursor: pointer; transition: background 0.15s; font-weight: 700; }
-  .route-load-btn:hover { background: #b01a14; color: white; }
-
-  .route-map-btn { background: transparent; border: 1px solid #444; color: #777; font-family: 'Space Mono', monospace; font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.08em; padding: 0.5rem 0.75rem; cursor: pointer; text-decoration: none; transition: all 0.15s; display: inline-flex; align-items: center; }
+  .route-load-btn:hover { background: #b01a14; }
+  .route-map-btn { background: transparent; border: 1px solid #555; color: #AAA; font-family: 'Space Mono', monospace; font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.08em; padding: 0.5rem 0.75rem; cursor: pointer; text-decoration: none; transition: all 0.15s; display: inline-flex; align-items: center; }
   .route-map-btn:hover { border-color: var(--orange); color: var(--orange); }
-
-  /* TABS */
-  .tab-nav {
-    display: flex;
-    border-bottom: 3px solid var(--red);
-    margin-bottom: 1.5rem;
-  }
-  .tab-btn {
-    background: transparent;
-    border: none;
-    font-family: 'Space Mono', monospace;
-    font-size: 0.7rem;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    color: var(--muted);
-    padding: 0.6rem 1.2rem;
-    cursor: pointer;
-    border-bottom: 3px solid transparent;
-    margin-bottom: -3px;
-    transition: all 0.15s;
-  }
-  .tab-btn:hover { color: var(--black); }
-  .tab-btn.active { color: var(--red); border-bottom-color: var(--red); font-weight: 700; }
-
-  /* VISITS */
+  /* VISITS TAB */
   .visits-empty { text-align: center; padding: 3rem 1rem; color: var(--muted); font-style: italic; font-size: 0.8rem; }
-  .visits-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1rem; }
-
-  .visit-card {
-    background: white;
-    border: 2px solid transparent;
-    border-bottom: 4px solid var(--black);
-    padding: 1rem;
-    position: relative;
-  }
-  .visit-card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.5rem; }
-  .visit-card-name { font-family: 'Bebas Neue', Impact, 'Arial Narrow', sans-serif; font-size: 1.2rem; color: var(--black); line-height: 1.1; }
+  .visits-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1rem; margin-bottom: 1.5rem; }
+  .visit-card { background: white; border: 2px solid #eee; border-bottom: 4px solid var(--black); padding: 1rem; position: relative; }
+  .visit-badge { position: absolute; top: 0.6rem; right: 0.75rem; background: var(--green); color: white; font-size: 0.55rem; letter-spacing: 0.1em; padding: 0.2rem 0.4rem; font-family: 'Space Mono', monospace; font-weight: 700; text-transform: uppercase; }
   .visit-card-nbhd { font-size: 0.58rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--red); font-weight: 700; margin-bottom: 0.2rem; }
+  .visit-card-name { font-family: 'Bebas Neue', Impact, sans-serif; font-size: 1.2rem; color: var(--black); line-height: 1.1; margin-bottom: 0.1rem; }
   .visit-card-slice { font-family: 'Instrument Serif', serif; font-style: italic; font-size: 0.9rem; color: var(--charcoal); margin-bottom: 0.75rem; }
-
   .star-row { display: flex; gap: 0.2rem; margin-bottom: 0.75rem; }
-  .star-btn {
-    background: none;
-    border: none;
-    font-size: 1.3rem;
-    cursor: pointer;
-    padding: 0;
-    line-height: 1;
-    transition: transform 0.1s;
-    color: #ddd;
-  }
-  .star-btn:hover, .star-btn.lit { color: #F5A623; }
-  .star-btn:hover { transform: scale(1.2); }
-
-  .visit-note {
-    width: 100%;
-    background: #fafafa;
-    border: 1.5px solid #eee;
-    font-family: 'Space Mono', monospace;
-    font-size: 0.65rem;
-    padding: 0.5rem;
-    resize: vertical;
-    min-height: 56px;
-    outline: none;
-    transition: border-color 0.15s;
-    color: var(--black);
-  }
+  .star-btn { background: none; border: none; font-size: 1.4rem; cursor: pointer; padding: 0; line-height: 1; transition: transform 0.1s; color: #ddd; }
+  .star-btn:hover { transform: scale(1.2); color: #F5A623; }
+  .star-btn.lit { color: #F5A623; }
+  .visit-note { width: 100%; background: #fafafa; border: 1.5px solid #eee; font-family: 'Space Mono', monospace; font-size: 0.65rem; padding: 0.5rem; resize: vertical; min-height: 56px; outline: none; transition: border-color 0.15s; color: var(--black); }
   .visit-note:focus { border-color: var(--red); }
   .visit-note::placeholder { color: #bbb; }
-
-  .visit-badge {
-    position: absolute;
-    top: 0.6rem;
-    right: 0.75rem;
-    background: var(--green);
-    color: white;
-    font-size: 0.55rem;
-    letter-spacing: 0.1em;
-    padding: 0.2rem 0.4rem;
-    font-family: 'Space Mono', monospace;
-    font-weight: 700;
-    text-transform: uppercase;
-  }
-
-  .visits-summary {
-    display: flex;
-    gap: 1rem;
-    flex-wrap: wrap;
-    margin-bottom: 1.5rem;
-    padding: 1rem;
-    background: var(--black);
-    color: var(--cream);
-  }
+  .visits-summary { display: flex; gap: 1.5rem; flex-wrap: wrap; margin-bottom: 1.5rem; padding: 1rem 1.25rem; background: var(--black); color: var(--cream); }
   .summary-stat { text-align: center; }
   .summary-num { font-family: 'Bebas Neue', Impact, sans-serif; font-size: 2rem; color: var(--orange); line-height: 1; }
   .summary-label { font-size: 0.58rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
-
-  .visits-share-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.4rem;
-    background: transparent;
-    border: 1.5px solid var(--gold);
-    color: var(--gold);
-    font-family: 'Space Mono', monospace;
-    font-size: 0.65rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    padding: 0.5rem 1rem;
-    cursor: pointer;
-    transition: all 0.15s;
-    margin-bottom: 1.5rem;
-  }
+  .visits-share-btn { display: inline-flex; align-items: center; gap: 0.4rem; background: transparent; border: 1.5px solid var(--gold); color: var(--gold); font-family: 'Space Mono', monospace; font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; padding: 0.5rem 1rem; cursor: pointer; transition: all 0.15s; margin-bottom: 1.5rem; }
   .visits-share-btn:hover { background: var(--gold); color: var(--black); }
-
-  .pizza-card.visited { border-left: 4px solid #F5A623; }
-  .card-visited-badge {
-    display: inline-block;
-    background: #F5A623;
-    color: white;
-    font-size: 0.55rem;
-    letter-spacing: 0.08em;
-    padding: 0.15rem 0.4rem;
-    font-family: 'Space Mono', monospace;
-    font-weight: 700;
-    text-transform: uppercase;
-    margin-bottom: 0.4rem;
-  }
-
-  .share-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.4rem;
-    background: transparent;
-    border: 1.5px solid var(--gold);
-    color: var(--gold);
-    font-family: 'Space Mono', monospace;
-    font-size: 0.65rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    padding: 0.5rem 1rem;
-    cursor: pointer;
-    transition: all 0.15s;
-    margin-top: 1rem;
-  }
-  .share-btn:hover { background: var(--gold); color: var(--black); }
-
-  .share-toast {
-    display: none;
-    position: fixed;
-    bottom: 2rem;
-    left: 50%;
-    transform: translateX(-50%);
-    background: var(--green);
-    color: white;
-    font-family: 'Space Mono', monospace;
-    font-size: 0.7rem;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    padding: 0.75rem 1.5rem;
-    z-index: 9999;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-    white-space: nowrap;
-  }
+  /* TOAST */
+  .share-toast { display: none; position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%); background: var(--green); color: white; font-family: 'Space Mono', monospace; font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.75rem 1.5rem; z-index: 9999; box-shadow: 0 4px 12px rgba(0,0,0,0.3); white-space: nowrap; }
   .share-toast.visible { display: block; }
-
-  .route-stop-item { cursor: pointer; transition: background 0.12s; }
-  .route-stop-item:hover { background: #222; }
-  .route-stop-item.is-start { background: #1e1a0e; }
-  .start-hint { flex-shrink: 0; margin-top: 0.15rem; }
-
   @media (max-width: 720px) {
     .app-shell { grid-template-columns: 1fr; }
     .sidebar { position: static; height: auto; }
@@ -669,10 +167,8 @@
     .routes-grid { grid-template-columns: 1fr; }
   }
 </style>
-
 </head>
 <body>
-
 <header>
   <div class="header-stripe"></div>
   <div class="header-inner">
@@ -689,32 +185,26 @@
 
 <div class="crawl-bar">
   <div class="crawl-bar-text">Your Crawl: <span id="crawl-count">0</span> stops · <span id="total-cost">$0</span></div>
-  <div class="crawl-stats">
-    <div class="stat-chip">Tap a card to add · Tap again to remove</div>
-  </div>
+  <div><span class="stat-chip">Tap a card to add · Tap again to remove</span></div>
 </div>
 
 <div class="app-shell">
   <aside class="sidebar">
     <div class="sidebar-title">Neighborhoods</div>
-    <button class="neighborhood-btn active" data-nbhd="all" onclick="filterNeighborhood('all', this)">All Portland <span class="nbhd-count" id="count-all">0</span></button>
-    <button class="neighborhood-btn" data-nbhd="Northwest" onclick="filterNeighborhood('Northwest', this)">Northwest / Pearl <span class="nbhd-count" id="count-Northwest">0</span></button>
-    <button class="neighborhood-btn" data-nbhd="Southwest" onclick="filterNeighborhood('Southwest', this)">Southwest / Downtown <span class="nbhd-count" id="count-Southwest">0</span></button>
-    <button class="neighborhood-btn" data-nbhd="Northeast" onclick="filterNeighborhood('Northeast', this)">Northeast (NE) <span class="nbhd-count" id="count-Northeast">0</span></button>
-    <button class="neighborhood-btn" data-nbhd="North" onclick="filterNeighborhood('North', this)">North Portland <span class="nbhd-count" id="count-North">0</span></button>
-    <button class="neighborhood-btn" data-nbhd="Southeast" onclick="filterNeighborhood('Southeast', this)">Southeast (SE) <span class="nbhd-count" id="count-Southeast">0</span></button>
-    <button class="neighborhood-btn" data-nbhd="Vancouver / Outer" onclick="filterNeighborhood('Vancouver / Outer', this)">Vancouver / Outer <span class="nbhd-count" id="count-Vancouver / Outer">0</span></button>
-
-```
-<div class="your-crawl">
-  <div class="sidebar-title" style="color: var(--gold)">Your Crawl 🍕</div>
-  <ul class="crawl-list" id="crawl-list">
-    <li style="border:none;background:none;padding:0"><span class="empty-crawl">No stops yet.<br>Tap a pizza card to add!</span></li>
-  </ul>
-  <button class="clear-crawl-btn" onclick="clearCrawl()">Clear All Stops</button>
-</div>
-```
-
+    <button class="neighborhood-btn active" onclick="filterNeighborhood('all',this)">All Portland <span class="nbhd-count" id="count-all">0</span></button>
+    <button class="neighborhood-btn" onclick="filterNeighborhood('Northwest',this)">Northwest / Pearl <span class="nbhd-count" id="count-Northwest">0</span></button>
+    <button class="neighborhood-btn" onclick="filterNeighborhood('Southwest',this)">Southwest / Downtown <span class="nbhd-count" id="count-Southwest">0</span></button>
+    <button class="neighborhood-btn" onclick="filterNeighborhood('Northeast',this)">Northeast (NE) <span class="nbhd-count" id="count-Northeast">0</span></button>
+    <button class="neighborhood-btn" onclick="filterNeighborhood('North',this)">North Portland <span class="nbhd-count" id="count-North">0</span></button>
+    <button class="neighborhood-btn" onclick="filterNeighborhood('Southeast',this)">Southeast (SE) <span class="nbhd-count" id="count-Southeast">0</span></button>
+    <button class="neighborhood-btn" onclick="filterNeighborhood('Vancouver / Outer',this)">Vancouver / Outer <span class="nbhd-count" id="count-Vancouver / Outer">0</span></button>
+    <div class="your-crawl">
+      <div class="sidebar-title" style="color:var(--gold)">Your Crawl 🍕</div>
+      <ul class="crawl-list" id="crawl-list">
+        <li style="border:none;background:none;padding:0"><span class="empty-crawl">No stops yet.<br>Tap a pizza card to add!</span></li>
+      </ul>
+      <button class="clear-crawl-btn" onclick="clearCrawl()">Clear All Stops</button>
+    </div>
   </aside>
 
   <main class="main-content">
@@ -726,33 +216,33 @@
 ```
 <div id="panel-browse">
   <div class="search-bar">
-  <input type="text" class="search-input" id="search-input" placeholder="Search restaurants or toppings..." oninput="renderCards()">
-</div>
-<div class="filter-tags">
-  <button class="filter-tag" data-filter="veg" onclick="toggleFilter('veg', this)">🥦 Veggie</button>
-  <button class="filter-tag" data-filter="vegan" onclick="toggleFilter('vegan', this)">🌱 Vegan</button>
-  <button class="filter-tag" data-filter="spicy" onclick="toggleFilter('spicy', this)">🌶 Spicy</button>
-  <button class="filter-tag" data-filter="pork" onclick="toggleFilter('pork', this)">🐷 Pork</button>
-  <button class="filter-tag" data-filter="pie" onclick="toggleFilter('pie', this)">🥧 Whole Pie Available</button>
-</div>
-<div class="section-header">
-  <h2 id="section-title">All Portland</h2>
-  <span class="section-count" id="section-count"></span>
-</div>
-<div class="pizza-grid" id="pizza-grid"></div>
+    <input type="text" class="search-input" id="search-input" placeholder="Search restaurants or toppings..." oninput="renderCards()">
+  </div>
+  <div class="filter-tags">
+    <button class="filter-tag" onclick="toggleFilter('veg',this)">🥦 Veggie</button>
+    <button class="filter-tag" onclick="toggleFilter('vegan',this)">🌱 Vegan</button>
+    <button class="filter-tag" onclick="toggleFilter('spicy',this)">🌶 Spicy</button>
+    <button class="filter-tag" onclick="toggleFilter('pork',this)">🐷 Pork</button>
+    <button class="filter-tag" onclick="toggleFilter('pie',this)">🥧 Whole Pie Available</button>
+  </div>
+  <div class="section-header">
+    <h2 id="section-title">All Portland</h2>
+    <span class="section-count" id="section-count"></span>
+  </div>
+  <div class="pizza-grid" id="pizza-grid"></div>
   <div id="no-results" class="no-results" style="display:none">
     <div class="emoji">🍕</div>
     <p>No slices match your search. Try a different filter or neighborhood.</p>
   </div>
-</div><!-- end panel-browse -->
+</div>
 
 <div id="panel-visits" style="display:none">
   <div id="visits-summary-bar"></div>
   <button class="visits-share-btn" onclick="shareVisits()">🔗 Share My Ratings</button>
   <div class="visits-grid" id="visits-grid"></div>
-  <div id="visits-empty" class="visits-empty" style="display:none">
+  <div id="visits-empty" class="visits-empty">
     <div style="font-size:2.5rem;margin-bottom:0.75rem">⭐</div>
-    <p>No visits yet! Add stops to your crawl, then mark them as visited and rate them here.</p>
+    <p>No visits yet! Tap "Rate" on any pizza card to log a visit and add your star rating.</p>
   </div>
 </div>
 ```
@@ -763,12 +253,11 @@
 <div class="route-panel" id="route-panel">
   <h2>Your Crawl Route</h2>
   <div class="route-stops" id="route-stops"></div>
-  <div style="display:flex;gap:0.75rem;flex-wrap:wrap;align-items:center;margin-top:1rem;">
+  <div class="route-panel-btns">
     <a class="map-link-btn" id="map-link" href="#" target="_blank">Open Route in Google Maps →</a>
     <button class="share-btn" onclick="shareCrawl()">🔗 Share This Crawl</button>
   </div>
 </div>
-<div class="share-toast" id="share-toast">✓ Crawl link copied!</div>
 
 <div class="routes-section">
   <div class="routes-top">
@@ -778,7 +267,10 @@
   <div class="routes-grid" id="routes-grid"></div>
 </div>
 
+<div class="share-toast" id="share-toast">✓ Link copied!</div>
+
 <script>
+// ── STATE ──────────────────────────────────────────────
 const PIZZAS = [
   { id: 1,  name: "10 Barrel Brewing",        address: "1411 NW Flanders St.",          neighborhood: "Northwest",        subArea: "Pearl",         pieName: "Spuds Mackenzie",                         toppings: "Whipped potato base, shredded mozzarella and cheddar, smoked bacon, pickled jalapeños, green onions, garden herbs, parmesan, sour cream", tags: ["pork","spicy"], price: 4 },
   { id: 2,  name: "Brix Tavern",              address: "1338 NW Hoyt St.",              neighborhood: "Northwest",        subArea: "Pearl",         pieName: "Thai Chicken Pizza",                      toppings: "Peanut sauce, mozzarella, marinated chicken, roasted peppers, bean sprouts, Sriracha, cilantro, crushed peanuts", tags: ["spicy"], price: 4 },
@@ -851,23 +343,23 @@ const PIZZAS = [
   { id: 69, name: "Checkerboard Pizza",       address: "159 Buxton Rd.",                 neighborhood: "Southeast",        subArea: "Buxton",        pieName: "Snyder Weccacoe",                         toppings: "White pie (garlic + evoo), roasted pork, rapini, Calabrian chili and caciocavallo", tags: ["pork","spicy"], price: 4 },
   { id: 70, name: "Loowit Brewing – Ole's Outpost", address: "11202 NE Fourth Plain Blvd., Vancouver", neighborhood: "Vancouver / Outer", subArea: "Vancouver WA", pieName: "The Gravy Train", toppings: "Chorizo gravy base, mozzarella and white cheddar, pickled corn, a warm yolk drizzle, finished with fresh chives", tags: ["pork"], price: 4 },
 ];
-
 let crawl = [];
 let currentNeighborhood = 'all';
 let activeFilters = new Set();
-let visits = {}; // { pizzaId: { rating: 1-5, note: '' } }
+let visits = {};
 
-function toggleFilter(filter, btn) {
-  if (activeFilters.has(filter)) { activeFilters.delete(filter); btn.classList.remove('active'); }
-  else { activeFilters.add(filter); btn.classList.add('active'); }
-  renderCards();
-}
-
+// ── NEIGHBORHOOD / FILTER ──────────────────────────────
 function filterNeighborhood(nbhd, btn) {
   currentNeighborhood = nbhd;
   document.querySelectorAll('.neighborhood-btn').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
   document.getElementById('section-title').textContent = nbhd === 'all' ? 'All Portland' : nbhd;
+  renderCards();
+}
+
+function toggleFilter(filter, btn) {
+  if (activeFilters.has(filter)) { activeFilters.delete(filter); btn.classList.remove('active'); }
+  else { activeFilters.add(filter); btn.classList.add('active'); }
   renderCards();
 }
 
@@ -881,6 +373,16 @@ function getFiltered() {
   });
 }
 
+// ── TABS ───────────────────────────────────────────────
+function switchTab(tab) {
+  document.getElementById('tab-browse').classList.toggle('active', tab === 'browse');
+  document.getElementById('tab-visits').classList.toggle('active', tab === 'visits');
+  document.getElementById('panel-browse').style.display = tab === 'browse' ? 'block' : 'none';
+  document.getElementById('panel-visits').style.display = tab === 'visits' ? 'block' : 'none';
+  if (tab === 'visits') renderVisits();
+}
+
+// ── CRAWL ──────────────────────────────────────────────
 function inCrawl(id) { return crawl.some(p => p.id === id); }
 
 function toggleCrawl(pizza) {
@@ -899,140 +401,117 @@ function clearCrawl() {
   renderCrawlSidebar(); renderCards(); updateCrawlBar(); updateRoutePanel();
 }
 
+// ── RENDER CARDS ───────────────────────────────────────
 function renderCards() {
   const filtered = getFiltered();
   const grid = document.getElementById('pizza-grid');
   const noResults = document.getElementById('no-results');
-  document.getElementById('section-count').textContent = `${filtered.length} spot${filtered.length !== 1 ? 's' : ''}`;
+  document.getElementById('section-count').textContent = filtered.length + ' spot' + (filtered.length !== 1 ? 's' : '');
   if (filtered.length === 0) { grid.innerHTML = ''; noResults.style.display = 'block'; return; }
   noResults.style.display = 'none';
-  grid.innerHTML = filtered.map(p => {
-    const added = inCrawl(p.id);
-    const tagHtml = p.tags.map(t => {
-      const labels = { veg: '🥦 Veggie', vegan: '🌱 Vegan', spicy: '🌶 Spicy', pork: '🐷 Pork', pie: '🥧 Whole Pie' };
-      return `<span class="tag tag-${t}">${labels[t]}</span>`;
-    }).join('');
-    const isVisited = visits[p.id] && visits[p.id].rating > 0;
-    const visitedBadge = isVisited ? '<div class="card-visited-badge">⭐ ' + '★'.repeat(visits[p.id].rating) + ' Visited</div>' : '';
-    const rateBtn = isVisited
-      ? '<button class="add-btn" style="background:#b07d00" onclick="event.stopPropagation();switchTab(\"visits\")">⭐ Rated</button>'
-      : '<button class="add-btn" style="background:#555" onclick="event.stopPropagation();rateFromCard(' + p.id + ')">Rate</button>';
-    return `
-      <div class="pizza-card ${added ? 'in-crawl' : ''} ${isVisited ? 'visited' : ''}" onclick="toggleCrawl(PIZZAS.find(x=>x.id===${p.id}))">
-        ` + visitedBadge + `
-        <div class="card-neighborhood">${p.neighborhood} ${p.subArea ? '· ' + p.subArea : ''}</div>
-        <div class="card-name">${p.name}</div>
-        <div class="card-address">📍 ${p.address}</div>
-        <div class="card-pie-name">"${p.pieName}"</div>
-        <div class="card-toppings">${p.toppings}</div>
-        <div class="card-footer">
-          <div class="card-price">$${p.price} / slice</div>
-          <div class="card-tags">${tagHtml}</div>
-          <button class="add-btn ${added ? 'added' : ''}">${added ? '✓ Added' : '+ Add'}</button>
-          ` + rateBtn + `
-        </div>
-      </div>`;
+  const tagLabels = { veg: '🥦 Veggie', vegan: '🌱 Vegan', spicy: '🌶 Spicy', pork: '🐷 Pork', pie: '🥧 Whole Pie' };
+  grid.innerHTML = filtered.map(function(p) {
+    var added = inCrawl(p.id);
+    var v = visits[p.id];
+    var isVisited = v && v.rating > 0;
+    var tagHtml = p.tags.map(function(t) { return '<span class="tag tag-' + t + '">' + tagLabels[t] + '</span>'; }).join('');
+    var visitedBadge = isVisited ? '<div class="card-visited-badge">⭐ ' + '★'.repeat(v.rating) + ' Visited</div>' : '';
+    var addedClass = added ? ' added' : '';
+    var addedLabel = added ? '✓ Added' : '+ Add';
+    var rateLabel = isVisited ? '⭐ Rated' : 'Rate';
+    var rateBtnClass = 'rate-btn' + (isVisited ? ' rated' : '');
+    return '<div class="pizza-card' + (added ? ' in-crawl' : '') + (isVisited ? ' visited' : '') + '" onclick="toggleCrawl(PIZZAS.find(function(x){return x.id===' + p.id + '}))">'
+      + visitedBadge
+      + '<div class="card-neighborhood">' + p.neighborhood + (p.subArea ? ' · ' + p.subArea : '') + '</div>'
+      + '<div class="card-name">' + p.name + '</div>'
+      + '<div class="card-address">📍 ' + p.address + '</div>'
+      + '<div class="card-pie-name">"' + p.pieName + '"</div>'
+      + '<div class="card-toppings">' + p.toppings + '</div>'
+      + '<div class="card-footer">'
+      + '<div class="card-price">$' + p.price + ' / slice</div>'
+      + '<div class="card-tags">' + tagHtml + '</div>'
+      + '<button class="add-btn' + addedClass + '">' + addedLabel + '</button>'
+      + '<button class="' + rateBtnClass + '" onclick="event.stopPropagation();rateFromCard(' + p.id + ')">' + rateLabel + '</button>'
+      + '</div></div>';
   }).join('');
   updateCounts();
 }
 
 function updateCounts() {
-  const nbhds = ['Northwest','Southwest','Northeast','North','Southeast','Vancouver / Outer'];
+  var nbhds = ['Northwest','Southwest','Northeast','North','Southeast','Vancouver / Outer'];
   document.getElementById('count-all').textContent = PIZZAS.length;
-  nbhds.forEach(n => {
-    const el = document.getElementById('count-' + n);
-    if (el) el.textContent = PIZZAS.filter(p => p.neighborhood === n).length;
+  nbhds.forEach(function(n) {
+    var el = document.getElementById('count-' + n);
+    if (el) el.textContent = PIZZAS.filter(function(p) { return p.neighborhood === n; }).length;
   });
 }
 
+// ── SIDEBAR ────────────────────────────────────────────
 function renderCrawlSidebar() {
-  const list = document.getElementById('crawl-list');
+  var list = document.getElementById('crawl-list');
   if (crawl.length === 0) {
-    list.innerHTML = `<li style="border:none;background:none;padding:0"><span class="empty-crawl">No stops yet.<br>Tap a pizza card to add!</span></li>`;
+    list.innerHTML = '<li style="border:none;background:none;padding:0"><span class="empty-crawl">No stops yet.<br>Tap a pizza card to add!</span></li>';
     return;
   }
-  list.innerHTML = crawl.map((p, i) => `
-    <li>
-      <div>
-        <div class="crawl-item-name">${i+1}. ${p.name}</div>
-        <div class="crawl-item-nbhd">${p.neighborhood}</div>
-        <div style="font-size:0.6rem;color:#888;font-style:italic;margin-top:0.1rem">${p.pieName}</div>
-      </div>
-      <button class="remove-btn" onclick="event.stopPropagation();removeFromCrawl(${p.id})">✕</button>
-    </li>`).join('');
+  list.innerHTML = crawl.map(function(p, i) {
+    return '<li><div><div class="crawl-item-name">' + (i+1) + '. ' + p.name + '</div>'
+      + '<div class="crawl-item-nbhd">' + p.neighborhood + '</div>'
+      + '<div style="font-size:0.6rem;color:#888;font-style:italic;margin-top:0.1rem">' + p.pieName + '</div></div>'
+      + '<button class="remove-btn" onclick="event.stopPropagation();removeFromCrawl(' + p.id + ')">✕</button></li>';
+  }).join('');
 }
 
 function updateCrawlBar() {
   document.getElementById('crawl-count').textContent = crawl.length;
-  document.getElementById('total-cost').textContent = '$' + crawl.reduce((s, p) => s + p.price, 0);
+  document.getElementById('total-cost').textContent = '$' + crawl.reduce(function(s,p) { return s + p.price; }, 0);
 }
 
+// ── ROUTE PANEL ────────────────────────────────────────
 function updateRoutePanel() {
-  const panel = document.getElementById('route-panel');
+  var panel = document.getElementById('route-panel');
   if (crawl.length < 2) { panel.classList.remove('visible'); return; }
   panel.classList.add('visible');
-  document.getElementById('route-stops').innerHTML = crawl.map((p, i) => `
-    <div class="route-stop">
-      <div class="stop-num">Stop ${i+1}</div>
-      <div class="stop-name">${p.name}</div>
-      <div style="font-size:0.58rem;color:#888;margin:0.1rem 0">${p.address}</div>
-      <div class="stop-slice">"${p.pieName}"</div>
-    </div>`).join('');
-  const addresses = crawl.map(p => encodeURIComponent(p.address + ' Portland OR')).join('/');
-  document.getElementById('map-link').href = `https://www.google.com/maps/dir/${addresses}`;
+  document.getElementById('route-stops').innerHTML = crawl.map(function(p, i) {
+    return '<div class="route-stop"><div class="stop-num">Stop ' + (i+1) + '</div><div class="stop-name">' + p.name + '</div>'
+      + '<div style="font-size:0.58rem;color:#888;margin:0.1rem 0">' + p.address + '</div>'
+      + '<div class="stop-slice">"' + p.pieName + '"</div></div>';
+  }).join('');
+  var addresses = crawl.map(function(p) { return encodeURIComponent(p.address + ' Portland OR'); }).join('/');
+  document.getElementById('map-link').href = 'https://www.google.com/maps/dir/' + addresses;
 }
 
+// ── SHARE CRAWL ────────────────────────────────────────
 function shareCrawl() {
   if (crawl.length === 0) return;
-  const ids = crawl.map(p => p.id).join(',');
-  const url = window.location.origin + window.location.pathname + '?crawl=' + ids;
+  var ids = crawl.map(function(p) { return p.id; }).join(',');
+  var url = window.location.origin + window.location.pathname + '?crawl=' + ids;
+  doShare('Portland Pizza Week Crawl', 'Check out my pizza crawl! 🍕', url, '✓ Crawl link copied!');
+}
+
+function doShare(title, text, url, toastMsg) {
   if (navigator.share) {
-    navigator.share({ title: 'Portland Pizza Week Crawl', text: 'Check out my Portland Pizza Week crawl! 🍕', url });
+    navigator.share({ title: title, text: text, url: url });
   } else if (navigator.clipboard) {
-    navigator.clipboard.writeText(url).then(showToast);
+    navigator.clipboard.writeText(url).then(function() { showToast(toastMsg); });
   } else {
-    prompt('Copy this link to share your crawl:', url);
+    prompt('Copy this link:', url);
   }
 }
 
-function showToast() {
-  const t = document.getElementById('share-toast');
+function showToast(msg) {
+  var t = document.getElementById('share-toast');
+  t.textContent = msg || '✓ Link copied!';
   t.classList.add('visible');
-  setTimeout(() => t.classList.remove('visible'), 3000);
+  setTimeout(function() { t.classList.remove('visible'); }, 3000);
 }
 
-function loadCrawlFromURL() {
-  const params = new URLSearchParams(window.location.search);
-  const ids = params.get('crawl');
-  if (!ids) return;
-  const parsed = ids.split(',').map(Number).filter(Boolean);
-  crawl = parsed.map(id => PIZZAS.find(p => p.id === id)).filter(Boolean);
-  if (crawl.length > 0) {
-    renderCrawlSidebar();
-    renderCards();
-    updateCrawlBar();
-    updateRoutePanel();
-    // Scroll down to show the crawl route panel
-    setTimeout(() => document.getElementById('route-panel').scrollIntoView({ behavior: 'smooth', block: 'start' }), 300);
-  }
-}
-
-// VISITS STATE
-
-function switchTab(tab) {
-  document.getElementById('tab-browse').classList.toggle('active', tab === 'browse');
-  document.getElementById('tab-visits').classList.toggle('active', tab === 'visits');
-  document.getElementById('panel-browse').style.display = tab === 'browse' ? 'block' : 'none';
-  document.getElementById('panel-visits').style.display = tab === 'visits' ? 'block' : 'none';
-  if (tab === 'visits') renderVisits();
-}
-
+// ── VISITS ─────────────────────────────────────────────
 function setRating(pizzaId, rating) {
   if (!visits[pizzaId]) visits[pizzaId] = { rating: 0, note: '' };
   visits[pizzaId].rating = rating;
   saveVisitsToURL();
   renderVisits();
-  renderCards(); // refresh visited badges on cards
+  renderCards();
 }
 
 function setNote(pizzaId, note) {
@@ -1041,55 +520,19 @@ function setNote(pizzaId, note) {
   saveVisitsToURL();
 }
 
-function saveVisitsToURL() {
-  // Encode as "id:rating:noteBase64" joined by commas
-  const parts = Object.entries(visits)
-    .filter(([,v]) => v.rating > 0 || v.note)
-    .map(([id, v]) => {
-      const noteEnc = v.note ? btoa(unescape(encodeURIComponent(v.note))) : '';
-      return `${id}:${v.rating}:${noteEnc}`;
-    });
-  const url = new URL(window.location.href);
-  if (parts.length > 0) url.searchParams.set('visits', parts.join(','));
-  else url.searchParams.delete('visits');
-  window.history.replaceState({}, '', url);
-}
-
-function loadVisitsFromURL() {
-  const params = new URLSearchParams(window.location.search);
-  const raw = params.get('visits');
-  if (!raw) return;
-  raw.split(',').forEach(part => {
-    const [id, rating, noteEnc] = part.split(':');
-    const note = noteEnc ? decodeURIComponent(escape(atob(noteEnc))) : '';
-    visits[parseInt(id)] = { rating: parseInt(rating) || 0, note };
-  });
-}
-
-function shareVisits() {
-  const url = window.location.href;
-  if (navigator.share) {
-    navigator.share({ title: 'My Portland Pizza Week Ratings', text: 'Check out my Portland Pizza Week ratings! 🍕⭐', url });
-  } else if (navigator.clipboard) {
-    navigator.clipboard.writeText(url).then(() => {
-      const t = document.getElementById('share-toast');
-      t.textContent = '✓ Ratings link copied!';
-      t.classList.add('visible');
-      setTimeout(() => t.classList.remove('visible'), 3000);
-    });
-  } else {
-    prompt('Copy this link to share your ratings:', url);
-  }
+function rateFromCard(pizzaId) {
+  if (!visits[pizzaId]) visits[pizzaId] = { rating: 1, note: '' };
+  else if (!visits[pizzaId].rating) visits[pizzaId].rating = 1;
+  saveVisitsToURL();
+  renderCards();
+  switchTab('visits');
 }
 
 function renderVisits() {
-  const grid = document.getElementById('visits-grid');
-  const empty = document.getElementById('visits-empty');
-  const summaryBar = document.getElementById('visits-summary-bar');
-
-  // Only show pizzas that have been visited (have a rating)
-  const visited = PIZZAS.filter(p => visits[p.id] && visits[p.id].rating > 0);
-
+  var grid = document.getElementById('visits-grid');
+  var empty = document.getElementById('visits-empty');
+  var summaryBar = document.getElementById('visits-summary-bar');
+  var visited = PIZZAS.filter(function(p) { return visits[p.id] && visits[p.id].rating > 0; });
   if (visited.length === 0) {
     grid.innerHTML = '';
     empty.style.display = 'block';
@@ -1097,59 +540,75 @@ function renderVisits() {
     return;
   }
   empty.style.display = 'none';
-
-  const totalRating = visited.reduce((s, p) => s + visits[p.id].rating, 0);
-  const avg = (totalRating / visited.length).toFixed(1);
-  const top = [...visited].sort((a,b) => visits[b.id].rating - visits[a.id].rating)[0];
-
-  summaryBar.innerHTML = `
-    <div class="visits-summary">
-      <div class="summary-stat"><div class="summary-num">${visited.length}</div><div class="summary-label">Visited</div></div>
-      <div class="summary-stat"><div class="summary-num">${avg}⭐</div><div class="summary-label">Avg Rating</div></div>
-      <div class="summary-stat"><div class="summary-num" style="font-size:1rem;padding-top:0.5rem">${top.name}</div><div class="summary-label">Top Rated</div></div>
-    </div>`;
-
-  grid.innerHTML = PIZZAS.map(p => {
-    const v = visits[p.id];
-    const hasRating = v && v.rating > 0;
-    const stars = [1,2,3,4,5].map(n =>
-      `<button class="star-btn ${v && n <= v.rating ? 'lit' : ''}" onclick="setRating(${p.id}, ${n})">★</button>`
-    ).join('');
-    const noteVal = (v && v.note) ? v.note : '';
-
-    if (!hasRating) return ''; // only show rated ones, but keep unrated accessible via cards
-
-    return `
-      <div class="visit-card">
-        <div class="visit-badge">✓ Visited</div>
-        <div class="visit-card-nbhd">${p.neighborhood} · ${p.subArea}</div>
-        <div class="visit-card-name">${p.name}</div>
-        <div class="visit-card-slice">"${p.pieName}"</div>
-        <div class="star-row">${stars}</div>
-        <textarea class="visit-note" placeholder="Add a note... (crust, vibe, would return?)"
-          oninput="setNote(${p.id}, this.value)"
-          onchange="setNote(${p.id}, this.value)">${noteVal}</textarea>
+  var total = visited.reduce(function(s,p) { return s + visits[p.id].rating; }, 0);
+  var avg = (total / visited.length).toFixed(1);
+  var top = visited.slice().sort(function(a,b) { return visits[b.id].rating - visits[a.id].rating; })[0];
+  summaryBar.innerHTML = '<div class="visits-summary">'
+    + '<div class="summary-stat"><div class="summary-num">' + visited.length + '</div><div class="summary-label">Visited</div></div>'
+    + '<div class="summary-stat"><div class="summary-num">' + avg + ' ⭐</div><div class="summary-label">Avg Rating</div></div>'
+    + '<div class="summary-stat"><div class="summary-num" style="font-size:1rem;padding-top:0.5rem">' + top.name + '</div><div class="summary-label">Top Rated</div></div>'
+    + '</div>';
+  grid.innerHTML = visited.map(function(p) {
+    var v = visits[p.id];
+    var stars = [1,2,3,4,5].map(function(n) {
+      return '<button class="star-btn' + (n <= v.rating ? ' lit' : '') + '" onclick="setRating(' + p.id + ',' + n + ')">★</button>';
+    }).join('');
+    return '<div class="visit-card">'
+      + '<div class="visit-badge">✓ Visited</div>'
+      + '<div class="visit-card-nbhd">' + p.neighborhood + ' · ' + p.subArea + '</div>'
+      + '<div class="visit-card-name">' + p.name + '</div>'
+      + '<div class="visit-card-slice">"' + p.pieName + '"</div>'
+      + '<div class="star-row">' + stars + '</div>'
+      + '<textarea class="visit-note" placeholder="Add a note... (crust, vibe, would return?)" oninput="setNote(' + p.id + ',this.value)" onchange="setNote(' + p.id + ',this.value)">' + (v.note || '') + '</textarea>'
 
 ```
-  </div>`;
+  + '</div>';
 ```
 
-}).filter(Boolean).join(’’);
+}).join(’’);
 }
 
-function rateFromCard(pizzaId) {
-if (!visits[pizzaId]) visits[pizzaId] = { rating: 1, note: ‘’ };
-else visits[pizzaId].rating = visits[pizzaId].rating || 1;
-saveVisitsToURL();
-renderCards();
-switchTab(‘visits’);
-setTimeout(() => {
-const cards = document.getElementById(‘visits-grid’).querySelectorAll(’.visit-card’);
-// scroll visits grid into view
-document.getElementById(‘panel-visits’).scrollIntoView({ behavior: ‘smooth’ });
-}, 100);
+function saveVisitsToURL() {
+var parts = Object.keys(visits).filter(function(id) {
+return visits[id].rating > 0 || visits[id].note;
+}).map(function(id) {
+var v = visits[id];
+var noteEnc = v.note ? btoa(unescape(encodeURIComponent(v.note))) : ‘’;
+return id + ‘:’ + v.rating + ‘:’ + noteEnc;
+});
+var url = new URL(window.location.href);
+if (parts.length > 0) url.searchParams.set(‘visits’, parts.join(’,’));
+else url.searchParams.delete(‘visits’);
+window.history.replaceState({}, ‘’, url);
 }
 
+function shareVisits() {
+doShare(‘My Portland Pizza Week Ratings’, ‘Check out my pizza ratings! 🍕⭐’, window.location.href, ‘✓ Ratings link copied!’);
+}
+
+function loadCrawlFromURL() {
+var params = new URLSearchParams(window.location.search);
+var ids = params.get(‘crawl’);
+if (!ids) return;
+var parsed = ids.split(’,’).map(Number).filter(Boolean);
+crawl = parsed.map(function(id) { return PIZZAS.find(function(p) { return p.id === id; }); }).filter(Boolean);
+if (crawl.length > 0) { renderCrawlSidebar(); renderCards(); updateCrawlBar(); updateRoutePanel(); }
+}
+
+function loadVisitsFromURL() {
+var params = new URLSearchParams(window.location.search);
+var raw = params.get(‘visits’);
+if (!raw) return;
+raw.split(’,’).forEach(function(part) {
+var bits = part.split(’:’);
+var id = parseInt(bits[0]);
+var rating = parseInt(bits[1]) || 0;
+var note = bits[2] ? decodeURIComponent(escape(atob(bits[2]))) : ‘’;
+visits[id] = { rating: rating, note: note };
+});
+}
+
+// ── SUGGESTED ROUTES ───────────────────────────────────
 const ROUTES = [
 { id: ‘pearl-nw’, name: ‘The Pearl & Nob Hill Loop’, neighborhood: ‘Northwest / Pearl’, distanceMi: 2.1, description: ‘Start in the Pearl, wind through NW 21st, and loop back. Flat, beautiful streets — classic Portland stroll.’, accentColor: ‘#E8A838’, stops: [{ pizzaId: 3, walkToNext: 2 },{ pizzaId: 8, walkToNext: 3 },{ pizzaId: 2, walkToNext: 2 },{ pizzaId: 5, walkToNext: 1 },{ pizzaId: 1, walkToNext: 8 },{ pizzaId: 7, walkToNext: 0 }] },
 { id: ‘downtown-sw’, name: ‘Downtown Slice Sprint’, neighborhood: ‘Southwest / Downtown’, distanceMi: 1.4, description: ‘A tight, punchy loop through the heart of downtown. All within a few blocks — easy to squeeze in on a lunch break.’, accentColor: ‘#D9231B’, stops: [{ pizzaId: 16, walkToNext: 3 },{ pizzaId: 14, walkToNext: 2 },{ pizzaId: 10, walkToNext: 2 },{ pizzaId: 15, walkToNext: 3 },{ pizzaId: 13, walkToNext: 4 },{ pizzaId: 11, walkToNext: 0 }] },
@@ -1162,14 +621,13 @@ const ROUTES = [
 { id: ‘se-hawthorne-belmont’, name: ‘Hawthorne & Belmont’, neighborhood: ‘Southeast’, distanceMi: 2.0, description: “Two of SE Portland’s iconic corridors make one great crawl. Vintage shops, bookstores, and $4 slices at every turn.”, accentColor: ‘#E8A838’, stops: [{ pizzaId: 57, walkToNext: 5 },{ pizzaId: 64, walkToNext: 4 },{ pizzaId: 48, walkToNext: 5 },{ pizzaId: 65, walkToNext: 5 },{ pizzaId: 57, walkToNext: 0 }] },
 { id: ‘se-sellwood-woodstock’, name: ‘Sellwood & Woodstock’, neighborhood: ‘Southeast’, distanceMi: 2.7, description: “Portland’s leafy south side. Sellwood’s antique row meets Woodstock’s neighborhood charm — a mellower, residential crawl.”, accentColor: ‘#4A9E6A’, stops: [{ pizzaId: 52, walkToNext: 10 },{ pizzaId: 56, walkToNext: 8 },{ pizzaId: 53, walkToNext: 8 },{ pizzaId: 60, walkToNext: 0 }] },
 ];
-
-// Tracks selected start stop index per route (default 0)
-const routeStartIndex = {};
+var routeStartIndex = {};
 
 function getRotatedStops(route) {
-const uniqueIds = […new Set(route.stops.map(s => s.pizzaId))];
-const startIdx = routeStartIndex[route.id] || 0;
-return […uniqueIds.slice(startIdx), …uniqueIds.slice(0, startIdx)];
+var uniqueIds = [];
+route.stops.forEach(function(s) { if (uniqueIds.indexOf(s.pizzaId) === -1) uniqueIds.push(s.pizzaId); });
+var startIdx = routeStartIndex[route.id] || 0;
+return uniqueIds.slice(startIdx).concat(uniqueIds.slice(0, startIdx));
 }
 
 function setRouteStart(routeId, idx) {
@@ -1178,67 +636,62 @@ renderRoutes();
 }
 
 function loadSuggestedRoute(routeId) {
-const route = ROUTES.find(r => r.id === routeId);
+var route = ROUTES.find(function(r) { return r.id === routeId; });
 if (!route) return;
-const orderedIds = getRotatedStops(route);
-crawl = orderedIds.map(id => PIZZAS.find(p => p.id === id)).filter(Boolean);
+var orderedIds = getRotatedStops(route);
+crawl = orderedIds.map(function(id) { return PIZZAS.find(function(p) { return p.id === id; }); }).filter(Boolean);
 renderCrawlSidebar(); renderCards(); updateCrawlBar(); updateRoutePanel();
 window.scrollTo({ top: 0, behavior: ‘smooth’ });
 }
 
 function buildMapUrl(route) {
-const orderedIds = getRotatedStops(route);
-const pizzas = orderedIds.map(id => PIZZAS.find(p => p.id === id)).filter(Boolean);
-const addresses = pizzas.map(p => encodeURIComponent(p.address + ’ Portland OR’));
+var orderedIds = getRotatedStops(route);
+var pizzas = orderedIds.map(function(id) { return PIZZAS.find(function(p) { return p.id === id; }); }).filter(Boolean);
+var addresses = pizzas.map(function(p) { return encodeURIComponent(p.address + ’ Portland OR’); });
 addresses.push(addresses[0]);
-return `https://www.google.com/maps/dir/${addresses.join('/')}`;
+return ‘https://www.google.com/maps/dir/’ + addresses.join(’/’);
 }
 
 function renderRoutes() {
-const grid = document.getElementById(‘routes-grid’);
-grid.innerHTML = ROUTES.map(route => {
-const uniqueIds = […new Set(route.stops.map(s => s.pizzaId))];
-const pizzas = uniqueIds.map(id => PIZZAS.find(p => p.id === id)).filter(Boolean);
-const totalCost = pizzas.length * 4;
-const startIdx = routeStartIndex[route.id] || 0;
-
-```
-const stopsHtml = uniqueIds.map((pid, i) => {
-  const p = PIZZAS.find(x => x.id === pid);
-  if (!p) return '';
-  const isStart = i === startIdx;
-  const displayNum = ((i - startIdx + uniqueIds.length) % uniqueIds.length) + 1;
-  return `<li class="route-stop-item ${isStart ? 'is-start' : ''}" onclick="setRouteStart('${route.id}', ${i})" title="Tap to start here">
-    <div class="stop-num-dot" style="${isStart ? 'background:#E8A838;color:#0F0F0F' : ''}">${isStart ? '★' : displayNum}</div>
-    <div class="stop-info">
-      <div class="stop-info-name">${p.name}</div>
-      <div class="stop-info-slice">"${p.pieName}"</div>
-    </div>
-    <span class="start-hint">${isStart ? '<span style="color:#E8A838;font-size:0.55rem;letter-spacing:0.08em;text-transform:uppercase;font-weight:700">Start</span>' : '<span style="color:#383838;font-size:0.55rem;text-transform:uppercase;letter-spacing:0.06em">start here?</span>'}</span>
-  </li>`;
-}).join('');
-
-return `
-  <div class="route-card" style="border-top-color: ${route.accentColor}">
-    <div class="route-card-nbhd">${route.neighborhood}</div>
-    <div class="route-card-name">${route.name}</div>
-    <div class="route-meta">
-      <span class="route-badge badge-dist">🚶 ${route.distanceMi} mi roundtrip</span>
-      <span class="route-badge badge-cost">💰 $${totalCost} total</span>
-      <span class="route-badge">${uniqueIds.length} stops</span>
-    </div>
-    <div class="route-desc">${route.description}</div>
-    <ul class="route-stops-list">${stopsHtml}</ul>
-    <div class="route-actions">
-      <button class="route-load-btn" onclick="loadSuggestedRoute('${route.id}')">🍕 Load This Crawl</button>
-      <a class="route-map-btn" href="${buildMapUrl(route)}" target="_blank">Map →</a>
-    </div>
-  </div>`;
-```
-
+var grid = document.getElementById(‘routes-grid’);
+grid.innerHTML = ROUTES.map(function(route) {
+var uniqueIds = [];
+route.stops.forEach(function(s) { if (uniqueIds.indexOf(s.pizzaId) === -1) uniqueIds.push(s.pizzaId); });
+var totalCost = uniqueIds.length * 4;
+var startIdx = routeStartIndex[route.id] || 0;
+var stopsHtml = uniqueIds.map(function(pid, i) {
+var p = PIZZAS.find(function(x) { return x.id === pid; });
+if (!p) return ‘’;
+var isStart = i === startIdx;
+var displayNum = ((i - startIdx + uniqueIds.length) % uniqueIds.length) + 1;
+var dotStyle = isStart ? ’ style=“background:#E8A838;color:#0F0F0F”’ : ‘’;
+var dotLabel = isStart ? ‘★’ : displayNum;
+var hintHtml = isStart
+? ‘<span class="start-hint" style="color:#E8A838;font-weight:700">START</span>’
+: ‘<span class="start-hint" style="color:#555">tap to start</span>’;
+return ‘<li class="' + (isStart ? 'is-start' : '') + '" onclick="setRouteStart(\'' + route.id + '\',' + i + ')">’
++ ‘<div class=“stop-num-dot”’ + dotStyle + ‘>’ + dotLabel + ‘</div>’
++ ‘<div class="stop-info"><div class="stop-info-name">’ + p.name + ‘</div><div class="stop-info-slice">”’ + p.pieName + ‘”</div></div>’
++ hintHtml + ‘</li>’;
+}).join(’’);
+return ‘<div class="route-card" style="border-top-color:' + route.accentColor + '">’
++ ‘<div class="route-card-nbhd">’ + route.neighborhood + ‘</div>’
++ ‘<div class="route-card-name">’ + route.name + ‘</div>’
++ ‘<div class="route-meta">’
++ ‘<span class="route-badge badge-dist">🚶 ’ + route.distanceMi + ’ mi roundtrip</span>’
++ ‘<span class="route-badge badge-cost">💰 $’ + totalCost + ’ total</span>’
++ ‘<span class="route-badge">’ + uniqueIds.length + ’ stops</span>’
++ ‘</div>’
++ ‘<div class="route-desc">’ + route.description + ‘</div>’
++ ‘<ul class="route-stops-list">’ + stopsHtml + ‘</ul>’
++ ‘<div class="route-actions">’
++ ‘<button class="route-load-btn" onclick="loadSuggestedRoute(\'' + route.id + '\')">🍕 Load This Crawl</button>’
++ ‘<a class="route-map-btn" href="' + buildMapUrl(route) + '" target="_blank">Map →</a>’
++ ‘</div></div>’;
 }).join(’’);
 }
 
+// ── INIT ───────────────────────────────────────────────
 updateCounts();
 renderCards();
 renderRoutes();
