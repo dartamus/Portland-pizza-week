@@ -855,6 +855,7 @@ const PIZZAS = [
 let crawl = [];
 let currentNeighborhood = 'all';
 let activeFilters = new Set();
+let visits = {}; // { pizzaId: { rating: 1-5, note: '' } }
 
 function toggleFilter(filter, btn) {
   if (activeFilters.has(filter)) { activeFilters.delete(filter); btn.classList.remove('active'); }
@@ -1017,7 +1018,6 @@ function loadCrawlFromURL() {
 }
 
 // VISITS STATE
-let visits = {}; // { pizzaId: { rating: 1-5, note: '' } }
 
 function switchTab(tab) {
   document.getElementById('tab-browse').classList.toggle('active', tab === 'browse');
