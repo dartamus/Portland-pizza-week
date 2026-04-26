@@ -914,7 +914,7 @@ function renderCards() {
     const isVisited = visits[p.id] && visits[p.id].rating > 0;
     const visitedBadge = isVisited ? '<div class="card-visited-badge">⭐ ' + '★'.repeat(visits[p.id].rating) + ' Visited</div>' : '';
     const rateBtn = isVisited
-      ? '<button class="add-btn" style="background:#b07d00" onclick="event.stopPropagation();switchTab('visits')">⭐ Rated</button>'
+      ? '<button class="add-btn" style="background:#b07d00" onclick="event.stopPropagation();switchTab(\"visits\")">⭐ Rated</button>'
       : '<button class="add-btn" style="background:#555" onclick="event.stopPropagation();rateFromCard(' + p.id + ')">Rate</button>';
     return `
       <div class="pizza-card ${added ? 'in-crawl' : ''} ${isVisited ? 'visited' : ''}" onclick="toggleCrawl(PIZZAS.find(x=>x.id===${p.id}))">
