@@ -218,8 +218,8 @@ color: rgba(250,243,232,0.35);
 .visit-card-slice { font-family:‘Instrument Serif’,serif; font-style:italic; font-size:0.85rem; color:var(–muted); margin-bottom:0.6rem; }
 .visit-score-bar { display:flex; gap:0.2rem; margin-bottom:0.6rem; }
 .score-pip { height:6px; flex:1; background:#eee; transition:background 0.1s; cursor:pointer; }
-.score-pip.filled { background:var(–gold); }
-.score-pip:hover { background:var(–orange); }
+.score-pip.filled { background:#E8A838 !important; }
+.score-pip:hover { background:#F26522 !important; }
 .visit-note-display { font-size:0.62rem; color:var(–muted); font-style:italic; line-height:1.5; margin-bottom:0.5rem; }
 .visit-edit-btn { background:none; border:1px solid #ddd; color:var(–muted); font-family:‘Space Mono’,monospace; font-size:0.55rem; text-transform:uppercase; letter-spacing:0.08em; padding:0.2rem 0.5rem; cursor:pointer; transition:all 0.12s; }
 .visit-edit-btn:hover { border-color:var(–orange); color:var(–orange); }
@@ -549,7 +549,8 @@ function renderCards() {
     for (var t = 0; t < p.tags.length; t++) {
       tagHtml += '<span class="tag tag-' + p.tags[t] + '">' + (tagLabels[p.tags[t]] || p.tags[t]) + '</span>';
     }
-    var scoreBadge = hasScore ? '<div class="card-score-badge">Score: ' + v.score + '/10</div>' : '';
+    var cardBadgeColor = hasScore ? (v.score <= 5 ? '#D9231B' : (v.score <= 8 ? '#E8A838' : '#2C6B3F')) : '';
+    var scoreBadge = hasScore ? '<div class="card-score-badge" style="background:' + cardBadgeColor + ';color:' + (hasScore && v.score <= 8 ? '#0F0F0F' : 'white') + '">' + v.score + '/10</div>' : '';
     var rateBtnClass = 'rate-btn' + (hasScore ? ' has-score' : '');
     var rateBtnLabel = hasScore ? ('✓ ' + v.score + '/10') : 'Rate It';
     html += '<div class="pizza-card' + (added ? ' in-crawl' : '') + (hasScore ? ' is-rated' : '') + '" onclick="toggleCrawl(' + p.id + ')">';
@@ -709,11 +710,18 @@ function renderVisits() {
     var v = visits[p.id];
     var pips = '';
     for (var n = 1; n <= 10; n++) {
-      pips += '<div class="score-pip' + (n <= v.score ? ' filled' : '') + '" onclick="openPopup(' + p.id + ')" title="Edit rating"></div>';
+      var pipColor = '';
+      if (n <= v.score) {
+        if (n <= 5) pipColor = ' style="background:#D9231B"';
+        else if (n <= 8) pipColor = ' style="background:#E8A838"';
+        else pipColor = ' style="background:#2C6B3F"';
+      }
+      pips += '<div class="score-pip' + (n <= v.score ? ' filled' : '') + '"' + pipColor + ' onclick="openPopup(' + p.id + ')" title="Edit rating"></div>';
     }
     var noteHtml = v.note ? '<div class="visit-note-display">&ldquo;' + v.note + '&rdquo;</div>' : '';
     html += '<div class="visit-card">';
-    html += '<div class="visit-score-badge">' + v.score + '</div>';
+    var badgeColor = v.score <= 5 ? '#D9231B' : (v.score <= 8 ? '#E8A838' : '#2C6B3F');
+    html += '<div class="visit-score-badge" style="background:' + badgeColor + ';color:' + (v.score <= 8 ? '#0F0F0F' : 'white') + '">' + v.score + '</div>';
     html += '<div class="visit-card-nbhd">' + p.neighborhood + ' · ' + p.subArea + '</div>';
     html += '<div class="visit-card-name">' + p.name + '</div>';
     html += '<div class="visit-card-slice">&ldquo;' + p.pieName + '&rdquo;</div>';
