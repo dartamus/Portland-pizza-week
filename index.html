@@ -94,16 +94,16 @@ display: flex;
 align-items: center;
 gap: 0.4rem;
 }
-.meta-pill::before { content:’· ’; color:var(–orange); font-size:0.7rem; }
+.meta-pill::before { content:none; }
 .header-event-badge {
 font-size: 0.58rem;
 letter-spacing: 0.1em;
 text-transform: uppercase;
 color: rgba(250,243,232,0.35);
 }
-.crawl-bar { background:#D9231B; padding:0.75rem 2rem; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:0.5rem; }
-.crawl-bar-text { font-family:‘Bebas Neue’,Impact,sans-serif; font-size:1.2rem; color:#FAF3E8; letter-spacing:0.05em; }
-.stat-chip { background:rgba(0,0,0,0.3); color:var(–cream); font-size:0.65rem; letter-spacing:0.1em; text-transform:uppercase; padding:0.25rem 0.6rem; }
+.crawl-bar { background:#D9231B !important; padding:0.75rem 2rem; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:0.5rem; position:relative; z-index:10; }
+.crawl-bar-text { font-family:‘Bebas Neue’,Impact,sans-serif; font-size:1.2rem; color:#FAF3E8 !important; letter-spacing:0.05em; }
+.stat-chip { background:rgba(0,0,0,0.3); color:#FAF3E8 !important; font-size:0.65rem; letter-spacing:0.1em; text-transform:uppercase; padding:0.25rem 0.6rem; }
 #total-cost { color:var(–gold); font-weight:700; }
 .app-shell { display:grid; grid-template-columns:260px 1fr; min-height:calc(100vh - 180px); }
 .sidebar { background:var(–charcoal); color:var(–cream); padding:1.5rem 1rem; border-right:3px solid var(–red); position:sticky; top:0; height:calc(100vh - 130px); overflow-y:auto; }
@@ -284,9 +284,9 @@ h1 { font-size:3rem; }
   </div>
   <div class="header-meta-bar">
     <div class="meta-pills">
-      <div class="meta-pill">70 Locations</div>
-      <div class="meta-pill">$4 Per Slice</div>
-      <div class="meta-pill">Walk Your Neighborhood</div>
+      <div class="meta-pill">🍕 70 Locations</div>
+      <div class="meta-pill">💰 $4 Per Slice</div>
+      <div class="meta-pill">🗺 Walk Your Neighborhood</div>
     </div>
     <div class="header-event-badge">April 20–26, 2026</div>
   </div>
