@@ -28,7 +28,6 @@
     overflow-x: hidden;
   }
 
-  /* NOISE TEXTURE */
   body::before {
     content: '';
     position: fixed;
@@ -39,12 +38,7 @@
     opacity: 0.6;
   }
 
-  /* TOP BAR */
-  .top-bar {
-    background: var(--red);
-    height: 5px;
-    width: 100%;
-  }
+  .top-bar { background: var(--red); height: 5px; width: 100%; }
 
   /* NAV */
   nav {
@@ -52,9 +46,7 @@
     align-items: center;
     justify-content: space-between;
     padding: 1.25rem 2.5rem;
-    border-bottom: 1px solid #222;
-    position: relative;
-    z-index: 10;
+    border-bottom: 1px solid #1f1f1f;
   }
 
   .nav-logo {
@@ -64,11 +56,7 @@
     text-decoration: none;
   }
 
-  .nav-logo img {
-    width: 44px;
-    height: 44px;
-    object-fit: contain;
-  }
+  .nav-logo img { width: 44px; height: 44px; object-fit: contain; }
 
   .nav-logo-text {
     font-family: 'Bebas Neue', Impact, sans-serif;
@@ -79,37 +67,16 @@
   }
 
   .nav-logo-text span { color: var(--orange); }
-
-  .nav-tagline {
-    font-family: 'Instrument Serif', serif;
-    font-style: italic;
-    font-size: 0.8rem;
-    color: rgba(250,243,232,0.4);
-    letter-spacing: 0.02em;
-  }
-
-  .nav-right {
-    font-size: 0.6rem;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: rgba(250,243,232,0.3);
-  }
+  .nav-tagline { font-family: 'Instrument Serif', serif; font-style: italic; font-size: 0.8rem; color: rgba(250,243,232,0.4); }
+  .nav-right { font-size: 0.6rem; letter-spacing: 0.15em; text-transform: uppercase; color: rgba(250,243,232,0.25); }
 
   /* HERO */
   .hero {
     padding: 5rem 2.5rem 4rem;
     max-width: 860px;
-    position: relative;
   }
 
-  .hero-eyebrow {
-    font-size: 0.6rem;
-    letter-spacing: 0.3em;
-    text-transform: uppercase;
-    color: var(--orange);
-    margin-bottom: 1.25rem;
-    opacity: 0.9;
-  }
+  .hero-eyebrow { font-size: 0.6rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--orange); margin-bottom: 1.25rem; opacity: 0.9; }
 
   .hero h1 {
     font-family: 'Bebas Neue', Impact, sans-serif;
@@ -120,67 +87,80 @@
     margin-bottom: 1.5rem;
   }
 
-  .hero h1 em {
-    color: var(--orange);
-    font-style: normal;
-  }
+  .hero h1 em { color: var(--orange); font-style: normal; }
 
   .hero-sub {
     font-family: 'Instrument Serif', serif;
     font-style: italic;
     font-size: 1.15rem;
-    color: rgba(250,243,232,0.55);
+    color: rgba(250,243,232,0.5);
     line-height: 1.6;
     max-width: 520px;
   }
 
-  /* DIVIDER */
-  .section-divider {
+  /* SECTION HEADERS */
+  .section-header {
     display: flex;
     align-items: center;
     gap: 1rem;
     padding: 0 2.5rem;
-    margin-bottom: 2.5rem;
+    margin-bottom: 0;
   }
 
-  .section-divider-label {
+  .section-header-label {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
     font-size: 0.6rem;
     letter-spacing: 0.25em;
     text-transform: uppercase;
-    color: rgba(250,243,232,0.3);
     white-space: nowrap;
   }
 
-  .section-divider-line {
-    flex: 1;
-    height: 1px;
-    background: linear-gradient(to right, #333, transparent);
+  .section-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    flex-shrink: 0;
   }
 
+  .dot-live { background: #4ade80; box-shadow: 0 0 8px #4ade80; }
+  .dot-soon { background: var(--gold); }
+  .dot-past { background: #444; }
+
+  .label-live { color: #4ade80; }
+  .label-soon { color: var(--gold); }
+  .label-past { color: #555; }
+
+  .section-line { flex: 1; height: 1px; background: linear-gradient(to right, #2a2a2a, transparent); }
+
   /* CRAWL GRID */
+  .crawl-section { margin-bottom: 3.5rem; }
+
   .crawl-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     gap: 1.5px;
     background: #1a1a1a;
     border-top: 1.5px solid #1a1a1a;
     border-bottom: 1.5px solid #1a1a1a;
-    margin-bottom: 5rem;
+    margin-top: 1.5rem;
   }
 
-  /* CRAWL CARD */
+  /* CARDS */
   .crawl-card {
     background: var(--black);
-    padding: 2rem;
+    padding: 1.75rem;
     position: relative;
     overflow: hidden;
     text-decoration: none;
     display: block;
-    transition: background 0.2s ease;
-    cursor: pointer;
+    transition: background 0.2s;
   }
 
-  .crawl-card:hover { background: #161616; }
+  .crawl-card.clickable { cursor: pointer; }
+  .crawl-card.clickable:hover { background: #161616; }
+  .crawl-card.inert { cursor: default; }
 
   .crawl-card::before {
     content: '';
@@ -189,152 +169,121 @@
     height: 3px;
   }
 
-  .crawl-card.active::before { background: var(--orange); }
-  .crawl-card.coming-soon::before { background: #333; }
+  .card-accent-live::before { background: var(--orange); }
+  .card-accent-soon::before { background: var(--gold); opacity: 0.5; }
+  .card-accent-past::before { background: #333; }
 
-  .card-status {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.4rem;
+  .card-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+    gap: 1rem;
+  }
+
+  .card-dates {
     font-size: 0.55rem;
-    letter-spacing: 0.15em;
+    letter-spacing: 0.12em;
     text-transform: uppercase;
-    margin-bottom: 1.25rem;
+    line-height: 1.6;
   }
 
-  .card-status-dot {
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    flex-shrink: 0;
-  }
-
-  .status-live .card-status-dot { background: #4ade80; box-shadow: 0 0 8px #4ade80; }
-  .status-live { color: #4ade80; }
-  .status-soon .card-status-dot { background: #555; }
-  .status-soon { color: #555; }
+  .card-dates-live { color: #4ade80; }
+  .card-dates-soon { color: var(--gold); opacity: 0.8; }
+  .card-dates-past { color: #555; }
 
   .card-category {
-    font-size: 0.55rem;
+    font-size: 0.5rem;
     letter-spacing: 0.2em;
     text-transform: uppercase;
-    color: rgba(250,243,232,0.3);
-    margin-bottom: 0.5rem;
+    color: rgba(250,243,232,0.25);
+    margin-bottom: 0.4rem;
   }
 
   .card-title {
     font-family: 'Bebas Neue', Impact, sans-serif;
-    font-size: 2.2rem;
+    font-size: 2rem;
     letter-spacing: 0.03em;
     line-height: 1;
-    color: #FAF3E8;
     margin-bottom: 0.35rem;
   }
 
-  .crawl-card.coming-soon .card-title { color: #444; }
+  .card-title-live { color: #FAF3E8; }
+  .card-title-soon { color: #888; }
+  .card-title-past { color: #555; }
 
   .card-subtitle {
     font-family: 'Instrument Serif', serif;
     font-style: italic;
-    font-size: 0.9rem;
-    color: rgba(250,243,232,0.4);
-    margin-bottom: 1.25rem;
+    font-size: 0.85rem;
     line-height: 1.4;
+    margin-bottom: 1.1rem;
   }
 
-  .crawl-card.coming-soon .card-subtitle { color: #333; }
+  .card-subtitle-live { color: rgba(250,243,232,0.5); }
+  .card-subtitle-soon { color: #444; }
+  .card-subtitle-past { color: #3a3a3a; }
 
   .card-meta {
     display: flex;
-    gap: 1rem;
+    gap: 0.75rem;
     flex-wrap: wrap;
-    margin-bottom: 1.5rem;
+    margin-bottom: 1.25rem;
   }
 
   .card-meta-item {
-    font-size: 0.58rem;
+    font-size: 0.55rem;
     letter-spacing: 0.08em;
     text-transform: uppercase;
-    color: rgba(250,243,232,0.35);
   }
 
-  .crawl-card.active .card-meta-item { color: rgba(250,243,232,0.5); }
+  .card-meta-live { color: rgba(250,243,232,0.45); }
+  .card-meta-soon { color: #3a3a3a; }
+  .card-meta-past { color: #333; }
 
   .card-cta {
     display: inline-flex;
     align-items: center;
-    gap: 0.5rem;
-    font-size: 0.62rem;
+    gap: 0.4rem;
+    font-size: 0.58rem;
     font-weight: 700;
     letter-spacing: 0.12em;
     text-transform: uppercase;
-    padding: 0.5rem 1rem;
+    padding: 0.45rem 0.9rem;
     border: 1.5px solid;
     transition: all 0.15s;
   }
 
-  .crawl-card.active .card-cta {
-    border-color: var(--orange);
-    color: var(--orange);
-  }
+  .cta-live { border-color: var(--orange); color: var(--orange); }
+  .crawl-card.clickable:hover .cta-live { background: var(--orange); color: var(--black); }
 
-  .crawl-card.active:hover .card-cta {
-    background: var(--orange);
-    color: var(--black);
-  }
+  .cta-past { border-color: #333; color: #444; }
+  .crawl-card.clickable:hover .cta-past { background: #333; color: #888; }
 
-  .crawl-card.coming-soon .card-cta {
-    border-color: #2a2a2a;
-    color: #333;
-    cursor: default;
-  }
+  .cta-soon { border-color: #2a2a2a; color: #3a3a3a; }
 
   .card-emoji {
-    position: absolute;
-    bottom: 1.5rem;
-    right: 1.75rem;
-    font-size: 3.5rem;
-    opacity: 0.06;
-    pointer-events: none;
+    font-size: 3rem;
+    opacity: 0.08;
     line-height: 1;
   }
 
-  .crawl-card.active .card-emoji { opacity: 0.12; }
+  .card-accent-live .card-emoji,
+  .crawl-card.card-accent-live .card-emoji { opacity: 0.14; }
 
-  /* ABOUT STRIP */
-  .about-strip {
+  /* STATS STRIP */
+  .stats-strip {
     padding: 4rem 2.5rem;
     border-top: 1px solid #1a1a1a;
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     gap: 3rem;
+    margin-top: 1rem;
   }
 
-  .about-item {}
-
-  .about-num {
-    font-family: 'Bebas Neue', Impact, sans-serif;
-    font-size: 3rem;
-    color: var(--orange);
-    line-height: 1;
-    margin-bottom: 0.25rem;
-  }
-
-  .about-label {
-    font-size: 0.6rem;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: rgba(250,243,232,0.35);
-    margin-bottom: 0.5rem;
-  }
-
-  .about-desc {
-    font-family: 'Instrument Serif', serif;
-    font-style: italic;
-    font-size: 0.85rem;
-    color: rgba(250,243,232,0.4);
-    line-height: 1.6;
-  }
+  .stat-num { font-family: 'Bebas Neue', Impact, sans-serif; font-size: 3rem; color: var(--orange); line-height: 1; margin-bottom: 0.25rem; }
+  .stat-label { font-size: 0.6rem; letter-spacing: 0.15em; text-transform: uppercase; color: rgba(250,243,232,0.3); margin-bottom: 0.5rem; }
+  .stat-desc { font-family: 'Instrument Serif', serif; font-style: italic; font-size: 0.85rem; color: rgba(250,243,232,0.35); line-height: 1.6; }
 
   /* FOOTER */
   footer {
@@ -347,41 +296,17 @@
     gap: 1rem;
   }
 
-  .footer-left {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-  }
-
-  .footer-left img {
-    width: 36px;
-    height: 36px;
-    object-fit: contain;
-    opacity: 0.7;
-  }
-
-  .footer-brand {
-    font-family: 'Bebas Neue', Impact, sans-serif;
-    font-size: 1.1rem;
-    letter-spacing: 0.1em;
-    color: rgba(250,243,232,0.4);
-  }
-
-  .footer-right {
-    font-size: 0.55rem;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: rgba(250,243,232,0.2);
-    text-align: right;
-    line-height: 1.8;
-  }
+  .footer-left { display: flex; align-items: center; gap: 0.75rem; }
+  .footer-left img { width: 36px; height: 36px; object-fit: contain; opacity: 0.6; }
+  .footer-brand { font-family: 'Bebas Neue', Impact, sans-serif; font-size: 1.1rem; letter-spacing: 0.1em; color: rgba(250,243,232,0.35); }
+  .footer-right { font-size: 0.55rem; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(250,243,232,0.18); text-align: right; line-height: 1.8; }
 
   @media (max-width: 680px) {
     nav { padding: 1rem 1.25rem; }
     .hero { padding: 3rem 1.25rem 2.5rem; }
-    .section-divider { padding: 0 1.25rem; }
+    .section-header { padding: 0 1.25rem; }
     .crawl-grid { grid-template-columns: 1fr; }
-    .about-strip { grid-template-columns: 1fr; gap: 2rem; padding: 2.5rem 1.25rem; }
+    .stats-strip { grid-template-columns: 1fr; gap: 2rem; padding: 2.5rem 1.25rem; }
     footer { padding: 1.5rem 1.25rem; }
     .nav-tagline { display: none; }
   }
@@ -408,99 +333,176 @@
   <p class="hero-sub">Curated food and bar crawls across Portland neighborhoods. Plan your route, track your visits, and share with your crew.</p>
 </section>
 
-<div class="section-divider">
-  <span class="section-divider-label">Active & Upcoming Crawls</span>
-  <div class="section-divider-line"></div>
+
+<!-- ── COMING SOON ───────────────────────────────────── -->
+<div class="crawl-section">
+  <div class="section-header">
+    <div class="section-header-label label-soon">
+      <div class="section-dot dot-soon"></div>
+      Coming Soon
+    </div>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="crawl-grid">
+
+    <!-- BAR CRAWL -->
+    <div class="crawl-card inert card-accent-soon">
+      <div class="card-top">
+        <div>
+          <div class="card-category">Bar Crawl · Always On</div>
+          <div class="card-title card-title-soon">PDX Bar Crawl</div>
+        </div>
+        <div class="card-emoji">🍺</div>
+      </div>
+      <div class="card-subtitle card-subtitle-soon">Portland's best dive bars, craft beer halls, and cocktail dens — no dates required.</div>
+      <div class="card-meta">
+        <span class="card-meta-item card-meta-soon">🍺 Bars & Breweries</span>
+        <span class="card-meta-item card-meta-soon">🗺 Multiple Routes</span>
+      </div>
+      <div class="card-cta cta-soon">Coming Soon</div>
+    </div>
+
+    <!-- HIGHBALL WEEK -->
+    <div class="crawl-card inert card-accent-soon">
+      <div class="card-top">
+        <div>
+          <div class="card-category">Cocktail Week · May 2026</div>
+          <div class="card-title card-title-soon">Highball Week</div>
+        </div>
+        <div class="card-emoji">🥂</div>
+      </div>
+      <div class="card-subtitle card-subtitle-soon">Portland's cocktail bars go all out — one week, fixed-price highballs across the city.</div>
+      <div class="card-meta">
+        <span class="card-meta-item card-meta-soon">🥂 Cocktail Bars</span>
+        <span class="card-meta-item card-meta-soon">📅 May 2026</span>
+      </div>
+      <div class="card-cta cta-soon">Coming Soon</div>
+    </div>
+
+    <!-- NACHO WEEK -->
+    <div class="crawl-card inert card-accent-soon">
+      <div class="card-top">
+        <div>
+          <div class="card-category">Food Week · July 2026</div>
+          <div class="card-title card-title-soon">Nacho Week</div>
+        </div>
+        <div class="card-emoji">🧀</div>
+      </div>
+      <div class="card-subtitle card-subtitle-soon">Portland's most loaded, most creative, most ridiculous nachos. One week only.</div>
+      <div class="card-meta">
+        <span class="card-meta-item card-meta-soon">🧀 Nachos</span>
+        <span class="card-meta-item card-meta-soon">📅 July 2026</span>
+      </div>
+      <div class="card-cta cta-soon">Coming Soon</div>
+    </div>
+
+    <!-- BURGER WEEK -->
+    <div class="crawl-card inert card-accent-soon">
+      <div class="card-top">
+        <div>
+          <div class="card-category">Food Week · August 2026</div>
+          <div class="card-title card-title-soon">Burger Week</div>
+        </div>
+        <div class="card-emoji">🍔</div>
+      </div>
+      <div class="card-subtitle card-subtitle-soon">The best burgers in Portland, one neighborhood at a time.</div>
+      <div class="card-meta">
+        <span class="card-meta-item card-meta-soon">🍔 Burgers</span>
+        <span class="card-meta-item card-meta-soon">📅 August 2026</span>
+      </div>
+      <div class="card-cta cta-soon">Coming Soon</div>
+    </div>
+
+    <!-- NEGRONI WEEK -->
+    <div class="crawl-card inert card-accent-soon">
+      <div class="card-top">
+        <div>
+          <div class="card-category">Cocktail Week · September 2026</div>
+          <div class="card-title card-title-soon">Negroni Week</div>
+        </div>
+        <div class="card-emoji">🍹</div>
+      </div>
+      <div class="card-subtitle card-subtitle-soon">Portland's best Negroni variations, one bittersweet sip at a time.</div>
+      <div class="card-meta">
+        <span class="card-meta-item card-meta-soon">🍹 Cocktail Bars</span>
+        <span class="card-meta-item card-meta-soon">📅 September 2026</span>
+      </div>
+      <div class="card-cta cta-soon">Coming Soon</div>
+    </div>
+
+    <!-- VEGAN MONTH -->
+    <div class="crawl-card inert card-accent-soon">
+      <div class="card-top">
+        <div>
+          <div class="card-category">Food Month · November 2026</div>
+          <div class="card-title card-title-soon">Vegan Month</div>
+        </div>
+        <div class="card-emoji">🌱</div>
+      </div>
+      <div class="card-subtitle card-subtitle-soon">A full month celebrating Portland's world-class vegan food scene.</div>
+      <div class="card-meta">
+        <span class="card-meta-item card-meta-soon">🌱 Plant-Based</span>
+        <span class="card-meta-item card-meta-soon">📅 November 2026</span>
+      </div>
+      <div class="card-cta cta-soon">Coming Soon</div>
+    </div>
+
+  </div>
 </div>
 
-<div class="crawl-grid">
 
-  <!-- PIZZA WEEK — ACTIVE -->
-  <a class="crawl-card active" href="pizza/">
-    <div class="card-status status-live">
-      <div class="card-status-dot"></div>
-      Live Now — Apr 20–26, 2026
+<!-- ── PAST CRAWLS ────────────────────────────────────── -->
+<div class="crawl-section">
+  <div class="section-header">
+    <div class="section-header-label label-past">
+      <div class="section-dot dot-past"></div>
+      Past Crawls
     </div>
-    <div class="card-category">Food Week</div>
-    <div class="card-title">Portland Pizza Week</div>
-    <div class="card-subtitle">70 restaurants. $4 slices. One legendary week.</div>
-    <div class="card-meta">
-      <span class="card-meta-item">🍕 70 Locations</span>
-      <span class="card-meta-item">💰 $4 / slice</span>
-      <span class="card-meta-item">🗺 6 Neighborhoods</span>
-    </div>
-    <div class="card-cta">Plan Your Crawl →</div>
-    <div class="card-emoji">🍕</div>
-  </a>
-
-  <!-- BAR CRAWL — COMING SOON -->
-  <div class="crawl-card coming-soon">
-    <div class="card-status status-soon">
-      <div class="card-status-dot"></div>
-      Coming Soon
-    </div>
-    <div class="card-category">Bar Crawl</div>
-    <div class="card-title">PDX Bar Crawl</div>
-    <div class="card-subtitle">Portland's best dive bars, craft beer halls, and cocktail dens.</div>
-    <div class="card-meta">
-      <span class="card-meta-item">🍺 Bars & Breweries</span>
-      <span class="card-meta-item">🗺 Multiple Routes</span>
-    </div>
-    <div class="card-cta">Notify Me</div>
-    <div class="card-emoji">🍺</div>
+    <div class="section-line"></div>
   </div>
 
-  <!-- NACHO CRAWL — COMING SOON -->
-  <div class="crawl-card coming-soon">
-    <div class="card-status status-soon">
-      <div class="card-status-dot"></div>
-      Coming Soon
-    </div>
-    <div class="card-category">Food Week</div>
-    <div class="card-title">Nacho Week</div>
-    <div class="card-subtitle">Portland's most loaded, most creative, most ridiculous nachos.</div>
-    <div class="card-meta">
-      <span class="card-meta-item">🧀 Portland Nachos</span>
-      <span class="card-meta-item">💰 Fixed Price</span>
-    </div>
-    <div class="card-cta">Notify Me</div>
-    <div class="card-emoji">🧀</div>
-  </div>
+  <div class="crawl-grid">
 
-  <!-- BURGER WEEK — COMING SOON -->
-  <div class="crawl-card coming-soon">
-    <div class="card-status status-soon">
-      <div class="card-status-dot"></div>
-      Coming Soon
-    </div>
-    <div class="card-category">Food Week</div>
-    <div class="card-title">Burger Week</div>
-    <div class="card-subtitle">The best burgers in Portland, one neighborhood at a time.</div>
-    <div class="card-meta">
-      <span class="card-meta-item">🍔 Portland Burgers</span>
-      <span class="card-meta-item">💰 Fixed Price</span>
-    </div>
-    <div class="card-cta">Notify Me</div>
-    <div class="card-emoji">🍔</div>
-  </div>
+    <!-- PIZZA WEEK 2026 — PAST -->
+    <a class="crawl-card clickable card-accent-past" href="pizza/">
+      <div class="card-top">
+        <div>
+          <div class="card-dates card-dates-past">April 20–26, 2026</div>
+          <div class="card-category">Food Week</div>
+          <div class="card-title card-title-past">Portland Pizza Week</div>
+        </div>
+        <div class="card-emoji">🍕</div>
+      </div>
+      <div class="card-subtitle card-subtitle-past">70 restaurants. $4 slices. One legendary week.</div>
+      <div class="card-meta">
+        <span class="card-meta-item card-meta-past">🍕 70 Locations</span>
+        <span class="card-meta-item card-meta-past">💰 $4 / slice</span>
+        <span class="card-meta-item card-meta-past">🗺 6 Neighborhoods</span>
+      </div>
+      <div class="card-cta cta-past">View Crawl →</div>
+    </a>
 
+  </div>
 </div>
 
-<div class="about-strip">
-  <div class="about-item">
-    <div class="about-num">70+</div>
-    <div class="about-label">Locations & counting</div>
-    <div class="about-desc">Every crawl is hand-curated with real Portland spots, not algorithmic filler.</div>
+
+<!-- ── STATS ─────────────────────────────────────────── -->
+<div class="stats-strip">
+  <div>
+    <div class="stat-num">70+</div>
+    <div class="stat-label">Locations & counting</div>
+    <div class="stat-desc">Every crawl is hand-curated with real Portland spots, not algorithmic filler.</div>
   </div>
-  <div class="about-item">
-    <div class="about-num">6</div>
-    <div class="about-label">Neighborhoods mapped</div>
-    <div class="about-desc">Walkable routes designed around Portland's distinct neighborhoods and food scenes.</div>
+  <div>
+    <div class="stat-num">7</div>
+    <div class="stat-label">Crawls planned for 2026</div>
+    <div class="stat-desc">Food weeks, bar crawls, cocktail weeks — Portland's full crawl calendar in one place.</div>
   </div>
-  <div class="about-item">
-    <div class="about-num">∞</div>
-    <div class="about-label">Memories made</div>
-    <div class="about-desc">Build your crawl, rate your stops, share with your crew. Your Portland adventure starts here.</div>
+  <div>
+    <div class="stat-num">∞</div>
+    <div class="stat-label">Memories made</div>
+    <div class="stat-desc">Build your crawl, rate your stops, share with your crew. Your Portland adventure starts here.</div>
   </div>
 </div>
 
