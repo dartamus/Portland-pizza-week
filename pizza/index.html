@@ -285,13 +285,98 @@
   /* TOAST */
   .share-toast { display:none; position:fixed; bottom:2rem; left:50%; transform:translateX(-50%); background:var(--green); color:white; font-family:'Space Mono',monospace; font-size:0.7rem; letter-spacing:0.1em; text-transform:uppercase; padding:0.75rem 1.5rem; z-index:9999; box-shadow:0 4px 12px rgba(0,0,0,0.3); white-space:nowrap; }
   .share-toast.visible { display:block; }
-  @media (max-width:720px) {
-    .app-shell { grid-template-columns:1fr; }
-    .sidebar { position:static; height:auto; }
-    .main-content { padding:1rem; }
-    h1 { font-size:3rem; }
-    .routes-section { padding:1rem; }
-    .routes-grid { grid-template-columns:1fr; }
+
+  /* ── MOBILE FIRST: 480px and below (phones) ── */
+  @media (max-width: 480px) {
+    .app-shell { grid-template-columns: 1fr; }
+    .sidebar { position: static; height: auto; max-height: none; border-right: none; border-bottom: 3px solid #D9231B; padding: 1rem; }
+    .main-content { padding: 0.75rem; font-size: 0; }
+    .main-content > * { font-size: 1rem; }
+    h1 { font-size: 2.8rem; }
+    .header-inner { padding: 1.25rem 1rem 1rem; }
+    .header-top-row { gap: 0.75rem; }
+    .header-logo { width: 80px; height: 80px; }
+    .header-tagline { font-size: 0.9rem; margin-top: 0.5rem; }
+    .header-meta-bar { padding: 0.7rem 1rem; }
+    .meta-pills { gap: 0.6rem; }
+    .meta-pill { font-size: 0.55rem; }
+    .crawl-bar { padding: 0.6rem 1rem; }
+    .crawl-bar-text { font-size: 1rem; }
+    .stat-chip { display: none; }
+    .neighborhood-btn { font-size: 0.65rem; padding: 0.7rem 0.75rem; min-height: 44px; }
+    .your-crawl { margin-top: 1rem; }
+    .crawl-list { max-height: 200px; }
+    .tab-btn { padding: 0.65rem 0.9rem; font-size: 0.65rem; min-height: 44px; }
+    .search-input { font-size: 0.85rem; padding: 0.75rem 0.9rem; min-height: 44px; }
+    .filter-tags { gap: 0.35rem; }
+    .filter-tag { padding: 0.45rem 0.6rem; font-size: 0.58rem; min-height: 40px; }
+    .section-header h2 { font-size: 1.6rem; }
+    .pizza-grid { grid-template-columns: 1fr; gap: 0.75rem; }
+    .pizza-card { padding: 0.9rem; }
+    .card-name { font-size: 1.2rem; }
+    .card-toppings { font-size: 0.6rem; }
+    .card-footer { gap: 0.4rem; }
+    .add-btn, .rate-btn { padding: 0.5rem 0.75rem; min-height: 40px; font-size: 0.58rem; }
+    .route-panel { padding: 1rem; }
+    .route-panel h2 { font-size: 1.5rem; }
+    .route-stops { gap: 0.4rem; }
+    .route-stop { padding: 0.5rem 0.6rem; }
+    .route-panel-btns { flex-direction: column; }
+    .map-link-btn, .share-btn { width: 100%; justify-content: center; text-align: center; min-height: 44px; padding: 0.65rem 1rem; }
+    .routes-section { padding: 1rem; }
+    .routes-grid { grid-template-columns: 1fr; }
+    .route-load-btn { min-height: 44px; font-size: 0.65rem; }
+    .popup { width: 95vw; padding: 1.25rem; }
+    .score-buttons { gap: 0.25rem; }
+    .score-btn { width: 2.2rem; height: 2.2rem; font-size: 0.7rem; }
+    .home-nav { padding: 0.5rem 1rem; }
+    .visits-grid { grid-template-columns: 1fr; }
+    .visits-summary { gap: 1rem; padding: 0.75rem 1rem; }
+    .summary-num { font-size: 1.6rem; }
+    footer { padding: 1.25rem 1rem; flex-direction: column; align-items: flex-start; }
+  }
+
+  /* ── TABLET: 481px – 768px ── */
+  @media (min-width: 481px) and (max-width: 768px) {
+    .app-shell { grid-template-columns: 1fr; }
+    .sidebar { position: static; height: auto; max-height: none; border-right: none; border-bottom: 3px solid #D9231B; padding: 1.25rem 1.25rem; }
+    .main-content { padding: 1.25rem; font-size: 0; }
+    .main-content > * { font-size: 1rem; }
+    h1 { font-size: 3.5rem; }
+    .header-inner { padding: 1.5rem 1.5rem 1.25rem; }
+    .header-logo { width: 90px; height: 90px; }
+    .header-meta-bar { padding: 0.8rem 1.5rem; }
+    .crawl-bar { padding: 0.7rem 1.25rem; }
+    .stat-chip { font-size: 0.58rem; }
+    .neighborhood-btn { min-height: 44px; }
+    .tab-btn { min-height: 44px; padding: 0.65rem 1rem; }
+    .search-input { min-height: 44px; }
+    .filter-tag { min-height: 40px; padding: 0.45rem 0.65rem; }
+    .pizza-grid { grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 0.85rem; }
+    .add-btn, .rate-btn { min-height: 40px; }
+    .route-panel-btns { flex-direction: column; }
+    .map-link-btn, .share-btn { width: 100%; justify-content: center; min-height: 44px; }
+    .routes-section { padding: 1.25rem; }
+    .routes-grid { grid-template-columns: 1fr; }
+    .popup { width: 88vw; }
+    .visits-grid { grid-template-columns: 1fr; }
+    footer { padding: 1.5rem 1.25rem; }
+  }
+
+  /* ── SMALL DESKTOP: 769px – 1024px ── */
+  @media (min-width: 769px) and (max-width: 1024px) {
+    .app-shell { grid-template-columns: 220px 1fr; }
+    .sidebar { height: calc(100vh - 140px); }
+    .main-content { padding: 1.25rem 1.5rem; }
+    .pizza-grid { grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); }
+    .routes-grid { grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); }
+    .header-logo { width: 120px; height: 120px; }
+  }
+
+  /* ── LARGE DESKTOP: 1025px+ ── */
+  @media (min-width: 1025px) {
+    .pizza-grid { grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); }
+    .routes-grid { grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); }
   }
 </style>
 </head>
