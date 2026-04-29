@@ -1,0 +1,941 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="google-site-verification" content="rnaZCotZt_ZN85ZUtD0aaXcqoJ0MdouNCd8fKrt0sAI">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PDX Karaoke Crawl — Portland's Best Karaoke Bars</title>
+<meta name="description" content="Portland's ultimate karaoke guide. Private rooms, dive bar mics, live band karaoke, and Stripparaoke. Plan your perfect karaoke crawl across Portland neighborhoods.">
+<link rel="icon" type="image/png" href="../logo.png">
+<link rel="apple-touch-icon" href="../logo.png">
+<meta name="apple-mobile-web-app-title" content="PDX Crawl">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --red: #D9231B; --orange: #F26522; --cream: #FAF3E8;
+    --black: #0F0F0F; --charcoal: #1C1C1C; --gold: #E8A838;
+    --muted: #7A6F62; --green: #2C6B3F; --purple: #7B2D8B;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--cream); color: var(--black); font-family: 'Space Mono', monospace; min-height: 100vh; overflow-x: hidden; }
+  body::before { content: ''; position: fixed; inset: 0; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E"); pointer-events: none; z-index: 1000; opacity: 0.5; }
+
+  /* HOME NAV */
+  .home-nav { background: #0a0a0a; border-bottom: 1px solid #1f1f1f; padding: 0.5rem 2rem; display: flex; align-items: center; justify-content: space-between; }
+  .home-nav-link { display: inline-flex; align-items: center; gap: 0.4rem; font-family: 'Space Mono', monospace; font-size: 0.6rem; letter-spacing: 0.15em; text-transform: uppercase; color: rgba(250,243,232,0.45); text-decoration: none; transition: color 0.15s; }
+  .home-nav-link:hover { color: var(--purple); }
+  .home-nav-right { font-size: 0.55rem; letter-spacing: 0.15em; text-transform: uppercase; color: rgba(250,243,232,0.2); }
+
+  /* HEADER */
+  header { background: #0F0F0F; color: #FAF3E8; }
+  .header-stripe { background: var(--purple); height: 6px; }
+  .header-inner { padding: 2.5rem 2.5rem 0; display: flex; flex-direction: column; }
+  .header-top-row { display: flex; align-items: center; gap: 1.5rem; justify-content: space-between; }
+  .header-left { display: flex; flex-direction: column; justify-content: center; }
+  .header-eyebrow { font-size: 0.6rem; letter-spacing: 0.3em; color: var(--purple); text-transform: uppercase; margin-bottom: 0.6rem; opacity: 0.9; }
+  h1 { font-family: 'Bebas Neue', 'Arial Narrow', sans-serif; font-size: clamp(4rem, 11vw, 8rem); line-height: 0.88; color: #FAF3E8; letter-spacing: 0.01em; }
+  h1 span { color: var(--purple); }
+  .header-tagline { font-family: 'Instrument Serif', serif; font-style: italic; font-size: 1.1rem; color: rgba(250,243,232,0.55); margin-top: 0.85rem; }
+  .header-right { display: flex; flex-direction: column; align-items: flex-end; justify-content: center; flex-shrink: 0; align-self: center; }
+  .header-logo { width: 160px; height: 160px; object-fit: contain; filter: drop-shadow(0 0 20px rgba(123,45,139,0.3)); display: block; }
+  .header-divider { height: 1px; background: linear-gradient(to right, transparent, rgba(123,45,139,0.4), transparent); margin: 1.75rem 0 0; }
+  .header-meta-bar { display: flex; align-items: center; justify-content: space-between; padding: 0.9rem 2.5rem; background: #0a0a0a; flex-wrap: wrap; gap: 0.5rem; }
+  .meta-pills { display: flex; gap: 1rem; flex-wrap: wrap; }
+  .meta-pill { font-size: 0.58rem; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(232,168,56,0.8); display: flex; align-items: center; gap: 0.4rem; }
+  .meta-pill::before, .meta-pill::after { display: none !important; content: none !important; }
+  .header-event-badge { font-size: 0.58rem; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(250,243,232,0.35); }
+
+  /* AGE BANNER */
+  .age-banner { background: #1a1a1a; border-bottom: 1px solid #333; padding: 0.4rem 2rem; text-align: center; font-size: 0.58rem; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(250,243,232,0.35); }
+
+  /* CRAWL BAR */
+  .crawl-bar { background: #D9231B !important; padding: 0.75rem 2rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; position: relative; z-index: 10; }
+  .crawl-bar-text { font-family: 'Bebas Neue', 'Arial Narrow', sans-serif; font-size: 1.2rem; color: #FAF3E8 !important; letter-spacing: 0.05em; }
+  .stat-chip { background: rgba(0,0,0,0.3); color: #FAF3E8 !important; font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.25rem 0.6rem; }
+
+  /* ROUTE PANEL */
+  .route-panel { background: var(--black); color: var(--cream); padding: 1.5rem 2rem; display: none; }
+  .route-panel.visible { display: block; }
+  .route-panel h2 { font-family: 'Bebas Neue', 'Arial Narrow', sans-serif; font-size: 2rem; color: var(--purple); margin-bottom: 0.5rem; }
+  .route-stops { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.75rem; }
+  .route-stop { background: #252525; border-left: 3px solid var(--purple); padding: 0.5rem 0.75rem; font-size: 0.65rem; }
+  .route-stop .stop-num { color: var(--purple); font-weight: 700; margin-bottom: 0.15rem; font-size: 0.55rem; letter-spacing: 0.1em; text-transform: uppercase; }
+  .route-stop .stop-name { font-weight: 700; margin-bottom: 0.1rem; }
+  .route-stop .stop-vibe { color: var(--muted); font-style: italic; }
+  .route-panel-btns { display: flex; gap: 0.75rem; flex-wrap: wrap; margin-top: 1rem; align-items: center; }
+  .map-link-btn { display: inline-flex; align-items: center; background: var(--purple); color: white; font-family: 'Space Mono', monospace; font-size: 0.65rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.5rem 1rem; text-decoration: none; border: 2px solid transparent; cursor: pointer; transition: all 0.15s; min-height: 44px; }
+  .map-link-btn:hover { background: transparent; border-color: var(--purple); color: var(--purple); }
+  .share-btn { display: inline-flex; align-items: center; gap: 0.4rem; background: transparent; border: 1.5px solid var(--gold); color: var(--gold); font-family: 'Space Mono', monospace; font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; padding: 0.5rem 1rem; cursor: pointer; transition: all 0.15s; min-height: 44px; }
+  .share-btn:hover { background: var(--gold); color: var(--black); }
+
+  /* APP SHELL */
+  .app-shell { display: grid; grid-template-columns: 260px 1fr; min-height: calc(100vh - 180px); }
+
+  /* SIDEBAR */
+  .sidebar { background: #1C1C1C !important; color: #FAF3E8 !important; padding: 1.5rem 1rem; border-right: 3px solid var(--purple); position: sticky; top: 0; height: calc(100vh - 130px); overflow-y: auto; }
+  .sidebar-title { font-family: 'Bebas Neue', 'Arial Narrow', sans-serif; font-size: 1.4rem; letter-spacing: 0.05em; color: var(--purple) !important; margin-bottom: 1rem; border-bottom: 1px solid #555; padding-bottom: 0.5rem; }
+  .neighborhood-btn { display: flex; width: 100%; background: #2a2a2a; border: 1px solid #555; color: #FAF3E8 !important; font-family: 'Space Mono', monospace; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.08em; padding: 0.6rem 0.75rem; text-align: left; cursor: pointer; margin-bottom: 0.35rem; transition: all 0.15s; justify-content: space-between; align-items: center; min-height: 44px; }
+  .neighborhood-btn:hover { background: #333; border-color: var(--purple); color: var(--purple) !important; }
+  .neighborhood-btn.active { background: var(--purple) !important; border-color: var(--purple); color: #FAF3E8 !important; }
+  .nbhd-count { background: rgba(255,255,255,0.15); color: #FAF3E8 !important; padding: 0.1rem 0.4rem; font-size: 0.6rem; border-radius: 999px; }
+
+  /* TYPE FILTER */
+  .type-filter-section { margin-top: 1.25rem; border-top: 1px solid #333; padding-top: 1rem; }
+  .type-btn { display: flex; width: 100%; background: #2a2a2a; border: 1px solid #555; color: #FAF3E8 !important; font-family: 'Space Mono', monospace; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.08em; padding: 0.5rem 0.75rem; cursor: pointer; margin-bottom: 0.3rem; transition: all 0.15s; justify-content: space-between; align-items: center; min-height: 40px; }
+  .type-btn:hover { background: #333; border-color: var(--purple); color: var(--purple) !important; }
+  .type-btn.active { background: var(--purple) !important; border-color: var(--purple); color: #FAF3E8 !important; }
+
+  /* YOUR CRAWL */
+  .your-crawl { margin-top: 1.5rem; border-top: 1px solid #333; padding-top: 1rem; }
+  .crawl-list { list-style: none; max-height: 200px; overflow-y: auto; }
+  .crawl-list li { background: #252525; border-left: 3px solid var(--purple); padding: 0.5rem 0.6rem; margin-bottom: 0.4rem; font-size: 0.65rem; display: flex; justify-content: space-between; align-items: flex-start; gap: 0.5rem; }
+  .crawl-item-name { font-weight: 700; color: #FAF3E8 !important; line-height: 1.3; flex: 1; }
+  .crawl-item-nbhd { color: #9a8f82 !important; font-size: 0.58rem; letter-spacing: 0.05em; text-transform: uppercase; }
+  .remove-btn { background: none; border: none; color: var(--red); cursor: pointer; font-size: 0.9rem; padding: 0; flex-shrink: 0; line-height: 1; }
+  .empty-crawl { color: #9a8f82 !important; font-size: 0.65rem; font-style: italic; text-align: center; padding: 1rem 0; }
+  .clear-crawl-btn { display: block; width: 100%; background: transparent; border: 1px solid #444; color: var(--muted); font-family: 'Space Mono', monospace; font-size: 0.6rem; letter-spacing: 0.08em; text-transform: uppercase; padding: 0.4rem; cursor: pointer; margin-top: 0.5rem; transition: all 0.15s; }
+  .clear-crawl-btn:hover { border-color: var(--red); color: var(--red); }
+
+  /* MAIN CONTENT */
+  .main-content { padding: 1.5rem 2rem; overflow-y: auto; font-size: 0; }
+  .main-content > * { font-size: 1rem; }
+
+  /* TABS */
+  .tab-nav { display: flex; gap: 0.5rem; margin-bottom: 1.5rem; }
+  .tab-btn { background: #e8e0d4; border: none; font-family: 'Space Mono', monospace; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); padding: 0.55rem 1.2rem; cursor: pointer; transition: all 0.15s; border-radius: 2px; min-height: 44px; }
+  .tab-btn:hover { background: #ddd5c8; color: var(--black); }
+  .tab-btn.active { background: var(--purple); color: white; font-weight: 700; }
+
+  /* SEARCH & FILTERS */
+  .search-bar { display: flex; gap: 0.75rem; margin-bottom: 1.5rem; }
+  .search-input { flex: 1; background: white; border: 2px solid var(--black); font-family: 'Space Mono', monospace; font-size: 0.8rem; padding: 0.6rem 0.9rem; outline: none; transition: border-color 0.15s; min-height: 44px; }
+  .search-input:focus { border-color: var(--purple); }
+  .search-input::placeholder { color: #aaa; }
+  .filter-tags { display: flex; gap: 0.4rem; flex-wrap: wrap; margin-bottom: 1.5rem; }
+  .filter-tag { background: white; border: 1.5px solid #ccc; font-family: 'Space Mono', monospace; font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.08em; padding: 0.3rem 0.6rem; cursor: pointer; transition: all 0.15s; color: var(--black); min-height: 40px; display: flex; align-items: center; }
+  .filter-tag:hover, .filter-tag.active { background: var(--black); border-color: var(--black); color: var(--cream); }
+
+  /* SECTION HEADER */
+  .section-header { display: flex; align-items: baseline; gap: 0.75rem; margin-bottom: 1rem; }
+  .section-header h2 { font-family: 'Bebas Neue', 'Arial Narrow', sans-serif; font-size: 2rem; letter-spacing: 0.03em; line-height: 1; }
+  .section-count { font-size: 0.65rem; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; }
+
+  /* VENUE CARDS */
+  .venue-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1rem; }
+  .venue-card { background: white; border: 2px solid transparent; border-bottom: 4px solid var(--black); padding: 1rem; cursor: pointer; transition: all 0.15s ease; position: relative; overflow: hidden; }
+  .venue-card:hover { border-color: var(--purple); transform: translateY(-2px); box-shadow: 4px 4px 0 var(--purple); }
+  .venue-card.in-crawl { border-color: var(--green); box-shadow: 4px 4px 0 var(--green); background: #f5fdf7; }
+  .venue-card.in-crawl::after { content: '✓ IN CRAWL'; position: absolute; top: 0.6rem; right: 0.75rem; background: var(--green); color: white; font-size: 0.55rem; letter-spacing: 0.1em; padding: 0.2rem 0.4rem; font-family: 'Space Mono', monospace; font-weight: 700; }
+  .venue-card.is-rated { border-left: 4px solid var(--gold); }
+  .card-score-badge { display: inline-block; font-size: 0.6rem; font-weight: 700; letter-spacing: 0.08em; padding: 0.15rem 0.5rem; font-family: 'Space Mono', monospace; text-transform: uppercase; margin-bottom: 0.4rem; color: white; }
+  .card-neighborhood { font-size: 0.58rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--purple); font-weight: 700; margin-bottom: 0.25rem; }
+  .card-name { font-family: 'Bebas Neue', 'Arial Narrow', sans-serif; font-size: 1.3rem; letter-spacing: 0.03em; line-height: 1.1; margin-bottom: 0.2rem; color: var(--black); }
+  .card-address { font-size: 0.6rem; color: var(--muted); margin-bottom: 0.4rem; }
+  .card-vibe { font-family: 'Instrument Serif', serif; font-style: italic; font-size: 0.95rem; color: var(--charcoal); margin-bottom: 0.4rem; line-height: 1.3; }
+  .card-desc { font-size: 0.62rem; color: var(--muted); line-height: 1.5; margin-bottom: 0.5rem; }
+  .card-hours { font-size: 0.58rem; color: var(--muted); margin-bottom: 0.3rem; display: flex; align-items: center; gap: 0.35rem; }
+  .card-karaoke-nights { font-size: 0.58rem; color: var(--purple); font-weight: 700; margin-bottom: 0.3rem; display: flex; align-items: center; gap: 0.35rem; }
+  .card-reservation { display: inline-flex; align-items: center; gap: 0.3rem; font-size: 0.55rem; background: #fff3cd; color: #856404; border: 1px solid #ffc107; padding: 0.15rem 0.45rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 0.4rem; }
+  .card-website { display: inline-flex; align-items: center; gap: 0.3rem; font-size: 0.55rem; color: var(--purple); text-decoration: none; letter-spacing: 0.08em; text-transform: uppercase; border-bottom: 1px solid transparent; transition: border-color 0.15s; }
+  .card-website:hover { border-bottom-color: var(--purple); }
+  .card-footer { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid #eee; padding-top: 0.6rem; flex-wrap: wrap; gap: 0.3rem; }
+  .card-type-badge { font-size: 0.55rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.2rem 0.5rem; border: 1px solid; }
+  .type-dedicated { border-color: var(--purple); color: var(--purple); }
+  .type-dive-karaoke { border-color: #8B4513; color: #8B4513; }
+  .type-private-room { border-color: #1E6FA8; color: #1E6FA8; }
+  .type-live-band { border-color: var(--red); color: var(--red); }
+  .type-themed { border-color: #2C6B3F; color: #2C6B3F; }
+  .card-tags { display: flex; gap: 0.3rem; flex-wrap: wrap; }
+  .tag { font-size: 0.55rem; letter-spacing: 0.08em; text-transform: uppercase; padding: 0.15rem 0.4rem; border: 1px solid; }
+  .tag-private-room { border-color: #1E6FA8; color: #1E6FA8; }
+  .tag-live-band { border-color: var(--red); color: var(--red); }
+  .tag-food { border-color: var(--muted); color: var(--muted); }
+  .tag-late-night { border-color: #333; color: #555; }
+  .tag-themed { border-color: var(--green); color: var(--green); }
+  .tag-outdoor { border-color: var(--green); color: var(--green); }
+  .tag-drag { border-color: #e91e8c; color: #e91e8c; }
+  .add-btn { background: var(--black); color: var(--cream); border: none; font-family: 'Space Mono', monospace; font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.1em; padding: 0.35rem 0.65rem; cursor: pointer; transition: background 0.15s; min-height: 40px; }
+  .add-btn:hover { background: var(--purple); }
+  .add-btn.added { background: var(--green); }
+  .rate-btn { background: #555; color: var(--cream); border: none; font-family: 'Space Mono', monospace; font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.1em; padding: 0.35rem 0.65rem; cursor: pointer; transition: background 0.15s; min-height: 40px; }
+  .rate-btn:hover { background: var(--gold); color: var(--black); }
+  .rate-btn.rated { background: var(--gold); color: var(--black); font-weight: 700; }
+
+  /* NO RESULTS */
+  .no-results { text-align: center; padding: 3rem 1rem; color: var(--muted); }
+  .no-results .emoji { font-size: 3rem; margin-bottom: 1rem; }
+  .no-results p { font-size: 0.8rem; font-style: italic; }
+
+  /* RATING POPUP */
+  .popup-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 2000; align-items: center; justify-content: center; }
+  .popup-overlay.visible { display: flex; }
+  .popup { background: var(--cream); padding: 1.5rem; width: 90%; max-width: 420px; border-bottom: 4px solid var(--black); position: relative; }
+  .popup-close { position: absolute; top: 0.75rem; right: 0.75rem; background: none; border: none; font-size: 1.2rem; cursor: pointer; color: var(--muted); }
+  .popup-close:hover { color: var(--red); }
+  .popup-bar-name { font-family: 'Bebas Neue', 'Arial Narrow', sans-serif; font-size: 1.5rem; color: var(--black); line-height: 1.1; margin-bottom: 0.2rem; }
+  .popup-vibe { font-family: 'Instrument Serif', serif; font-style: italic; font-size: 0.9rem; color: var(--muted); margin-bottom: 1.25rem; }
+  .popup-label { font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); margin-bottom: 0.5rem; }
+  .score-buttons { display: flex; gap: 0.3rem; flex-wrap: wrap; margin-bottom: 1.25rem; }
+  .score-btn { width: 2.4rem; height: 2.4rem; background: white; border: 2px solid #ddd; font-family: 'Space Mono', monospace; font-size: 0.75rem; font-weight: 700; cursor: pointer; transition: all 0.12s; color: var(--black); }
+  .score-btn:hover { border-color: var(--purple); background: var(--purple); color: white; }
+  .score-btn.selected { background: var(--purple); border-color: var(--purple); color: white; }
+  .popup-note { width: 100%; background: white; border: 2px solid #ddd; font-family: 'Space Mono', monospace; font-size: 0.65rem; padding: 0.5rem; resize: vertical; min-height: 64px; outline: none; transition: border-color 0.15s; color: var(--black); margin-bottom: 1rem; }
+  .popup-note:focus { border-color: var(--purple); }
+  .popup-note::placeholder { color: #bbb; }
+  .popup-save { width: 100%; background: var(--purple); color: white; border: none; font-family: 'Space Mono', monospace; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; padding: 0.65rem; cursor: pointer; transition: background 0.15s; }
+  .popup-save:hover { background: #5e1f6e; }
+
+  /* VISITS TAB */
+  .visits-summary { display: flex; gap: 1.5rem; flex-wrap: wrap; margin-bottom: 1.5rem; padding: 1rem 1.25rem; background: var(--black); color: var(--cream); }
+  .summary-stat { text-align: center; }
+  .summary-num { font-family: 'Bebas Neue', 'Arial Narrow', sans-serif; font-size: 2rem; color: var(--purple); line-height: 1; }
+  .summary-label { font-size: 0.58rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+  .visits-share-btn { display: inline-flex; align-items: center; gap: 0.4rem; background: transparent; border: 1.5px solid var(--gold); color: var(--gold); font-family: 'Space Mono', monospace; font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; padding: 0.5rem 1rem; cursor: pointer; transition: all 0.15s; margin-bottom: 1.5rem; }
+  .visits-share-btn:hover { background: var(--gold); color: var(--black); }
+  .visits-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1rem; margin-bottom: 1.5rem; }
+  .visit-card { background: white; border: 2px solid #eee; border-bottom: 4px solid var(--black); padding: 1rem; position: relative; }
+  .visit-score-badge { position: absolute; top: 0.75rem; right: 0.75rem; color: white; font-family: 'Bebas Neue', 'Arial Narrow', sans-serif; font-size: 1.4rem; width: 2.2rem; height: 2.2rem; display: flex; align-items: center; justify-content: center; }
+  .visit-card-nbhd { font-size: 0.58rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--purple); font-weight: 700; margin-bottom: 0.2rem; }
+  .visit-card-name { font-family: 'Bebas Neue', 'Arial Narrow', sans-serif; font-size: 1.2rem; color: var(--black); line-height: 1.1; margin-bottom: 0.1rem; padding-right: 2.5rem; }
+  .visit-card-vibe { font-family: 'Instrument Serif', serif; font-style: italic; font-size: 0.85rem; color: var(--muted); margin-bottom: 0.6rem; }
+  .visit-score-bar { display: flex; gap: 0.2rem; margin-bottom: 0.6rem; }
+  .score-pip { height: 6px; flex: 1; background: #eee; transition: background 0.1s; cursor: pointer; }
+  .visit-note-display { font-size: 0.62rem; color: var(--muted); font-style: italic; line-height: 1.5; margin-bottom: 0.5rem; }
+  .visit-edit-btn { background: none; border: 1px solid #ddd; color: var(--muted); font-family: 'Space Mono', monospace; font-size: 0.55rem; text-transform: uppercase; letter-spacing: 0.08em; padding: 0.2rem 0.5rem; cursor: pointer; transition: all 0.12s; }
+  .visit-edit-btn:hover { border-color: var(--purple); color: var(--purple); }
+  .visits-empty { text-align: center; padding: 3rem 1rem; color: var(--muted); font-style: italic; font-size: 0.8rem; }
+
+  /* SUGGESTED ROUTES */
+  .routes-section { background: #111111 !important; padding: 1.5rem 2rem; border-top: 4px solid var(--purple); }
+  .routes-top { display: flex; align-items: baseline; gap: 1rem; margin-bottom: 1.25rem; flex-wrap: wrap; }
+  .routes-top h2 { font-family: 'Bebas Neue', 'Arial Narrow', sans-serif; font-size: 2rem; color: var(--purple); letter-spacing: 0.03em; }
+  .routes-top p { font-size: 0.65rem; color: #AAA; font-style: italic; }
+  .routes-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1rem; }
+  .route-card { background: #2a2a2a !important; border: 1.5px solid #444; border-top: 3px solid var(--purple); padding: 1rem; transition: border-color 0.15s; }
+  .route-card:hover { border-color: #555; border-top-color: var(--purple); }
+  .route-card-nbhd { font-size: 0.58rem; color: var(--purple); text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 0.15rem; font-weight: 700; }
+  .route-card-name { font-family: 'Bebas Neue', 'Arial Narrow', sans-serif; font-size: 1.3rem; color: var(--cream); letter-spacing: 0.03em; line-height: 1.1; margin-bottom: 0.5rem; }
+  .route-meta { display: flex; gap: 0.4rem; flex-wrap: wrap; margin-bottom: 0.65rem; }
+  .route-badge { font-size: 0.58rem; letter-spacing: 0.08em; text-transform: uppercase; padding: 0.2rem 0.45rem; border: 1px solid #555; color: #CCC; }
+  .route-badge.badge-dist { border-color: var(--gold); color: var(--gold); }
+  .route-badge.badge-stops { border-color: var(--purple); color: var(--purple); }
+  .route-desc { font-family: 'Instrument Serif', serif; font-style: italic; font-size: 0.85rem; color: #BBB; margin-bottom: 0.75rem; line-height: 1.5; }
+  .route-stops-list { list-style: none; margin-bottom: 0.75rem; }
+  .route-stops-list li { display: flex; gap: 0.5rem; align-items: flex-start; padding: 0.4rem 0; border-bottom: 1px solid #333; font-size: 0.62rem; cursor: pointer; transition: background 0.12s; }
+  .route-stops-list li:last-child { border-bottom: none; }
+  .route-stops-list li:hover { background: #333; }
+  .route-stops-list li.is-start { background: #1e1a0e; }
+  .stop-num-dot { background: var(--purple); color: white; font-size: 0.55rem; font-weight: 700; min-width: 1.2rem; height: 1.2rem; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 0.1rem; }
+  .stop-info { flex: 1; }
+  .stop-info-name { color: var(--cream); font-weight: 700; line-height: 1.3; }
+  .stop-info-vibe { color: #888; font-style: italic; font-size: 0.58rem; }
+  .start-hint { flex-shrink: 0; margin-top: 0.15rem; font-size: 0.55rem; text-transform: uppercase; letter-spacing: 0.06em; }
+  .route-actions { display: flex; gap: 0.5rem; margin-top: 0.5rem; }
+  .route-load-btn { flex: 1; background: var(--purple); color: var(--cream); border: none; font-family: 'Space Mono', monospace; font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.1em; padding: 0.5rem; cursor: pointer; transition: background 0.15s; font-weight: 700; min-height: 44px; }
+  .route-load-btn:hover { background: #5e1f6e; }
+  .route-map-btn { background: transparent; border: 1px solid #555; color: #AAA; font-family: 'Space Mono', monospace; font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.08em; padding: 0.5rem 0.75rem; cursor: pointer; text-decoration: none; transition: all 0.15s; display: inline-flex; align-items: center; }
+  .route-map-btn:hover { border-color: var(--purple); color: var(--purple); }
+
+  /* TOAST */
+  .share-toast { display: none; position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%); background: var(--green); color: white; font-family: 'Space Mono', monospace; font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.75rem 1.5rem; z-index: 9999; box-shadow: 0 4px 12px rgba(0,0,0,0.3); white-space: nowrap; }
+  .share-toast.visible { display: block; }
+
+  /* FOOTER */
+  footer { background: #0F0F0F; color: #FAF3E8; padding: 2rem 2.5rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1.5rem; border-top: 4px solid var(--purple); }
+  .footer-left { display: flex; align-items: center; gap: 1rem; }
+  .footer-left img { width: 56px; height: 56px; object-fit: contain; }
+  .footer-brand { font-family: 'Bebas Neue', 'Arial Narrow', sans-serif; font-size: 1.5rem; letter-spacing: 0.05em; color: var(--gold); line-height: 1; }
+  .footer-tagline { font-family: 'Instrument Serif', serif; font-style: italic; font-size: 0.75rem; color: rgba(250,243,232,0.4); margin-top: 0.1rem; }
+  .footer-right { font-size: 0.6rem; color: #555; letter-spacing: 0.08em; text-transform: uppercase; text-align: right; line-height: 1.8; }
+
+  /* RESPONSIVE */
+  @media (max-width: 480px) {
+    .app-shell { grid-template-columns: 1fr; }
+    .sidebar { position: static; height: auto; max-height: none; border-right: none; border-bottom: 3px solid var(--purple); padding: 1rem; }
+    .main-content { padding: 0.75rem; }
+    h1 { font-size: 2.8rem; }
+    .header-inner { padding: 1.25rem 1rem 1rem; }
+    .header-logo { width: 80px; height: 80px; }
+    .header-meta-bar { padding: 0.7rem 1rem; }
+    .crawl-bar { padding: 0.6rem 1rem; }
+    .stat-chip { display: none; }
+    .venue-grid { grid-template-columns: 1fr; gap: 0.75rem; }
+    .route-panel { padding: 1rem; }
+    .route-panel-btns { flex-direction: column; }
+    .map-link-btn, .share-btn { width: 100%; justify-content: center; }
+    .routes-section { padding: 1rem; }
+    .routes-grid { grid-template-columns: 1fr; }
+    .popup { width: 95vw; padding: 1.25rem; }
+    .score-btn { width: 2.2rem; height: 2.2rem; }
+    .visits-grid { grid-template-columns: 1fr; }
+    footer { padding: 1.25rem 1rem; flex-direction: column; align-items: flex-start; }
+    .home-nav { padding: 0.5rem 1rem; }
+  }
+  @media (min-width: 481px) and (max-width: 768px) {
+    .app-shell { grid-template-columns: 1fr; }
+    .sidebar { position: static; height: auto; border-right: none; border-bottom: 3px solid var(--purple); }
+    .main-content { padding: 1.25rem; }
+    .venue-grid { grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); }
+    .route-panel-btns { flex-direction: column; }
+    .map-link-btn, .share-btn { width: 100%; justify-content: center; min-height: 44px; }
+    .routes-grid { grid-template-columns: 1fr; }
+    .popup { width: 88vw; }
+    .visits-grid { grid-template-columns: 1fr; }
+  }
+  @media (min-width: 769px) and (max-width: 1024px) {
+    .app-shell { grid-template-columns: 220px 1fr; }
+    .sidebar { height: calc(100vh - 140px); }
+    .main-content { padding: 1.25rem 1.5rem; }
+    .venue-grid { grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); }
+    .header-logo { width: 120px; height: 120px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="home-nav">
+  <a href="../" class="home-nav-link"><span>←</span> PDX Crawl</a>
+  <span class="home-nav-right">pdxcrawl.com</span>
+</div>
+
+<header>
+  <div class="header-stripe"></div>
+  <div class="header-inner">
+    <div class="header-top-row">
+      <div class="header-left">
+        <div class="header-eyebrow">PDX Crawl Presents · Year Round</div>
+        <h1>PDX<br><span>Karaoke</span><br>Crawl</h1>
+        <div class="header-tagline">Private rooms. Dive bar mics. Live bands. Your night to shine.</div>
+      </div>
+      <div class="header-right">
+        <img src="../logo.png" alt="PDX Crawl" class="header-logo">
+      </div>
+    </div>
+    <div class="header-divider"></div>
+  </div>
+  <div class="header-meta-bar">
+    <div class="meta-pills">
+      <div class="meta-pill">🎤 25 Venues</div>
+      <div class="meta-pill">🎵 Private Rooms · Dive Bars · Live Bands</div>
+      <div class="meta-pill">🗺 6 Neighborhoods</div>
+    </div>
+    <div class="header-event-badge">Year Round · Always On</div>
+  </div>
+</header>
+
+<div class="age-banner">🔞 Must be 21+ · Please drink responsibly · Know your limits</div>
+
+<div class="crawl-bar">
+  <div class="crawl-bar-text">Your Crawl: <span id="crawl-count">0</span> stops</div>
+  <div><span class="stat-chip">Tap a card to add · Tap again to remove</span></div>
+</div>
+
+<div class="route-panel" id="route-panel">
+  <h2>Your Karaoke Crawl Route</h2>
+  <div class="route-stops" id="route-stops"></div>
+  <div class="route-panel-btns">
+    <a class="map-link-btn" id="map-link" href="#" target="_blank">Open Route in Google Maps →</a>
+    <button class="share-btn" onclick="shareCrawl()">🔗 Share This Crawl</button>
+  </div>
+</div>
+
+<div class="app-shell">
+  <aside class="sidebar" style="background:#1C1C1C;color:#FAF3E8;">
+    <div class="sidebar-title">Neighborhoods</div>
+    <button class="neighborhood-btn active" onclick="filterNeighborhood('all',this)">All Portland <span class="nbhd-count" id="count-all">0</span></button>
+    <button class="neighborhood-btn" onclick="filterNeighborhood('Northwest',this)">Northwest / Pearl <span class="nbhd-count" id="count-Northwest">0</span></button>
+    <button class="neighborhood-btn" onclick="filterNeighborhood('Southwest',this)">Southwest / Downtown <span class="nbhd-count" id="count-Southwest">0</span></button>
+    <button class="neighborhood-btn" onclick="filterNeighborhood('Northeast',this)">Northeast (NE) <span class="nbhd-count" id="count-Northeast">0</span></button>
+    <button class="neighborhood-btn" onclick="filterNeighborhood('North',this)">North Portland <span class="nbhd-count" id="count-North">0</span></button>
+    <button class="neighborhood-btn" onclick="filterNeighborhood('Southeast',this)">Southeast (SE) <span class="nbhd-count" id="count-Southeast">0</span></button>
+
+    <div class="type-filter-section">
+      <div class="sidebar-title" style="font-size:1.1rem;">Karaoke Style</div>
+      <button class="type-btn active" onclick="filterType('all',this)">All Styles <span class="nbhd-count" id="type-count-all">0</span></button>
+      <button class="type-btn" onclick="filterType('dedicated',this)">🎤 Dedicated Karaoke <span class="nbhd-count" id="type-count-dedicated">0</span></button>
+      <button class="type-btn" onclick="filterType('private-room',this)">🚪 Private Rooms <span class="nbhd-count" id="type-count-private-room">0</span></button>
+      <button class="type-btn" onclick="filterType('live-band',this)">🎸 Live Band <span class="nbhd-count" id="type-count-live-band">0</span></button>
+      <button class="type-btn" onclick="filterType('dive-karaoke',this)">🍺 Dive Bar Karaoke <span class="nbhd-count" id="type-count-dive-karaoke">0</span></button>
+      <button class="type-btn" onclick="filterType('themed',this)">🎭 Themed Venue <span class="nbhd-count" id="type-count-themed">0</span></button>
+    </div>
+
+    <div class="your-crawl">
+      <div class="sidebar-title" style="color:var(--gold)">Your Crawl 🎤</div>
+      <ul class="crawl-list" id="crawl-list">
+        <li style="border:none;background:none;padding:0"><span class="empty-crawl">No stops yet.<br>Tap a venue card to add!</span></li>
+      </ul>
+      <button class="clear-crawl-btn" onclick="clearCrawl()">Clear All Stops</button>
+    </div>
+  </aside>
+
+  <main class="main-content">
+    <div class="tab-nav">
+      <button class="tab-btn active" id="tab-browse" onclick="switchTab('browse')">🎤 Browse</button>
+      <button class="tab-btn" id="tab-visits" onclick="switchTab('visits')">⭐ My Visits</button>
+    </div>
+
+    <div id="panel-browse"><div class="search-bar">
+        <input type="text" class="search-input" id="search-input" placeholder="Search venues or vibes..." oninput="renderCards()">
+      </div>
+      <div class="filter-tags">
+        <button class="filter-tag" onclick="toggleFilter('private-room',this)">🚪 Private Room</button>
+        <button class="filter-tag" onclick="toggleFilter('live-band',this)">🎸 Live Band</button>
+        <button class="filter-tag" onclick="toggleFilter('food',this)">🍔 Food</button>
+        <button class="filter-tag" onclick="toggleFilter('late-night',this)">🌙 Late Night</button>
+        <button class="filter-tag" onclick="toggleFilter('drag',this)">💄 Drag Night</button>
+        <button class="filter-tag" onclick="toggleFilter('outdoor',this)">🌿 Outdoor</button>
+      </div>
+      <div class="section-header">
+        <h2 id="section-title">All Portland</h2>
+        <span class="section-count" id="section-count"></span>
+      </div>
+      <div class="venue-grid" id="venue-grid"></div>
+      <div id="no-results" class="no-results" style="display:none">
+        <div class="emoji">🎤</div>
+        <p>No venues match your search. Try a different filter or neighborhood.</p>
+      </div>
+    </div>
+
+    <div id="panel-visits" style="display:none">
+      <div id="visits-summary-bar"></div>
+      <button class="visits-share-btn" onclick="shareVisits()">🔗 Share My Ratings</button>
+      <div class="visits-grid" id="visits-grid"></div>
+      <div id="visits-empty" class="visits-empty">
+        <div style="font-size:2.5rem;margin-bottom:0.75rem">⭐</div>
+        <p>No visits yet! Tap <strong>Rate</strong> on any venue card to log your visit.</p>
+      </div>
+    </div>
+  </main>
+</div>
+
+<!-- RATING POPUP -->
+<div class="popup-overlay" id="popup-overlay" onclick="closePopup(event)">
+  <div class="popup">
+    <button class="popup-close" onclick="closePopupDirect()">✕</button>
+    <div class="popup-bar-name" id="popup-name"></div>
+    <div class="popup-vibe" id="popup-vibe"></div>
+    <div class="popup-label">Your Score (1–10)</div>
+    <div class="score-buttons" id="score-buttons"></div>
+    <div class="popup-label">Notes</div>
+    <textarea class="popup-note" id="popup-note" placeholder="Songs you sang, vibe, crowd, would you return?"></textarea>
+    <button class="popup-save" onclick="saveRating()">Save Rating</button>
+  </div>
+</div>
+
+<div class="routes-section" style="background:#111111;">
+  <div class="routes-top">
+    <h2>🗺 Suggested Crawls</h2>
+    <p>Curated karaoke crawls by neighborhood and style · tap "Load Crawl" to add stops</p>
+  </div>
+  <div class="routes-grid" id="routes-grid"></div>
+</div>
+
+<footer>
+  <div class="footer-left">
+    <img src="../logo.png" alt="PDX Crawl">
+    <div>
+      <div class="footer-brand">PDX Crawl</div>
+      <div class="footer-tagline">Your crew. Your crawl. Your Portland.</div>
+    </div>
+  </div>
+  <div class="footer-right">
+    <div>© 2026 PDX Crawl. All rights reserved.</div>
+    <div>Please drink responsibly.</div>
+    <div>Built with 🍕 + 🍺 in Portland, Oregon</div>
+  </div>
+</footer>
+
+<div class="share-toast" id="share-toast">✓ Link copied!</div>
+
+<script>
+const VENUES = [
+  // ── DEDICATED KARAOKE ──────────────────────────────
+  { id: 1,  name: "Baby Ketten Klub",        address: "2433 SE Powell Blvd.",        neighborhood: "Southeast", subArea: "Richmond",         type: "dedicated",    vibe: "Portland's greatest karaoke — public + private rooms", desc: "Once dubbed 'America's greatest karaoke night' by the New York Times. Owner John Brophy personally records rare tracks not found anywhere else. 50,000-song catalog, smoke machines, private themed rooms, all-vegan menu. The gold standard.", tags: ["private-room","food","late-night"], karaokeNights: "Nightly · Public floor + private rooms by reservation", hours: "Daily 5pm–2:30am", price: "$$", website: "https://babyketten.com", reservationRequired: false },
+  { id: 2,  name: "Voicebox Karaoke (SE)",   address: "734 SE 6th Ave.",             neighborhood: "Southeast", subArea: "Central Eastside", type: "private-room",  vibe: "Asian-style private rooms, sake shots and cheesy tots", desc: "Portland's premier private room karaoke experience. Book a suite for your crew, grab sake Jell-O shots and tofu wimpies, and sing Whitney Houston hits without judgment. 20,000+ songs, state-of-the-art sound.", tags: ["private-room","food"], karaokeNights: "Nightly · Private rooms by reservation or walk-in", hours: "Mon–Thu 4pm–12am · Fri 4pm–2am · Sat 2pm–2am · Sun 2pm–12am", price: "$$", website: "https://voiceboxkaraoke.com", reservationRequired: true },
+  { id: 3,  name: "Voicebox Karaoke (NW)",   address: "2112 NW Hoyt St.",            neighborhood: "Northwest", subArea: "Pearl",            type: "private-room",  vibe: "Private rooms in the Pearl District", desc: "The NW Pearl location of Portland's beloved Voicebox. Same great private room experience with sake shots and cheesy snacks — ideal for groups and parties. Drag-aoke Sundays are a Portland institution.", tags: ["private-room","food","drag"], karaokeNights: "Nightly · Drag-aoke Sundays", hours: "Tue–Thu 4pm–12am · Fri 4pm–2am · Sat 2pm–2am · Sun 2pm–10pm · Closed Mon", price: "$$", website: "https://voiceboxkaraoke.com", reservationRequired: true },
+  { id: 4,  name: "HallwayPDX",              address: "120 SW Harvey Milk St.",      neighborhood: "Southwest", subArea: "Old Town",         type: "themed",        vibe: "The Shining-inspired karaoke bar in Old Town", desc: "Modeled after the hotel from Stanley Kubrick's The Shining — narrow bar, themed craft cocktails, hot dogs, and an extensive songbook for up to 49 patrons. Rent the whole bar for a private event. No cover with one drink minimum.", tags: ["food","late-night","themed"], karaokeNights: "Nightly · Sun–Wed from 9pm · Thu–Sat from 8pm", hours: "Sun–Wed 9pm–2:30am · Thu–Sat 8pm–2:30am", price: "$", website: "https://hallwaypdx.com", reservationRequired: false },
+  { id: 5,  name: "The Alibi Tiki Lounge",   address: "4024 N Interstate Ave.",      neighborhood: "North",     subArea: "Overlook",         type: "themed",        vibe: "Nightly karaoke in Portland's oldest tiki bar, est. 1947", desc: "Established in 1947, one of the oldest tiki bars in the country. Island-themed murals, tropical cocktails in pineapple vessels, and nightly high-energy karaoke at 8pm every single night. One of Portland's most beloved institutions.", tags: ["food","outdoor","themed"], karaokeNights: "Nightly from 8pm", hours: "Daily 11:30am–2:30am", price: "$$", website: "https://alibitikilounge.com", reservationRequired: false },
+  { id: 6,  name: "Suki's Bar (Westside)",   address: "2401 SW 4th Ave.",            neighborhood: "Southwest", subArea: "Downtown",         type: "dedicated",     vibe: "7 nights a week karaoke + Sunday drag-aoke", desc: "Suki's has been Portland's go-to karaoke destination for nearly 20 years. Korean-inspired food, craft beers, massive patio, and karaoke 7 nights a week. Drag-aoke Sundays are legendary. One of the most reliable karaoke experiences in the city.", tags: ["food","drag","outdoor","late-night"], karaokeNights: "Mon–Sat 9pm · Sun Drag-aoke 9pm", hours: "Daily from 4pm to close", price: "$$", website: "https://sukisbar.com", reservationRequired: false },
+  { id: 7,  name: "Suki's II (Eastside)",    address: "3006 SE Hawthorne Blvd.",     neighborhood: "Southeast", subArea: "Hawthorne",        type: "dedicated",     vibe: "Eastside Suki's — karaoke 7 nights a week", desc: "The eastside sister to the beloved Suki's Bar. Same great formula — Korean-inspired menu, craft beers, and karaoke seven nights a week. A staple of SE Portland's nightlife for two decades.", tags: ["food","late-night"], karaokeNights: "Nightly from 9pm", hours: "Daily from 4pm to close", price: "$$", website: "https://sukisbar.com", reservationRequired: false },
+  { id: 8,  name: "Chopsticks II",           address: "3390 NE Sandy Blvd.",         neighborhood: "Northeast", subArea: "Hollywood",        type: "dedicated",     vibe: "Portland karaoke institution with Chinese-American food", desc: "The surviving outpost of Portland's beloved Chopsticks empire. Late-night Chinese-American fast food, pool tables, a patio, and nightly karaoke. Celebratory not show-offy — Portland's most fun neighborhood karaoke bar.", tags: ["food","outdoor","late-night"], karaokeNights: "Nightly", hours: "Daily 4pm–2:30am", price: "$", website: null, reservationRequired: false },
+
+  // ── LIVE BAND KARAOKE ──────────────────────────────
+  { id: 9,  name: "Dante's (Mon Nights)",    address: "350 W Burnside St.",          neighborhood: "Southwest", subArea: "Old Town",         type: "live-band",     vibe: "Live band karaoke at Portland's legendary rock club", desc: "Live band karaoke every Monday night at Dante's, Portland's iconic rock venue. The Sinfonia band has been backing Portland singers since 1992 — 700+ songs from A-ha to ZZ Top. Front a real band. Feel like a rock star.", tags: ["live-band","late-night"], karaokeNights: "Mondays · Live band from 9pm", hours: "Mon 9pm–2am (karaoke nights)", price: "$", website: "https://danteslive.com", reservationRequired: false },
+  { id: 10, name: "The Spare Room (Thu)",    address: "4830 NE 42nd Ave.",           neighborhood: "Northeast", subArea: "Rose City Park",   type: "live-band",     vibe: "Live band karaoke Thursdays at Portland's most fun bar", desc: "The Sinfonia live band sets up at The Spare Room every Thursday night. Same epic 700-song catalog, same live band experience — but now at one of Portland's best all-around bars with pool, pinball, and movie nights.", tags: ["live-band","food","late-night"], karaokeNights: "Thursdays · Live band from 9pm", hours: "Mon–Thu 4pm–2am · Fri–Sun 2pm–2am", price: "$", website: null, reservationRequired: false },
+
+  // ── THEMED / UNIQUE ────────────────────────────────
+  { id: 11, name: "Devil's Point (Stripparaoke)", address: "5305 SE Foster Rd.",    neighborhood: "Southeast", subArea: "Foster-Powell",    type: "themed",        vibe: "Karaoke while dancers perform — Portland's most unique night", desc: "Twice-weekly Stripparaoke: sexy dancers perform while you try to sing karaoke. Flub the chorus? Nobody cares — the audience has other things to focus on. Portland Monthly calls it 'one of the gentlest public karaoke experiences in town.' Fri & Sun.", tags: ["late-night","themed"], karaokeNights: "Fri & Sun from 9:30pm", hours: "Daily 2pm–2:30am", price: "$", website: null, reservationRequired: false },
+
+  // ── DIVE BAR KARAOKE ───────────────────────────────
+  { id: 12, name: "Bear Paw Inn",            address: "3237 SE Milwaukie Ave.",      neighborhood: "Southeast", subArea: "Sellwood",         type: "dive-karaoke",  vibe: "Nightly karaoke at a no-frills SE dive", desc: "No-frills, cheap booze, nightly karaoke, and video lottery. About as Portland as it gets. Regulars know the drill — show up, grab a drink, wait for your song. A quintessential SE dive bar karaoke experience.", tags: ["late-night"], karaokeNights: "Nightly", hours: "Daily 10am–2:30am", price: "$", website: null, reservationRequired: false },
+  { id: 13, name: "The Coffin Club",         address: "853 SE Morrison St.",         neighborhood: "Southeast", subArea: "Buckman",          type: "dive-karaoke",  vibe: "Gothic dive bar with karaoke nights", desc: "Portland's beloved gothic dive bar with regular karaoke nights. Dark atmosphere, Halloween decorations year-round, cheap drinks, and a crowd that brings serious theatrical energy to every song. A SE Portland treasure.", tags: ["late-night","themed"], karaokeNights: "Select nights — check social media", hours: "Daily 3pm–2:30am", price: "$", website: null, reservationRequired: false },
+  { id: 14, name: "Barrel Room",             address: "120 NW Couch St.",            neighborhood: "Northwest", subArea: "Pearl",            type: "dive-karaoke",  vibe: "Pearl District karaoke nights", desc: "A Pearl District neighborhood bar that hosts regular karaoke nights. Good drinks, accessible location, and a laid-back crowd that makes first-timers feel welcome. Great stop on a NW bar crawl.", tags: ["food","late-night"], karaokeNights: "Select nights — check social media", hours: "Daily 3pm–2:30am", price: "$", website: null, reservationRequired: false },
+  { id: 15, name: "Firkin Tavern",           address: "1937 SE 11th Ave.",           neighborhood: "Southeast", subArea: "Buckman",          type: "dive-karaoke",  vibe: "Cozy SE dive with regular karaoke", desc: "A cozy neighborhood tavern in SE Buckman with regular karaoke nights. Friendly staff, cheap drinks, and a relaxed atmosphere where everyone's welcome whether they can carry a tune or not.", tags: ["late-night","food"], karaokeNights: "Select nights — check social media", hours: "Daily 11am–2:30am", price: "$", website: null, reservationRequired: false },
+  { id: 16, name: "The Ambassador",          address: "4744 NE Sandy Blvd.",         neighborhood: "Northeast", subArea: "Rose City Park",   type: "dive-karaoke",  vibe: "Chinese-American karaoke lounge on NE Sandy", desc: "A classic Chinese-American restaurant and karaoke lounge on NE Sandy. Booths, Chinese food, and a loyal crowd of regulars who take their songs seriously. A neighborhood institution.", tags: ["food","late-night"], karaokeNights: "Nightly", hours: "Daily 4pm–2:30am", price: "$", website: null, reservationRequired: false },
+  { id: 17, name: "The Station at Springwater", address: "4925 SE Powell Blvd.",    neighborhood: "Southeast", subArea: "Foster-Powell",    type: "dive-karaoke",  vibe: "SE dive with popular karaoke nights", desc: "A beloved SE Portland dive bar along Powell with popular karaoke nights. Consistently praised on Yelp for its fun atmosphere and welcoming vibe. A neighborhood staple for karaoke fans.", tags: ["late-night","outdoor"], karaokeNights: "Select nights — verify before visiting", hours: "Daily 11am–2:30am", price: "$", website: null, reservationRequired: false },
+  { id: 18, name: "Eagle Eye Tavern",        address: "2400 SE 58th Ave.",           neighborhood: "Southeast", subArea: "Woodstock",        type: "dive-karaoke",  vibe: "Neighborhood dive with karaoke nights in Woodstock", desc: "A neighborhood dive in the Woodstock area with regular karaoke nights. Good vibes, cheap drinks, and the kind of low-pressure atmosphere that's perfect for first-time karaoke singers.", tags: ["late-night"], karaokeNights: "Select nights — verify before visiting", hours: "Daily 11am–2:30am", price: "$", website: null, reservationRequired: false },
+
+  // ── BARS WITH KARAOKE NIGHTS ───────────────────────
+  { id: 19, name: "Twenty First Ave Kitchen & Bar", address: "555 NW 21st Ave.",   neighborhood: "Northwest", subArea: "Nob Hill",         type: "dive-karaoke",  vibe: "NW 21st neighborhood bar with karaoke nights", desc: "An elevated Nob Hill neighborhood bar with a solid cocktail program and regular karaoke nights. Craft drinks and vegetarian bites in colorful surrounds. A fun mix of polished bar and dive bar karaoke energy.", tags: ["food","outdoor"], karaokeNights: "Select nights — check social media", hours: "Mon–Fri 4pm–12am · Sat–Sun 11am–12am", price: "$$", website: null, reservationRequired: false },
+  { id: 20, name: "Duffys Irish Pub",        address: "4550 SE Woodstock Blvd.",    neighborhood: "Southeast", subArea: "Woodstock",        type: "dive-karaoke",  vibe: "Woodstock Irish pub with karaoke nights", desc: "A welcoming Woodstock Irish pub with regular karaoke nights. Good pints, pub grub, and the kind of warm, inclusive atmosphere that makes Irish pubs the best karaoke venues — everyone sings along.", tags: ["food","late-night"], karaokeNights: "Select nights — check social media", hours: "Daily 11am–2:30am", price: "$", website: null, reservationRequired: false },
+  { id: 21, name: "Heritage Pub",            address: "6034 SE Foster Rd.",         neighborhood: "Southeast", subArea: "Foster-Powell",    type: "dive-karaoke",  vibe: "Foster-Powell neighborhood pub with karaoke", desc: "A solid Foster-Powell neighborhood pub with regular karaoke nights. Unpretentious, welcoming, and reliably fun. The kind of bar where the locals are regulars and strangers become friends over shared songs.", tags: ["food","late-night"], karaokeNights: "Select nights — verify before visiting", hours: "Daily 11am–2:30am", price: "$", website: null, reservationRequired: false },
+  { id: 22, name: "The Lutz Tavern",         address: "4639 SE Woodstock Blvd.",    neighborhood: "Southeast", subArea: "Woodstock",        type: "dive-karaoke",  vibe: "Woodstock dive with a secret garden patio", desc: "A Woodstock institution with a beloved secret garden patio. Regular karaoke nights draw a mix of neighborhood regulars and adventurous newcomers. Cheap drinks, great outdoor space, and a genuinely fun crowd.", tags: ["outdoor","late-night"], karaokeNights: "Select nights — check social media", hours: "Daily 3pm–2:30am", price: "$", website: null, reservationRequired: false },
+  { id: 23, name: "Kelly's Olympian",        address: "426 SW Washington St.",      neighborhood: "Southwest", subArea: "Downtown",         type: "dive-karaoke",  vibe: "Portland's oldest bar hosts occasional karaoke", desc: "Portland's oldest bar (est. 1902) occasionally hosts karaoke nights alongside its regular live music lineup. A bucket-list Portland experience — motorcycle-themed, loud, and legendary.", tags: ["live-band","late-night"], karaokeNights: "Select nights — check social media", hours: "Daily 11am–2:30am", price: "$", website: "https://kellysolympian.com", reservationRequired: false },
+  { id: 24, name: "O'Dear Bar & Grill",      address: "2839 NE Sandy Blvd.",        neighborhood: "Northeast", subArea: "Kerns",            type: "live-band",     vibe: "Friday night live band karaoke with Sinfonia", desc: "Every Friday night, the Sinfonia live band sets up at O'Dear for their famous live band karaoke night. Front a real band on a proper stage — one of the best Friday night activities in Portland.", tags: ["live-band","food","late-night"], karaokeNights: "Fridays · Live band karaoke", hours: "Daily 11am–2:30am", price: "$$", website: null, reservationRequired: false },
+  { id: 25, name: "Slammer Tavern",          address: "2045 SE Belmont St.",        neighborhood: "Southeast", subArea: "Buckman",          type: "dive-karaoke",  vibe: "Christmas lights year-round + karaoke nights", desc: "Someone put up Christmas lights and never took them down. Skee-Ball, Big Buck Hunter, and regular karaoke nights in one of SE Portland's most beloved dives. The crowd is always good and the energy is always fun.", tags: ["late-night","food"], karaokeNights: "Select nights — check social media", hours: "Daily 11am–2:30am", price: "$", website: null, reservationRequired: false },
+];
+
+var crawl = [];
+var currentNeighborhood = 'all';
+var currentType = 'all';
+var activeFilters = [];
+var routeStartIndex = {};
+var visits = {};
+var popupVenueId = null;
+
+function switchTab(tab) {
+  document.getElementById('tab-browse').classList.toggle('active', tab === 'browse');
+  document.getElementById('tab-visits').classList.toggle('active', tab === 'visits');
+  document.getElementById('panel-browse').style.display = tab === 'browse' ? 'block' : 'none';
+  document.getElementById('panel-visits').style.display = tab === 'visits' ? 'block' : 'none';
+  if (tab === 'visits') renderVisits();
+}
+
+function filterNeighborhood(nbhd, btn) {
+  currentNeighborhood = nbhd;
+  document.querySelectorAll('.neighborhood-btn').forEach(function(b) { b.classList.remove('active'); });
+  btn.classList.add('active');
+  document.getElementById('section-title').textContent = nbhd === 'all' ? 'All Portland' : nbhd;
+  renderCards();
+}
+
+function filterType(type, btn) {
+  currentType = type;
+  document.querySelectorAll('.type-btn').forEach(function(b) { b.classList.remove('active'); });
+  btn.classList.add('active');
+  renderCards();
+}
+
+function toggleFilter(filter, btn) {
+  var idx = activeFilters.indexOf(filter);
+  if (idx > -1) { activeFilters.splice(idx, 1); btn.classList.remove('active'); }
+  else { activeFilters.push(filter); btn.classList.add('active'); }
+  renderCards();
+}
+
+function getFiltered() {
+  var q = document.getElementById('search-input').value.toLowerCase();
+  return VENUES.filter(function(v) {
+    var matchNbhd = currentNeighborhood === 'all' || v.neighborhood === currentNeighborhood;
+    var matchType = currentType === 'all' || v.type === currentType;
+    var matchSearch = !q || v.name.toLowerCase().indexOf(q) > -1 || v.vibe.toLowerCase().indexOf(q) > -1 || v.desc.toLowerCase().indexOf(q) > -1 || v.address.toLowerCase().indexOf(q) > -1;
+    var matchFilters = activeFilters.length === 0 || activeFilters.every(function(f) { return v.tags.indexOf(f) > -1; });
+    return matchNbhd && matchType && matchSearch && matchFilters;
+  });
+}
+
+function inCrawl(id) { return crawl.some(function(v) { return v.id === id; }); }
+
+function toggleCrawl(id) {
+  var venue = VENUES.find(function(v) { return v.id === id; });
+  if (!venue) return;
+  if (inCrawl(id)) { crawl = crawl.filter(function(v) { return v.id !== id; }); }
+  else { crawl.push(venue); }
+  renderCrawlSidebar(); renderCards(); updateCrawlBar(); updateRoutePanel();
+}
+
+function removeFromCrawl(id) {
+  crawl = crawl.filter(function(v) { return v.id !== id; });
+  renderCrawlSidebar(); renderCards(); updateCrawlBar(); updateRoutePanel();
+}
+
+function clearCrawl() {
+  crawl = [];
+  renderCrawlSidebar(); renderCards(); updateCrawlBar(); updateRoutePanel();
+}
+
+function renderCards() {
+  var filtered = getFiltered();
+  var grid = document.getElementById('venue-grid');
+  var noResults = document.getElementById('no-results');
+  var typeLabels = { 'dedicated': '🎤 Dedicated', 'private-room': '🚪 Private Room', 'live-band': '🎸 Live Band', 'dive-karaoke': '🍺 Dive Karaoke', 'themed': '🎭 Themed' };
+  var tagLabels = { 'private-room': '🚪 Private Room', 'live-band': '🎸 Live Band', food: '🍔 Food', 'late-night': '🌙 Late Night', themed: '🎭 Themed', outdoor: '🌿 Outdoor', drag: '💄 Drag Night' };
+  document.getElementById('section-count').textContent = filtered.length + ' venue' + (filtered.length !== 1 ? 's' : '');
+  if (filtered.length === 0) { grid.innerHTML = ''; noResults.style.display = 'block'; return; }
+  noResults.style.display = 'none';
+  var html = '';
+  for (var i = 0; i < filtered.length; i++) {
+    var v = filtered[i];
+    var added = inCrawl(v.id);
+    var vis = visits[v.id];
+    var hasScore = vis && vis.score > 0;
+    var tagHtml = v.tags.map(function(t) { return '<span class="tag tag-' + t + '">' + (tagLabels[t] || t) + '</span>'; }).join('');
+    var badgeColor = hasScore ? (vis.score <= 5 ? '#D9231B' : (vis.score <= 8 ? '#E8A838' : '#2C6B3F')) : '';
+    var scoreBadge = hasScore ? '<div class="card-score-badge" style="background:' + badgeColor + '">' + vis.score + '/10</div>' : '';
+    var rateBtnClass = 'rate-btn' + (hasScore ? ' rated' : '');
+    var rateBtnLabel = hasScore ? ('⭐ ' + vis.score + '/10') : 'Rate It';
+    html += '<div class="venue-card' + (added ? ' in-crawl' : '') + (hasScore ? ' is-rated' : '') + '" onclick="toggleCrawl(' + v.id + ')">';
+    html += scoreBadge;
+    html += '<div class="card-neighborhood">' + v.neighborhood + (v.subArea ? ' · ' + v.subArea : '') + '</div>';
+    html += '<div class="card-name">' + v.name + '</div>';
+    html += '<div class="card-address">📍 ' + v.address + '</div>';
+    html += '<div class="card-vibe">&ldquo;' + v.vibe + '&rdquo;</div>';
+    html += '<div class="card-desc">' + v.desc + '</div>';
+    if (v.reservationRequired) html += '<div class="card-reservation">📋 Reservation recommended</div>';
+    if (v.karaokeNights) html += '<div class="card-karaoke-nights">🎤 ' + v.karaokeNights + '</div>';
+    if (v.hours) html += '<div class="card-hours">🕐 ' + v.hours + '</div>';
+    html += '<div class="card-footer">';
+    html += '<div style="display:flex;align-items:center;gap:0.5rem;flex-wrap:wrap">';
+    html += '<span class="card-type-badge type-' + v.type + '">' + (typeLabels[v.type] || v.type) + '</span>';
+    if (v.website) html += '<a class="card-website" href="' + v.website + '" target="_blank" onclick="event.stopPropagation()">🔗 Website</a>';
+    html += '</div>';
+    html += '<div class="card-tags">' + tagHtml + '</div>';
+    html += '<button class="add-btn' + (added ? ' added' : '') + '">' + (added ? '✓ Added' : '+ Add') + '</button>';
+    html += '<button class="' + rateBtnClass + '" onclick="event.stopPropagation();rateFromCard(' + v.id + ')">' + rateBtnLabel + '</button>';
+    html += '</div></div>';
+  }
+  grid.innerHTML = html;
+  updateCounts();
+}
+
+function updateCounts() {
+  var nbhds = ['Northwest','Southwest','Northeast','North','Southeast'];
+  var types = ['dedicated','private-room','live-band','dive-karaoke','themed'];
+  document.getElementById('count-all').textContent = VENUES.length;
+  nbhds.forEach(function(n) {
+    var el = document.getElementById('count-' + n);
+    if (el) el.textContent = VENUES.filter(function(v) { return v.neighborhood === n; }).length;
+  });
+  document.getElementById('type-count-all').textContent = VENUES.length;
+  types.forEach(function(t) {
+    var el = document.getElementById('type-count-' + t);
+    if (el) el.textContent = VENUES.filter(function(v) { return v.type === t; }).length;
+  });
+}
+
+function renderCrawlSidebar() {
+  var list = document.getElementById('crawl-list');
+  if (crawl.length === 0) {
+    list.innerHTML = '<li style="border:none;background:none;padding:0"><span class="empty-crawl">No stops yet.<br>Tap a venue card to add!</span></li>';
+    return;
+  }
+  var html = '';
+  for (var i = 0; i < crawl.length; i++) {
+    var v = crawl[i];
+    html += '<li><div>';
+    html += '<div class="crawl-item-name">' + (i+1) + '. ' + v.name + '</div>';
+    html += '<div class="crawl-item-nbhd">' + v.neighborhood + '</div>';
+    html += '<div style="font-size:0.6rem;color:#888;font-style:italic;margin-top:0.1rem">' + v.vibe + '</div>';
+    html += '</div><button class="remove-btn" onclick="event.stopPropagation();removeFromCrawl(' + v.id + ')">✕</button></li>';
+  }
+  list.innerHTML = html;
+}
+
+function updateCrawlBar() {
+  document.getElementById('crawl-count').textContent = crawl.length;
+}
+
+function updateRoutePanel() {
+  var panel = document.getElementById('route-panel');
+  if (crawl.length < 2) { panel.classList.remove('visible'); return; }
+  panel.classList.add('visible');
+  setTimeout(function() { panel.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 50);
+  var html = '';
+  for (var i = 0; i < crawl.length; i++) {
+    var v = crawl[i];
+    html += '<div class="route-stop">';
+    html += '<div class="stop-num">Stop ' + (i+1) + '</div>';
+    html += '<div class="stop-name">' + v.name + '</div>';
+    html += '<div style="font-size:0.58rem;color:#888;margin:0.1rem 0">' + v.address + '</div>';
+    if (v.karaokeNights) html += '<div style="font-size:0.55rem;color:var(--purple);margin:0.1rem 0">🎤 ' + v.karaokeNights.split('·')[0].trim() + '</div>';
+    html += '<div class="stop-vibe">&ldquo;' + v.vibe + '&rdquo;</div>';
+    if (i < crawl.length - 1) html += '<div style="font-size:0.55rem;color:var(--purple);margin-top:0.3rem">🚶 ~10–15 min walk to next stop</div>';
+    html += '</div>';
+  }
+  document.getElementById('route-stops').innerHTML = html;
+  var addresses = crawl.map(function(v) { return encodeURIComponent(v.address + ' Portland OR'); });
+  addresses.push(addresses[0]);
+  document.getElementById('map-link').href = 'https://www.google.com/maps/dir/' + addresses.join('/') + '?travelmode=walking';
+}
+
+function openPopup(venueId) {
+  popupVenueId = venueId;
+  var v = VENUES.find(function(x) { return x.id === venueId; });
+  if (!v) return;
+  document.getElementById('popup-name').textContent = v.name;
+  document.getElementById('popup-vibe').textContent = '\u201c' + v.vibe + '\u201d';
+  var vis = visits[venueId] || { score: 0, note: '' };
+  document.getElementById('popup-note').value = vis.note || '';
+  var btns = '';
+  for (var n = 1; n <= 10; n++) {
+    btns += '<button class="score-btn' + (vis.score === n ? ' selected' : '') + '" onclick="selectScore(' + n + ')">' + n + '</button>';
+  }
+  document.getElementById('score-buttons').innerHTML = btns;
+  document.getElementById('popup-overlay').classList.add('visible');
+}
+
+function selectScore(n) {
+  var buttons = document.getElementById('score-buttons').querySelectorAll('.score-btn');
+  for (var i = 0; i < buttons.length; i++) { buttons[i].classList.toggle('selected', i + 1 === n); }
+}
+
+function getSelectedScore() {
+  var buttons = document.getElementById('score-buttons').querySelectorAll('.score-btn');
+  for (var i = 0; i < buttons.length; i++) { if (buttons[i].classList.contains('selected')) return i + 1; }
+  return 0;
+}
+
+function saveRating() {
+  if (!popupVenueId) return;
+  var score = getSelectedScore();
+  var note = document.getElementById('popup-note').value;
+  if (score === 0) { alert('Please select a score first!'); return; }
+  visits[popupVenueId] = { score: score, note: note };
+  saveVisitsToURL();
+  closePopupDirect();
+  renderCards();
+  showToast('✓ Rating saved!');
+}
+
+function closePopup(e) { if (e.target === document.getElementById('popup-overlay')) closePopupDirect(); }
+function closePopupDirect() { document.getElementById('popup-overlay').classList.remove('visible'); popupVenueId = null; }
+
+function rateFromCard(venueId) {
+  if (!visits[venueId]) visits[venueId] = { score: 1, note: '' };
+  else if (!visits[venueId].score) visits[venueId].score = 1;
+  saveVisitsToURL();
+  renderCards();
+  openPopup(venueId);
+}
+
+function renderVisits() {
+  var grid = document.getElementById('visits-grid');
+  var empty = document.getElementById('visits-empty');
+  var summaryBar = document.getElementById('visits-summary-bar');
+  var visited = VENUES.filter(function(v) { return visits[v.id] && visits[v.id].score > 0; });
+  if (visited.length === 0) { grid.innerHTML = ''; empty.style.display = 'block'; summaryBar.innerHTML = ''; return; }
+  empty.style.display = 'none';
+  var total = visited.reduce(function(s,v) { return s + visits[v.id].score; }, 0);
+  var avg = (total / visited.length).toFixed(1);
+  var top = visited.slice().sort(function(a,b) { return visits[b.id].score - visits[a.id].score; })[0];
+  summaryBar.innerHTML = '<div class="visits-summary">'
+    + '<div class="summary-stat"><div class="summary-num">' + visited.length + '</div><div class="summary-label">Visited</div></div>'
+    + '<div class="summary-stat"><div class="summary-num">' + avg + '</div><div class="summary-label">Avg Score</div></div>'
+    + '<div class="summary-stat"><div class="summary-num" style="font-size:1rem;padding-top:0.5rem">' + top.name + '</div><div class="summary-label">Top Rated (' + visits[top.id].score + '/10)</div></div>'
+    + '</div>';
+  var html = '';
+  var sorted = visited.slice().sort(function(a,b) { return visits[b.id].score - visits[a.id].score; });
+  for (var j = 0; j < sorted.length; j++) {
+    var v = sorted[j];
+    var vis = visits[v.id];
+    var pips = '';
+    for (var n = 1; n <= 10; n++) {
+      var pipColor = n <= vis.score ? (n <= 5 ? '#D9231B' : (n <= 8 ? '#E8A838' : '#2C6B3F')) : '#eee';
+      pips += '<div class="score-pip" style="background:' + pipColor + '" onclick="openPopup(' + v.id + ')" title="Edit rating"></div>';
+    }
+    var noteHtml = vis.note ? '<div class="visit-note-display">&ldquo;' + vis.note + '&rdquo;</div>' : '';
+    var badgeColor = vis.score <= 5 ? '#D9231B' : (vis.score <= 8 ? '#E8A838' : '#2C6B3F');
+    html += '<div class="visit-card">';
+    html += '<div class="visit-score-badge" style="background:' + badgeColor + ';color:' + (vis.score <= 8 ? '#0F0F0F' : 'white') + '">' + vis.score + '</div>';
+    html += '<div class="visit-card-nbhd">' + v.neighborhood + ' · ' + v.subArea + '</div>';
+    html += '<div class="visit-card-name">' + v.name + '</div>';
+    html += '<div class="visit-card-vibe">&ldquo;' + v.vibe + '&rdquo;</div>';
+    html += '<div class="visit-score-bar">' + pips + '</div>';
+    html += noteHtml;
+    html += '<button class="visit-edit-btn" onclick="openPopup(' + v.id + ')">Edit Rating</button>';
+    html += '</div>';
+  }
+  grid.innerHTML = html;
+}
+
+function saveVisitsToURL() {
+  var parts = Object.keys(visits).filter(function(id) { return visits[id].score > 0; }).map(function(id) {
+    var v = visits[id];
+    var noteEnc = v.note ? btoa(unescape(encodeURIComponent(v.note))) : '';
+    return id + ':' + v.score + ':' + noteEnc;
+  });
+  var url = new URL(window.location.href);
+  if (parts.length > 0) url.searchParams.set('visits', parts.join(','));
+  else url.searchParams.delete('visits');
+  window.history.replaceState({}, '', url.toString());
+  try { localStorage.setItem('pdxcrawl_karaoke_visits', JSON.stringify(visits)); } catch(e) {}
+}
+
+function shareCrawl() {
+  if (crawl.length === 0) return;
+  var ids = crawl.map(function(v) { return v.id; }).join(',');
+  var url = window.location.origin + window.location.pathname + '?crawl=' + ids;
+  doShare('PDX Karaoke Crawl', 'Check out my Portland karaoke crawl! 🎤', url, '✓ Crawl link copied!');
+}
+
+function shareVisits() {
+  doShare('My PDX Karaoke Ratings', 'Check out my Portland karaoke ratings! 🎤⭐', window.location.href, '✓ Ratings link copied!');
+}
+
+function doShare(title, text, url, msg) {
+  if (navigator.share) { navigator.share({ title: title, text: text, url: url }); }
+  else if (navigator.clipboard) { navigator.clipboard.writeText(url).then(function() { showToast(msg); }); }
+  else { prompt('Copy this link:', url); }
+}
+
+function showToast(msg) {
+  var t = document.getElementById('share-toast');
+  t.textContent = msg;
+  t.classList.add('visible');
+  setTimeout(function() { t.classList.remove('visible'); }, 3000);
+}
+
+function loadCrawlFromURL() {
+  var params = new URLSearchParams(window.location.search);
+  var ids = params.get('crawl');
+  if (!ids) return;
+  ids.split(',').forEach(function(id) {
+    var venue = VENUES.find(function(v) { return v.id === parseInt(id); });
+    if (venue) crawl.push(venue);
+  });
+  if (crawl.length > 0) { renderCrawlSidebar(); renderCards(); updateCrawlBar(); updateRoutePanel(); }
+}
+
+function loadVisitsFromStorage() {
+  try {
+    var stored = localStorage.getItem('pdxcrawl_karaoke_visits');
+    if (stored) {
+      var parsed = JSON.parse(stored);
+      Object.keys(parsed).forEach(function(id) {
+        var v = parsed[id];
+        if (v && v.score > 0) visits[parseInt(id)] = { score: v.score, note: v.note || '' };
+      });
+    }
+  } catch(e) {}
+}
+
+function loadVisitsFromURL() {
+  var params = new URLSearchParams(window.location.search);
+  var raw = params.get('visits');
+  if (!raw) return;
+  raw.split(',').forEach(function(part) {
+    var bits = part.split(':');
+    var id = parseInt(bits[0]);
+    var score = parseInt(bits[1]) || 0;
+    var note = '';
+    try { note = bits[2] ? decodeURIComponent(escape(atob(bits[2]))) : ''; } catch(e) {}
+    if (id && score > 0) visits[id] = { score: score, note: note };
+  });
+}
+
+const ROUTES = [
+  {
+    id: 'private-room-tour',
+    name: 'Private Room Tour',
+    neighborhood: 'Citywide',
+    distanceMi: 2.4,
+    description: 'Portland\'s best private room karaoke — from Baby Ketten\'s themed rooms to Voicebox\'s sake shots. Book ahead for some stops.',
+    accentColor: '#1E6FA8',
+    stops: [ { venueId: 1 }, { venueId: 2 }, { venueId: 3 } ]
+  },
+  {
+    id: 'live-band-night',
+    name: 'Live Band Karaoke Night',
+    neighborhood: 'Citywide',
+    distanceMi: 2.1,
+    description: 'Front a real band. The Sinfonia has backed Portland singers since 1992 — 700+ songs and a proper stage. Best on Mondays or Thursdays.',
+    accentColor: '#D9231B',
+    stops: [ { venueId: 9 }, { venueId: 24 }, { venueId: 10 } ]
+  },
+  {
+    id: 'se-karaoke-crawl',
+    name: 'SE Karaoke Crawl',
+    neighborhood: 'Southeast',
+    distanceMi: 2.0,
+    description: 'Southeast Portland\'s finest karaoke spots — from Baby Ketten\'s legendary public floor to dive bar classics and themed experiences.',
+    accentColor: '#7B2D8B',
+    stops: [ { venueId: 1 }, { venueId: 7 }, { venueId: 11 }, { venueId: 15 } ]
+  },
+  {
+    id: 'downtown-karaoke',
+    name: 'Downtown Karaoke Loop',
+    neighborhood: 'Southwest / Downtown',
+    distanceMi: 1.2,
+    description: 'A tight downtown loop hitting Portland\'s most unique karaoke venues — The Shining-themed HallwayPDX, live bands at Dante\'s, and Suki\'s 7-nights-a-week operation.',
+    accentColor: '#7B2D8B',
+    stops: [ { venueId: 4 }, { venueId: 9 }, { venueId: 6 } ]
+  },
+  {
+    id: 'unique-experiences',
+    name: 'Only in Portland',
+    neighborhood: 'Citywide',
+    distanceMi: 3.5,
+    description: 'The most uniquely Portland karaoke experiences — Stripparaoke at Devil\'s Point, live band at Dante\'s, and drag-aoke at Voicebox NW. A night you\'ll never forget.',
+    accentColor: '#e91e8c',
+    stops: [ { venueId: 3 }, { venueId: 9 }, { venueId: 11 } ]
+  },
+];
+
+var routeStartIndex = {};
+
+function getRotatedStops(route) {
+  var uniqueIds = [];
+  route.stops.forEach(function(s) { if (uniqueIds.indexOf(s.venueId) === -1) uniqueIds.push(s.venueId); });
+  var startIdx = routeStartIndex[route.id] || 0;
+  return uniqueIds.slice(startIdx).concat(uniqueIds.slice(0, startIdx));
+}
+
+function setRouteStart(routeId, idx) { routeStartIndex[routeId] = idx; renderRoutes(); }
+
+function loadSuggestedRoute(routeId) {
+  var route = ROUTES.find(function(r) { return r.id === routeId; });
+  if (!route) return;
+  crawl = getRotatedStops(route).map(function(id) { return VENUES.find(function(v) { return v.id === id; }); }).filter(Boolean);
+  renderCrawlSidebar(); renderCards(); updateCrawlBar(); updateRoutePanel();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function buildMapUrl(route) {
+  var venues = getRotatedStops(route).map(function(id) { return VENUES.find(function(v) { return v.id === id; }); }).filter(Boolean);
+  var addresses = venues.map(function(v) { return encodeURIComponent(v.address + ' Portland OR'); });
+  if (addresses.length > 0) addresses.push(addresses[0]);
+  return 'https://www.google.com/maps/dir/' + addresses.join('/') + '?travelmode=walking';
+}
+
+function renderRoutes() {
+  var grid = document.getElementById('routes-grid');
+  var html = '';
+  for (var r = 0; r < ROUTES.length; r++) {
+    var route = ROUTES[r];
+    var origIds = [];
+    route.stops.forEach(function(s) { if (origIds.indexOf(s.venueId) === -1) origIds.push(s.venueId); });
+    var startIdx = routeStartIndex[route.id] || 0;
+    var stopsHtml = '';
+    for (var s = 0; s < origIds.length; s++) {
+      var vid = origIds[s];
+      var v = VENUES.find(function(x) { return x.id === vid; });
+      if (!v) continue;
+      var isStart = s === startIdx;
+      var displayNum = ((s - startIdx + origIds.length) % origIds.length) + 1;
+      stopsHtml += '<li class="' + (isStart ? 'is-start' : '') + '" onclick="setRouteStart(\'' + route.id + '\',' + s + ')">';
+      stopsHtml += '<div class="stop-num-dot" style="' + (isStart ? 'background:#E8A838;color:#0F0F0F' : '') + '">' + (isStart ? '★' : displayNum) + '</div>';
+      stopsHtml += '<div class="stop-info"><div class="stop-info-name">' + v.name + '</div><div class="stop-info-vibe">' + v.vibe + '</div></div>';
+      stopsHtml += '<span class="start-hint" style="color:' + (isStart ? '#E8A838' : '#555') + '">' + (isStart ? 'START' : 'tap to start') + '</span>';
+      stopsHtml += '</li>';
+    }
+    html += '<div class="route-card" style="border-top-color:' + route.accentColor + '">';
+    html += '<div class="route-card-nbhd">' + route.neighborhood + '</div>';
+    html += '<div class="route-card-name">' + route.name + '</div>';
+    html += '<div class="route-meta"><span class="route-badge badge-dist">🚶 ' + route.distanceMi + ' mi roundtrip</span><span class="route-badge badge-stops">🎤 ' + origIds.length + ' stops</span></div>';
+    html += '<div class="route-desc">' + route.description + '</div>';
+    html += '<ul class="route-stops-list">' + stopsHtml + '</ul>';
+    html += '<div class="route-actions"><button class="route-load-btn" onclick="loadSuggestedRoute(\'' + route.id + '\')">🎤 Load This Crawl</button><a class="route-map-btn" href="' + buildMapUrl(route) + '" target="_blank">Map →</a></div>';
+    html += '</div>';
+  }
+  grid.innerHTML = html;
+}
+
+updateCounts();
+renderCards();
+renderRoutes();
+loadCrawlFromURL();
+loadVisitsFromStorage();
+loadVisitsFromURL();
+</script>
+</body>
+</html>
