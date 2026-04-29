@@ -418,6 +418,15 @@
   <div><span class="stat-chip">Tap a card to add · Tap again to remove</span></div>
 </div>
 
+<div class="route-panel" id="route-panel">
+  <h2>Your Crawl Route</h2>
+  <div class="route-stops" id="route-stops"></div>
+  <div class="route-panel-btns">
+    <a class="map-link-btn" id="map-link" href="#" target="_blank">Open Route in Google Maps →</a>
+    <button class="share-btn" onclick="shareCrawl()">🔗 Share This Crawl</button>
+  </div>
+</div>
+
 <div class="app-shell">
   <aside class="sidebar" style="background:#1C1C1C;color:#FAF3E8;">
     <div class="sidebar-title">Neighborhoods</div>
@@ -489,14 +498,7 @@
   </div>
 </div>
 
-<div class="route-panel" id="route-panel">
-  <h2>Your Crawl Route</h2>
-  <div class="route-stops" id="route-stops"></div>
-  <div class="route-panel-btns">
-    <a class="map-link-btn" id="map-link" href="#" target="_blank">Open Route in Google Maps →</a>
-    <button class="share-btn" onclick="shareCrawl()">🔗 Share This Crawl</button>
-  </div>
-</div>
+
 
 <div class="routes-section" style="background:#111111 !important;color:#FAF3E8;">
   <div class="routes-top">
@@ -726,9 +728,7 @@ function updateRoutePanel() {
   var panel = document.getElementById('route-panel');
   if (crawl.length < 2) { panel.classList.remove('visible'); return; }
   panel.classList.add('visible');
-  // Scroll to crawl bar so route is visible near top
-  var crawlBar = document.querySelector('.crawl-bar');
-  if (crawlBar) crawlBar.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  setTimeout(function() { panel.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 50);
   var html = '';
   for (var i = 0; i < crawl.length; i++) {
     var p = crawl[i];
